@@ -1,0 +1,430 @@
+@prefix atom:<http://lv2plug.in/ns/ext/atom#> .
+@prefix doap: <http://usefulinc.com/ns/doap#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix lv2: <http://lv2plug.in/ns/lv2core#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ui: <http://lv2plug.in/ns/extensions/ui#> .
+
+<http://nickbailey.co.nr/nickbailey#me>
+	a foaf:Person ;
+	foaf:name "Nick Bailey" ;
+	foaf:mbox <mailto:d@nickbailey.co.nr> ;
+	rdfs:seeAlso <http://nickbailey.co.nr/nickbailey> .
+
+<http://nickbailey.co.nr/plugins/dracorex>
+	a lv2:Plugin ,
+		lv2:dracorex ;
+	doap:maintainer <http://nickbailey.co.nr/nickbailey#me> ;
+	doap:name "dracorex synth" ;
+	doap:license <http://opensource.org/licenses/isc> ;
+	lv2:optionalFeature lv2:hardRTCapable ;
+	ui:ui <http://nickbailey.co.nr/plugins/dracorex#ui> ;
+	lv2:port [
+		a lv2:InputPort ,
+		atom:AtomPort ;
+		atom:bufferType atom:Sequence ;
+		atom:supports <http://lv2plug.in/ns/ext/midi#MidiEvent> ,
+		<http://lv2plug.in/ns/ext/patch#Message> ;
+		lv2:index 0;
+		lv2:symbol "Midi_in" ;
+		lv2:name "MIDI in"
+
+	] , [
+		a lv2:AudioPort ,
+		lv2:OutputPort ;
+		lv2:index 1 ;
+		lv2:symbol "out_left" ;
+		lv2:name "In left"
+	] , [
+		a lv2:AudioPort ,
+		lv2:OutputPort ;
+		lv2:index 2 ;
+		lv2:symbol "out_right" ;
+		lv2:name "Out right"
+	] , [
+		a lv2:ControlPort, lv2:InputPort;
+		lv2:index 3;
+		lv2:symbol "amp_attack";
+		lv2:name "AMP Attack";
+		lv2:minimum 0;
+		lv2:maximum 1;
+		lv2:default 0;
+
+	] , [
+		a lv2:ControlPort, lv2:InputPort;
+		lv2:index 4;
+		lv2:symbol "amp_decay";
+		lv2:name "AMP Decay";
+		lv2:minimum 0;
+		lv2:maximum 1;
+		lv2:default 1;
+
+	] , [
+		a lv2:ControlPort, lv2:InputPort;
+		lv2:index 5;
+		lv2:symbol "amp_sustain";
+		lv2:name "AMP Sustain";
+		lv2:minimum 0;
+		lv2:maximum 1;
+		lv2:default 1;
+
+	] , [
+		a lv2:ControlPort, lv2:InputPort;
+		lv2:index 6;
+		lv2:symbol "amp_release";
+		lv2:name "AMP Release";
+		lv2:minimum 0;
+		lv2:maximum 1;
+		lv2:default 0;
+
+	] , [
+		a lv2:ControlPort, lv2:InputPort;
+		lv2:index 7;
+		lv2:symbol "wave_attack";
+		lv2:name "WAVE Attack";
+		lv2:minimum 0;
+		lv2:maximum 1;
+		lv2:default 0;
+
+	] , [
+		a lv2:ControlPort, lv2:InputPort;
+		lv2:index 8;
+		lv2:symbol "wave_decay";
+		lv2:name "WAVE Decay";
+		lv2:minimum 0;
+		lv2:maximum 1;
+		lv2:default 1;
+
+	] , [
+		a lv2:ControlPort, lv2:InputPort;
+		lv2:index 9;
+		lv2:symbol "wave_sustain";
+		lv2:name "WAVE Sustain";
+		lv2:minimum 0;
+		lv2:maximum 1;
+		lv2:default 1;
+
+	] , [
+		a lv2:ControlPort, lv2:InputPort;
+		lv2:index 10;
+		lv2:symbol "wave_release";
+		lv2:name "WAVE Release";
+		lv2:minimum 0;
+		lv2:maximum 1;
+		lv2:default 0;
+
+	] , [
+		a lv2:ControlPort, lv2:InputPort;
+		lv2:index 11;
+		lv2:symbol "osc1_active";
+		lv2:name "OSC1 Active";
+		lv2:minimum 0;
+		lv2:maximum 1;
+		lv2:default 1;
+
+	] , [
+		a lv2:ControlPort, lv2:InputPort;
+		lv2:index 12;
+		lv2:symbol "osc2_active";
+		lv2:name "OSC2 Active";
+		lv2:minimum 0;
+		lv2:maximum 1;
+		lv2:default 0;
+
+	] , [
+		a lv2:ControlPort, lv2:InputPort;
+		lv2:index 13;
+		lv2:symbol "osc1_wave_a";
+		lv2:name "OSC1 Wave A";
+		lv2:minimum 0;
+		lv2:maximum 7;
+		lv2:default 0;
+	] , [
+		a lv2:ControlPort, lv2:InputPort;
+		lv2:index 14;
+		lv2:symbol "osc1_wave_b";
+		lv2:name "OSC1 Wave B";
+		lv2:minimum 0;
+		lv2:maximum 7;
+		lv2:default 0;
+
+	] , [
+		a lv2:ControlPort, lv2:InputPort;
+		lv2:index 15;
+		lv2:symbol "osc2_wave_a";
+		lv2:name "OSC2 Wave A";
+		lv2:minimum 0;
+		lv2:maximum 7;
+		lv2:default 0;
+	] , [
+		a lv2:ControlPort, lv2:InputPort;
+		lv2:index 16;
+		lv2:symbol "osc2_wave_b";
+		lv2:name "OSC2 Wave B";
+		lv2:minimum 0;
+		lv2:maximum 7;
+		lv2:default 0;
+
+	] , [
+		a lv2:ControlPort, lv2:InputPort;
+		lv2:index 17;
+		lv2:symbol "osc1_tuning";
+		lv2:name "OSC1 Tuning";
+		lv2:minimum -12;
+		lv2:maximum 12;
+		lv2:default 0;
+	] , [
+		a lv2:ControlPort, lv2:InputPort;
+		lv2:index 18;
+		lv2:symbol "osc2_tuning";
+		lv2:name "OSC2 Tuning";
+		lv2:minimum -12;
+		lv2:maximum 12;
+		lv2:default 0;
+
+	] , [
+		a lv2:ControlPort, lv2:InputPort;
+		lv2:index 19;
+		lv2:symbol "volume";
+		lv2:name "Volume";
+		lv2:minimum 0;
+		lv2:maximum 1;
+		lv2:default 0.5;
+	] , [
+		a lv2:ControlPort, lv2:InputPort;
+		lv2:index 20;
+		lv2:symbol "cutoff";
+		lv2:name "Cutoff";
+		lv2:minimum 0;
+		lv2:maximum 1;
+		lv2:default 0.4;
+	] , [
+		a lv2:ControlPort, lv2:InputPort;
+		lv2:index 21;
+		lv2:symbol "resonance";
+		lv2:name "Resonance";
+		lv2:minimum 0;
+		lv2:maximum 1;
+		lv2:default 0.5;
+
+	] , [
+		a lv2:ControlPort, lv2:InputPort;
+		lv2:index 22;
+		lv2:symbol "filter_active";
+		lv2:name "Filter_active";
+		lv2:minimum 0;
+		lv2:maximum 1;
+		lv2:default 0;
+
+	] , [
+		a lv2:ControlPort, lv2:InputPort;
+		lv2:index 23;
+		lv2:symbol "chorus_active";
+		lv2:name "Chorus_active";
+		lv2:minimum 0;
+		lv2:maximum 1;
+		lv2:default 0;
+	] , [
+		a lv2:ControlPort, lv2:InputPort;
+		lv2:index 24;
+		lv2:symbol "lfo1_wave";
+		lv2:name "LFO1_Wave";
+		lv2:minimum 0;
+		lv2:maximum 15;
+		lv2:default 7;
+	] , [
+		a lv2:ControlPort, lv2:InputPort;
+		lv2:index 25;
+		lv2:symbol "lfo1_speed";
+		lv2:name "LFO1_Speed";
+		lv2:minimum 0;
+		lv2:maximum 1;
+		lv2:default 0;
+	] , [
+		a lv2:ControlPort, lv2:InputPort;
+		lv2:index 26;
+		lv2:symbol "lfo1_retrig";
+		lv2:name "LFO1_Retrig";
+		lv2:minimum 0;
+		lv2:maximum 1;
+		lv2:default 0;
+	] , [
+		a lv2:ControlPort, lv2:InputPort;
+		lv2:index 27;
+		lv2:symbol "lfo1_osc1_amount";
+		lv2:name "LFO1_osc1_amount";
+		lv2:minimum 0;
+		lv2:maximum 1;
+		lv2:default 0;
+	] , [
+		a lv2:ControlPort, lv2:InputPort;
+		lv2:index 28;
+		lv2:symbol "lfo1_osc2_amount";
+		lv2:name "LFO1_osc2_amount";
+		lv2:minimum 0;
+		lv2:maximum 1;
+		lv2:default 0;
+	] , [
+		a lv2:ControlPort, lv2:InputPort;
+		lv2:index 29;
+		lv2:symbol "lfo1_osc1_wave_amount";
+		lv2:name "LFO1_osc1_wave_amount";
+		lv2:minimum 0;
+		lv2:maximum 1;
+		lv2:default 0;
+	] , [
+		a lv2:ControlPort, lv2:InputPort;
+		lv2:index 30;
+		lv2:symbol "lfo1_osc2_wave_amount";
+		lv2:name "LFO1_osc2_wave_amount";
+		lv2:minimum 0;
+		lv2:maximum 1;
+		lv2:default 0;
+	] , [
+		a lv2:ControlPort, lv2:InputPort;
+		lv2:index 31;
+		lv2:symbol "lfo1_filter_amount";
+		lv2:name "LFO1_filter_amount";
+		lv2:minimum 0;
+		lv2:maximum 1;
+		lv2:default 0;
+	] , [
+		a lv2:ControlPort, lv2:InputPort;
+		lv2:index 32;
+		lv2:symbol "lfo2_wave";
+		lv2:name "LFO2_Wave";
+		lv2:minimum 0;
+		lv2:maximum 15;
+		lv2:default 7;
+	] , [
+		a lv2:ControlPort, lv2:InputPort;
+		lv2:index 33;
+		lv2:symbol "lfo2_speed";
+		lv2:name "LFO2_Speed";
+		lv2:minimum 0;
+		lv2:maximum 1;
+		lv2:default 0;
+	] , [
+		a lv2:ControlPort, lv2:InputPort;
+		lv2:index 34;
+		lv2:symbol "lfo2_retrig";
+		lv2:name "LFO2_Retrig";
+		lv2:minimum 0;
+		lv2:maximum 1;
+		lv2:default 0;
+	] , [
+		a lv2:ControlPort, lv2:InputPort;
+		lv2:index 35;
+		lv2:symbol "lfo2_osc1_amount";
+		lv2:name "LFO2_osc1_amount";
+		lv2:minimum 0;
+		lv2:maximum 1;
+		lv2:default 0;
+	] , [
+		a lv2:ControlPort, lv2:InputPort;
+		lv2:index 36;
+		lv2:symbol "lfo2_osc2_amount";
+		lv2:name "LFO2_osc2_amount";
+		lv2:minimum 0;
+		lv2:maximum 1;
+		lv2:default 0;
+	] , [
+		a lv2:ControlPort, lv2:InputPort;
+		lv2:index 37;
+		lv2:symbol "lfo2_osc1_wave_amount";
+		lv2:name "LFO2_osc1_wave_amount";
+		lv2:minimum 0;
+		lv2:maximum 1;
+		lv2:default 0;
+	] , [
+		a lv2:ControlPort, lv2:InputPort;
+		lv2:index 38;
+		lv2:symbol "lfo2_osc2_wave_amount";
+		lv2:name "LFO2_osc2_wave_amount";
+		lv2:minimum 0;
+		lv2:maximum 1;
+		lv2:default 0;
+	] , [
+		a lv2:ControlPort, lv2:InputPort;
+		lv2:index 39;
+		lv2:symbol "lfo2_filter_amount";
+		lv2:name "LFO2_filter_amount";
+		lv2:minimum 0;
+		lv2:maximum 1;
+		lv2:default 0;
+
+	] , [
+		a lv2:ControlPort, lv2:InputPort;
+		lv2:index 40;
+		lv2:symbol "adsr3_attack";
+		lv2:name "ADSR3_Attack";
+		lv2:minimum 0;
+		lv2:maximum 1;
+		lv2:default 0;
+	] , [
+		a lv2:ControlPort, lv2:InputPort;
+		lv2:index 41;
+		lv2:symbol "adsr3_decay";
+		lv2:name "ADSR3_Decay";
+		lv2:minimum 0;
+		lv2:maximum 1;
+		lv2:default 1;
+	] , [
+		a lv2:ControlPort, lv2:InputPort;
+		lv2:index 42;
+		lv2:symbol "adsr3_sustain";
+		lv2:name "ADSR3_Sustain";
+		lv2:minimum 0;
+		lv2:maximum 1;
+		lv2:default 1;
+	] , [
+		a lv2:ControlPort, lv2:InputPort;
+		lv2:index 43;
+		lv2:symbol "adsr3_release";
+		lv2:name "ADSR3_Release";
+		lv2:minimum 0;
+		lv2:maximum 1;
+		lv2:default 0;
+	] , [
+		a lv2:ControlPort, lv2:InputPort;
+		lv2:index 44;
+		lv2:symbol "osc1_pitch_adsr2";
+		lv2:name "OSC1_PITCH_ADSR2";
+		lv2:minimum 0;
+		lv2:maximum 1;
+		lv2:default 0;
+	] , [
+		a lv2:ControlPort, lv2:InputPort;
+		lv2:index 45;
+		lv2:symbol "osc1_pitch_adsr2";
+		lv2:name "OSC1_PITCH_ADSR3";
+		lv2:minimum 0;
+		lv2:maximum 1;
+		lv2:default 0;
+	] , [
+		a lv2:ControlPort, lv2:InputPort;
+		lv2:index 46;
+		lv2:symbol "osc2_pitch_adsr2";
+		lv2:name "OSC2_PITCH_ADSR2";
+		lv2:minimum 0;
+		lv2:maximum 1;
+		lv2:default 0;
+	] , [
+		a lv2:ControlPort, lv2:InputPort;
+		lv2:index 47;
+		lv2:symbol "osc2_pitch_adsr3";
+		lv2:name "OSC2_PITCH_ADSR3";
+		lv2:minimum 0;
+		lv2:maximum 1;
+		lv2:default 0;
+	].
+
+<http://nickbailey.co.nr/plugins/dracorex#ui>
+	a <@UI_TYPE@> ;
+	lv2:requiredFeature ui:idleInterface ;
+	lv2:extensionData ui:idleInterface ;
+	ui:portNotification [
+		ui:plugin <http://nickbailey.co.nr/plugins/dracorex> ;
+		lv2:symbol "gain"
+	] .

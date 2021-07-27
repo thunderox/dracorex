@@ -1,0 +1,13 @@
+@prefix lv2: <http://lv2plug.in/ns/lv2core#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ui: <http://lv2plug.in/ns/extensions/ui#> .
+
+<http://nickbailey.co.nr/plugins/dracorex>
+	a lv2:Plugin ;
+	lv2:binary <dracorex@LIB_EXT@> ;
+	rdfs:seeAlso <dracorex.ttl> .
+
+<http://nickbailey.co.nr/plugins/dracorex#ui>
+	a <@UI_TYPE@> ;
+	ui:binary <dracorex_ui@LIB_EXT@> ;
+	rdfs:seeAlso <dracorex.ttl> .
