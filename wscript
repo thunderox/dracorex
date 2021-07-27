@@ -3,6 +3,7 @@ from waflib.extras import autowaf as autowaf
 import waflib.Options as Options
 import re
 import sys 
+import os
 
 # Variables for 'waf dist'
 APPNAME = 'dracorex.lv2'
@@ -14,20 +15,16 @@ out = 'build'
 
 def options(opt):
     opt.load('compiler_c')
-    opt.load('lv2')
-    if Options.platform == 'win32':
-        opt.load('compiler_cxx')
+    opt.load('compiler_cxx')
     autowaf.set_options(opt)
 
-def configure(conf):
+def configure(conf):	
     conf.load('compiler_c')
-    conf.load('lv2')
-    if conf.env.DEST_OS == 'win32':
-        conf.load('compiler_cxx')
+    conf.load('compiler_cxx')
+    autowaf.configure(conf)
 
     autowaf.configure(conf)
-    autowaf.set_c99_mode(conf)
-    autowaf.display_header('dracorex Configuration')
+    print('stegosaurus Configuration')
 
     autowaf.check_pkg(conf, 'lv2', atleast_version='1.4.1',
                       uselib_store='LV2_1_4_1')
@@ -36,12 +33,11 @@ def configure(conf):
         conf.env.append_unique('CXXFLAGS', ['-TP', '-MD','-g'])
     else:
         conf.env.append_unique('CXXFLAGS', ['-O2','-funroll-loops','-std=c++0x','-g'])
+        conf.env.append_unique('CXXFLAGS', ['-fPIC','-fpermissive','-finline-functions','-g'])
 
-	if sys.maxint >= 9223372036854775807:
-		print "detected 64 bit architecture, enabling -fPIC"
-        	conf.env.append_unique('CXXFLAGS', ['-fPIC','-fpermissive','-finline-functions','-g'])
+    conf.env.LV2DIR = os.getenv('LV2_PATH').split(':')[2]
 
-    autowaf.display_msg(conf, "LV2 bundle directory", conf.env.LV2DIR)
+    autowaf.display_msg(conf, "LV2 bundle directory", conf.env['LV2DIR'])
     print('')
 
 def build(bld):
@@ -99,7 +95,7 @@ def build(bld):
               use          = 'LV2_1_4_1')
     obj.env['%sshlib_PATTERN' % ui_lang] = module_pat
 
-    bld.install_files('${LV2DIR}/%s/waves' % bundle, bld.path.ant_glob('waves/*.*'))
-
+    bld.install_files('${LV2DIR}/%s/waves'% bundle, bld.path.ant_glob('waves/*.*'))
+    bld.install_files('${LV2DIR}/%s/dracorex-presets.lv2' % bundle, bld.path.ant_glob('presets.lv2/*.*'))
 
 

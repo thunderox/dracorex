@@ -1,0 +1,73 @@
+@prefix atom: <http://lv2plug.in/ns/ext/atom#> .
+@prefix lv2: <http://lv2plug.in/ns/lv2core#> .
+@prefix pset: <http://lv2plug.in/ns/ext/presets#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix state: <http://lv2plug.in/ns/ext/state#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<>
+	a pset:Preset ;
+	lv2:appliesTo <http://nickbailey.co.nr/plugins/dracorex> ;
+	rdfs:label "vox pad" ;
+	lv2:port [
+		lv2:symbol "amp_attack" ;
+		pset:value 0.45161289
+	] , [
+		lv2:symbol "amp_decay" ;
+		pset:value 1.0
+	] , [
+		lv2:symbol "amp_release" ;
+		pset:value 0.70903218
+	] , [
+		lv2:symbol "amp_sustain" ;
+		pset:value 1.0
+	] , [
+		lv2:symbol "cutoff" ;
+		pset:value 0.33746904
+	] , [
+		lv2:symbol "filter_active" ;
+		pset:value 0.0
+	] , [
+		lv2:symbol "osc1_active" ;
+		pset:value 1.0
+	] , [
+		lv2:symbol "osc1_tuning" ;
+		pset:value 0.0
+	] , [
+		lv2:symbol "osc1_wave_a" ;
+		pset:value 3.57816434
+	] , [
+		lv2:symbol "osc1_wave_b" ;
+		pset:value 2.44913197
+	] , [
+		lv2:symbol "osc2_active" ;
+		pset:value 1.0
+	] , [
+		lv2:symbol "osc2_tuning" ;
+		pset:value 0.11199856
+	] , [
+		lv2:symbol "osc2_wave_a" ;
+		pset:value 3.92555881
+	] , [
+		lv2:symbol "osc2_wave_b" ;
+		pset:value 2.7096777
+	] , [
+		lv2:symbol "resonance" ;
+		pset:value 0.74689829
+	] , [
+		lv2:symbol "volume" ;
+		pset:value 0.49596775
+	] , [
+		lv2:symbol "wave_attack" ;
+		pset:value 0.41935486
+	] , [
+		lv2:symbol "wave_decay" ;
+		pset:value 0.69354838
+	] , [
+		lv2:symbol "wave_release" ;
+		pset:value 0.67774171
+	] , [
+		lv2:symbol "wave_sustain" ;
+		pset:value 0.0
+	] .
