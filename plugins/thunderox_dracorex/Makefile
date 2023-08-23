@@ -8,7 +8,10 @@ NAME = thunderox_dracorex
 # Files to build
 
 FILES_DSP = \
-	dracorexPlugin.cpp
+	dracorexPlugin.cpp \
+	wavetable.cpp \
+	synth.cpp \
+	fastmaths.c
 
 FILES_UI  = \
 	../../delirium_ui/delirium_ui.cpp \

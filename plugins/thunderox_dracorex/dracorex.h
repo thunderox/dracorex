@@ -1,22 +1,12 @@
 
-#ifndef DISTRHO_PLUGIN_INFO_H_INCLUDED
-#define DISTRHO_PLUGIN_INFO_H_INCLUDED
+#include <stdlib.h>
 
-#define DISTRHO_PLUGIN_NAME "thunderox_dracorex"
-#define DISTRHO_PLUGIN_NUM_INPUTS 0
-#define DISTRHO_PLUGIN_NUM_OUTPUTS 2
-#define DISTRHO_PLUGIN_URI "http://thunderox.com/thunderox_dracorex"
-#define DISTRHO_PLUGIN_HAS_UI 1
-#define DISTRHO_UI_USE_CAIRO 1
-#define DISTRHO_PLUGIN_IS_RT_SAFE 1
-#define DISTRHO_PLUGIN_IS_SYNTH 1
-#define DISTRHO_PLUGIN_WANT_PROGRAMS 1
-#define DISTRHO_PLUGIN_WANT_TIMEPOS 1
+#include "uris.h"
+#include "lv2/lv2plug.in/ns/lv2core/lv2.h"
+#include "lv2/lv2plug.in/ns/ext/atom/forge.h"
 
-#define DISTRHO_UI_URI DISTRHO_PLUGIN_URI "#UI"
 
-enum Parameters {
-
+typedef enum {
 	dracorex_MIDI_IN   = 0,
 	dracorex_OUT_LEFT  = 1,
 	dracorex_OUT_RIGHT = 2,
@@ -68,13 +58,44 @@ enum Parameters {
 	dracorex_OSC1_PITCH_ADSR2 = 44,
 	dracorex_OSC1_PITCH_ADSR3 = 45,
 	dracorex_OSC2_PITCH_ADSR2 = 46,
-	dracorex_OSC2_PITCH_ADSR3 = 47,
-	dracorex_MASTER_TUNING = 48,
-	
-	kParameterBufferSize,
-	kParametertriceratopsTime,        
-	kParameterCount
-};
+	dracorex_OSC2_PITCH_ADSR3 = 47
 
+} PortIndex;
 
-#endif // DISTRHO_PLUGIN_INFO_H_INCLUDED
+typedef struct {
+	float* out_left;
+	float* out_right;
+	float* wave_one;
+
+	float* amp_attack;
+	float* amp_decay;
+	float* amp_sustain;
+	float* amp_release;
+
+	float* wave_attack;
+	float* wave_decay;
+	float* wave_sustain;
+	float* wave_release;
+
+	float* adsr3_attack;
+	float* adsr3_decay;
+	float* adsr3_sustain;
+	float* adsr3_release;
+
+	float* osc1_wave_a;
+	float* osc1_wave_b;
+
+	float* lfo_speed;
+	float* lfo_osc1_amount;
+	float* lfo_osc2_amount;	
+
+	float* params[64];
+
+	dracorexURIs uris;
+	LV2_Atom_Forge forge;
+	LV2_URID_Map* map;
+	char *bundle_path;
+
+	LV2_Atom_Sequence* midi_in;
+
+} dracorex;
