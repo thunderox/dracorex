@@ -42,7 +42,7 @@ class dracorexUI : public UI
 			// SET UP GUI WIDGETS -  -----------------------------------------------------------------------
 			
 			
-			int osc_panel = Delirium_UI_Create_Widget(GUI, deliriumUI_Panel, 0, panelX+0.5, panelY, 12,14, "OSCILLATORS", -1);
+			int osc_panel = Delirium_UI_Create_Widget(GUI, deliriumUI_Panel, 0, panelX, panelY, 13,14, "OSCILLATORS", -1);
 			Delirium_UI_Widget_Set_Group_And_Member(GUI, osc_panel, "global", "");
 
 						
@@ -53,7 +53,7 @@ class dracorexUI : public UI
 			Delirium_UI_Group_Add_Member(GUI, "oscillators", "osc2");
 			
 			int nav_oscillators = Delirium_UI_Create_Widget(GUI,  deliriumUI_Tabbed_Navigator,
-				0, panelX + 0.5, panelY + 0.25, 12,0.6,"",-1);			
+				0, panelX , panelY + 0.25, 12,0.6,"",-1);			
 			Delirium_UI_Group_Add_Navigator_Tab(GUI, nav_oscillators, "OSC-1", "oscillators", "osc1");
 			Delirium_UI_Group_Add_Navigator_Tab(GUI, nav_oscillators, "OSC-2", "oscillators", "osc2");	
 			
@@ -63,7 +63,7 @@ class dracorexUI : public UI
 					
 
 			//------- OSCILLATOR ONE - ACTIVE -----------------------------------------------------------------------
-			int widget_osc1_active = Delirium_UI_Create_Widget(GUI, deliriumUI_Switch, 0, panelX + 0.5, panelY + 1.25, 1.75, 2, "OSC-1", dracorex_OSC1_ACTIVE);
+			int widget_osc1_active = Delirium_UI_Create_Widget(GUI, deliriumUI_Switch, 0, panelX + 0.5, panelY + 1.25, 2, 2, "OSC-1", dracorex_OSC1_ACTIVE);
 
 			Delirium_UI_Widget_Set_Min_Max(GUI, widget_osc1_active, 0,1);
 			Delirium_UI_Widget_Set_Value(GUI, widget_osc1_active, 1);
@@ -113,6 +113,23 @@ class dracorexUI : public UI
 			fParameters_widget_number[dracorex_WAVE_ATTACK+2] = widget_wave_env; 
 			fParameters_widget_number[dracorex_WAVE_ATTACK+3] = widget_wave_env; 
 			
+			//------- Oscilator One - OSC1 WAVE A SELECTOR
+			
+			int dracorex_osc1_waveA = Delirium_UI_Create_Widget(GUI, deliriumUI_Selector, 0, panelX +8, panelY + 1.25, 4, 3,"WAVE A", dracorex_OSC1_WAVE_A);
+			Delirium_UI_Widget_Set_Selector_Type(GUI, dracorex_osc1_waveA, WAVE_MODE_LFO);
+			Delirium_UI_Widget_Set_Group_And_Member(GUI, dracorex_osc1_waveA, "oscillators", "osc1");
+			fParameters_widget_number[dracorex_OSC1_WAVE_A] = dracorex_osc1_waveA;
+			
+			//------- Oscilator One - OSC1 WAVE B SELECTOR		
+	
+			int dracorex_osc1_waveB = Delirium_UI_Create_Widget(GUI, deliriumUI_Selector, 0, panelX +8, panelY + 5, 4, 3,"WAVE B", dracorex_OSC1_WAVE_B);
+			Delirium_UI_Widget_Set_Selector_Type(GUI, dracorex_osc1_waveB, WAVE_MODE_LFO);
+			Delirium_UI_Widget_Set_Group_And_Member(GUI, dracorex_osc1_waveB, "oscillators", "osc1");
+			fParameters_widget_number[dracorex_OSC1_WAVE_B] = dracorex_osc1_waveB;			
+			
+			
+			
+			
 			//-------- MASTER VOLUME -----------------------------------------------------------------------
 			int widget_volume = Delirium_UI_Create_Widget(GUI, deliriumUI_Knob, 0, panelX + 18, panelY +9, 4, 4, "VOLUME", dracorex_VOLUME);
 			Delirium_UI_Widget_Set_Min_Max(GUI, widget_volume, 0,2);
@@ -128,6 +145,55 @@ class dracorexUI : public UI
 			Delirium_UI_Widget_Set_Default_Value(GUI, widget_master_tuning, 0.6);
 			Delirium_UI_Widget_Set_Group_And_Member(GUI, widget_master_tuning, "global", "");
 			fParameters_widget_number[dracorex_MASTER_TUNING] = widget_master_tuning; 
+			
+			//--------- PANEL MATRIX FOR LFO / FILTER FX ---------------------------------------------------------
+			
+			int matrix_panel = Delirium_UI_Create_Widget(GUI, deliriumUI_Panel, 0, panelX+13, panelY, 12,8, "MATRIX", -1);
+			Delirium_UI_Widget_Set_Group_And_Member(GUI, matrix_panel, "global", "");
+			
+			//------ MATRIX NAVIGATION LFO / FILTER / FX ----------------------------------------------------------
+			
+			int matrix_group = Delirium_UI_Group_Create(GUI, "matrix");
+			Delirium_UI_Group_Add_Member(GUI, "matrix", "lfo");
+			Delirium_UI_Group_Add_Member(GUI, "matrix", "filter");
+			Delirium_UI_Group_Add_Member(GUI, "matrix", "fx");
+			
+			int nav_matrix = Delirium_UI_Create_Widget(GUI,  deliriumUI_Tabbed_Navigator,
+				0, panelX + 13, panelY + 0.25, 12,0.6,"",-1);	
+						
+			Delirium_UI_Group_Add_Navigator_Tab(GUI, nav_matrix, "LFO", "matrix", "lfo");
+			Delirium_UI_Group_Add_Navigator_Tab(GUI, nav_matrix, "FILTER", "matrix", "filter");	
+			Delirium_UI_Group_Add_Navigator_Tab(GUI, nav_matrix, "FX", "matrix", "fx");	
+			
+			Delirium_UI_Group_Set_Visible_member(GUI, "matrix", "lfo");
+			
+			Delirium_UI_Widget_Set_Group_And_Member(GUI, nav_matrix, "global", "");
+			
+			//--------- LFOS --------------------------------------------------------------------------------------
+			
+			int widget_lfo1_retrig = Delirium_UI_Create_Widget(GUI, deliriumUI_Switch, 0, panelX + 13.5, panelY + 1.25, 2, 2, "RETRIG", 0);
+			Delirium_UI_Widget_Set_Min_Max(GUI, widget_lfo1_retrig, 0,1);
+			Delirium_UI_Widget_Set_Value(GUI, widget_lfo1_retrig, 0);
+			Delirium_UI_Widget_Set_Group_And_Member(GUI, widget_lfo1_retrig, "matrix", "lfo");
+			fParameters_widget_number[0] = widget_lfo1_retrig; 
+			
+			//--------- LFO ONE SPEED -----------------------------------------------------------------------------------
+			
+			int widget_lfo1_speed = Delirium_UI_Create_Widget(GUI, deliriumUI_Knob, 0, panelX + 13.5, panelY + 4, 2, 2.5, "BPM", dracorex_LFO1_SPEED);
+			Delirium_UI_Widget_Set_Min_Max(GUI, widget_lfo1_speed, 1,600);
+			Delirium_UI_Widget_Set_Value(GUI, widget_lfo1_speed, 120);
+			Delirium_UI_Widget_Set_Default_Value(GUI, widget_lfo1_speed, 120);
+			Delirium_UI_Widget_Set_Increment(GUI, widget_lfo1_speed, 1);
+			Delirium_UI_Widget_Set_Integer(GUI, widget_lfo1_speed, true);
+			Delirium_UI_Widget_Set_Group_And_Member(GUI, widget_lfo1_speed, "matrix", "lfo");
+			fParameters_widget_number[dracorex_LFO1_SPEED] = widget_lfo1_speed; 
+			
+			//--------- LFO ONE WAVE -----------------------------------------------------------------------------------
+			
+			int dracorex_lfo1_wave = Delirium_UI_Create_Widget(GUI, deliriumUI_Selector, 0, panelX +16, panelY + 1.25, 4, 3,"WAVE", dracorex_LFO1_WAVE);
+			Delirium_UI_Widget_Set_Selector_Type(GUI, dracorex_lfo1_wave, WAVE_MODE_LFO);
+			Delirium_UI_Widget_Set_Group_And_Member(GUI, dracorex_lfo1_wave, "matrix", "lfo");
+			fParameters_widget_number[dracorex_LFO1_WAVE] = dracorex_lfo1_wave;
 
 			// loadSymbols();
 			// searchPresets();
@@ -135,6 +201,7 @@ class dracorexUI : public UI
 					
 			//-----------------------------
 
+			load_wavetables();
 			GUI->draw_flag = true;					
 			GUI->drag = 0;
 			GUI->current_widget = -1;	
@@ -146,7 +213,26 @@ class dracorexUI : public UI
 
 		~dracorexUI()
 		{
+		
+			int widget_number = -1;
+		
+			for (int w=0; w<GUI->Widgets.size(); w++)
+			{
+				if (GUI->Widgets[w]->type == deliriumUI_Selector)
+					widget_number = w;
+			}
+			
+			if (widget_number > -1)
+			{
+				for (int w=0; w<GUI->Widgets[widget_number]->wavetables.size(); w++)
+				{
+					free( GUI->Widgets[widget_number]->wavetables[w].buffer );
+					cout << "Unloading: " << GUI->Widgets[widget_number]->wavetables[w].name << endl;
+				}
+			}
+				
 			Delirium_UI_Cleanup(GUI);
+	
 		}
 		
 
@@ -162,6 +248,73 @@ class dracorexUI : public UI
 				    }
 
 		    return result;
+		}
+		
+		//------------------------------------------------------------------------------------------------------
+		
+		void load_wavetables()
+		{
+			string user_path = getenv("USER");
+			stringstream wave_path;
+			stringstream wave_file;
+			struct dirent *d;
+			struct stat st;
+			
+			DIR *dr;
+			wave_path.str("");
+			wave_path << "/home/" << user_path << "/.lv2/thunderox_dracorex.lv2/waves";
+			
+			dr = opendir(wave_path.str().c_str());
+			 
+			if (dr != NULL)
+			{
+				for( d=readdir(dr); d!=NULL; d=readdir(dr)) // List all files here
+				{
+					wave_file.str("");
+					wave_file << wave_path.str() << "/" << d->d_name;
+
+					FILE* fp = fopen (wave_file.str().c_str(),"r");
+					fseek(fp, 0, SEEK_END); // We can use rewind(fp); also
+					
+					if (ftell(fp) == 17720)
+					{					
+						long length = (ftell(fp) - 80 )/ 4;
+						cout << "Loading Waveform: " << wave_file.str() << " - " << ftell(fp) << endl;
+						wavetable new_waveform;
+						new_waveform.name = d->d_name;
+						new_waveform.buffer = (float *)malloc(length*sizeof(float)) ;
+						
+						fseek(fp, 80, SEEK_SET);
+						fread(new_waveform.buffer ,1, length*sizeof(float), fp);
+						new_waveform.length = length;
+						
+						for (int w=0; w<GUI->Widgets.size(); w++)
+						{
+							if (GUI->Widgets[w]->type == deliriumUI_Selector)
+							{
+								GUI->Widgets[w]->wavetables.push_back(new_waveform);
+							}
+						}
+					}
+					fclose(fp);
+					
+					for (int w=0; w<GUI->Widgets.size(); w++)
+					{
+						if (GUI->Widgets[w]->type == deliriumUI_Selector)
+						{
+							GUI->Widgets[w]->max = GUI->Widgets[w]->wavetables.size()-1;
+							GUI->Widgets[w]->increment = 1;
+							sort(GUI->Widgets[w]->wavetables.begin(),GUI->Widgets[w]				
+								->wavetables.end(),alphasort_wavetables() );	
+						}
+					}
+				}
+				
+				
+			}
+			
+			
+			
 		}
 		
 		//------------------------------------------------------------------------------------------------------
@@ -768,6 +921,14 @@ class dracorexUI : public UI
 		struct alphasort_category
 		{
 			inline bool operator() (const category& struct1, const category& struct2)
+			{
+				return (struct1.name < struct2.name);
+			}
+		};
+		
+		struct alphasort_wavetables
+		{
+			inline bool operator() (const wavetable& struct1, const wavetable& struct2)
 			{
 				return (struct1.name < struct2.name);
 			}

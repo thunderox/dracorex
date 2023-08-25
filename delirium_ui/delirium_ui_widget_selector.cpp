@@ -30,291 +30,53 @@ void Delirium_UI_Widget_Selector::Draw(cairo_t* cr)
 
 	// SHOW CURRENT WAVEFORM
 	
-	if (hover) {
+	if (hover)
+	{
 		cairo_set_source_rgb(cr, 1, 1, 1);
 	} else {
 		cairo_set_source_rgb(cr, 0.6,0.6,0.6);
 	}
-					
-	if (wave_mode == WAVE_MODE_OSC)
+	
+	string name = wavetables[values[current_value]].name ;
+	transform(name.begin(), name.end(), name.begin(), ::toupper);
+	name = name.substr(0,name.size()-4);
+
+	cairo_text_extents(cr, name.c_str(), &extents);
+	x_text_centred = (x + w / 2) - extents.width / 2;
+	cairo_move_to(cr,x_text_centred, y+h-(font_size/2));
+	cairo_show_text(cr, name.c_str());
+				
+	if (hover)
 	{
-					
-		switch (int(values[current_value]))
-		{
-			case 0:
-			// SAW
-
-				cairo_text_extents(cr, "SAW", &extents);
-				x_text_centred = (x + w / 2) - extents.width / 2;
-				cairo_move_to(cr,x_text_centred, y+h-(font_size/2));
-				cairo_show_text(cr, "SAW");
-				
-				if (hover)
-				{
-					cairo_set_source_rgb(cr, 0.7,0.7,0.7);
-				} else {
-					cairo_set_source_rgb(cr, 0.5,0.5,0.5);
-				}
-				
-				cairo_move_to(cr,x+(w/4), y+(h/1.5));
-				cairo_line_to(cr, x+(w-(w/4)), y+(h/3));
-				cairo_stroke(cr);
-				break;
-				
-			case 1:	
-			// SQUARE
-
-				cairo_text_extents(cr, "SQUARE", &extents);
-				x_text_centred = (x + w / 2) - extents.width / 2;
-				cairo_move_to(cr,x_text_centred, y+h-(font_size/2));
-				cairo_show_text(cr, "SQUARE");
-				
-				if (hover)
-				{
-					cairo_set_source_rgb(cr, 0.7,0.7,0.7);
-				} else {
-					cairo_set_source_rgb(cr, 0.5,0.5,0.5);
-				}
-					
-				cairo_move_to(cr, x+(w/4), y+(h/1.5));
-				cairo_line_to(cr, x+(w/4), y+(h/3));
-				cairo_line_to(cr, x+(w-(w/4)), y+(h/3));
-				cairo_line_to(cr, x+(w-(w/4)), y+(h/1.5));
-				cairo_stroke(cr);
-				break;
-				
-			case 2:
-			// SINE
-
-				cairo_text_extents(cr, "SINE", &extents);
-				x_text_centred = (x + w / 2) - extents.width / 2;
-				cairo_move_to(cr,x_text_centred, y+h-(font_size/2));
-				cairo_show_text(cr, "SINE"); 
-				
-				if (hover)
-				{
-					cairo_set_source_rgb(cr, 0.7,0.7,0.7);
-				} else {
-					cairo_set_source_rgb(cr, 0.5,0.5,0.5);
-				}
-					
-				cairo_move_to(cr, x+(w/4), y+(h/2.75));
-		  		cairo_curve_to(cr, x+(w/2), y+(h*1.5), x+(w/2),y-(h/2), x+(w-(w/4)),y+(h/1.5));
-				cairo_stroke(cr);
-				break;
-				
-			case 3:
-
-			// NOISE
-
-				cairo_text_extents(cr, "NOISE", &extents);
-				x_text_centred = (x + w / 2) - extents.width / 2;
-				cairo_move_to(cr,x_text_centred, y+h-(font_size/2));
-				cairo_show_text(cr, "NOISE");
-				
-				if (hover)
-				{
-					cairo_set_source_rgb(cr, 0.7,0.7,0.7);
-				} else {
-					cairo_set_source_rgb(cr, 0.5,0.5,0.5);
-				}
-					
-				cairo_move_to(cr, x+(w/8), y+(h/2));
-				cairo_line_to(cr, x+((w/12)*1), y+(h/2) + h/8);
-				cairo_line_to(cr, x+((w/12)*2), y+(h/2) - h/8);	
-				cairo_line_to(cr, x+((w/12)*3), y+(h/2) + h/8);
-				cairo_line_to(cr, x+((w/12)*4), y+(h/2) - h/5);
-				cairo_line_to(cr, x+((w/12)*5), y+(h/2) + h/5);
-				cairo_line_to(cr, x+((w/12)*6), y+(h/2) - h/8);	
-				cairo_line_to(cr, x+((w/12)*7), y+(h/2) + h/9);
-				cairo_line_to(cr, x+((w/12)*8), y+(h/2) - h/5);
-				cairo_line_to(cr, x+((w/12)*9), y+(h/2) + h/6);
-				cairo_line_to(cr, x+((w/12)*10), y+(h/2));				
-				cairo_stroke(cr);
-				break;
-				
-		}
+		cairo_set_source_rgb(cr, 0.7,0.7,0.7);
+	} else {
+		cairo_set_source_rgb(cr, 0.5,0.5,0.5);
 	}
 	
+	// DRAW WAVEFORM
 	
-	//--------
+	long waveform_length = wavetables[values[current_value]].length;
+	int wavetable_steps = (long)(waveform_length)/(w-20);
 	
-		if (wave_mode == WAVE_MODE_LFO)
+	cairo_move_to(cr, x+10,y+(h/2)-10);		
+
+	for (int bx=0; bx<w-20; bx++)
 	{
-					
-		switch (int(values[current_value]))
-		{
-			case 0:
-			// SAW
 
-				cairo_text_extents(cr, "SAW", &extents);
-				x_text_centred = (x + w / 2) - extents.width / 2;
-				cairo_move_to(cr,x_text_centred, y+h-(font_size/2));
-				cairo_show_text(cr, "SAW");
-				
-				if (hover)
-				{
-					cairo_set_source_rgb(cr, 0.7,0.7,0.7);
-				} else {
-					cairo_set_source_rgb(cr, 0.5,0.5,0.5);
-				}
-				
-				cairo_move_to(cr,x+(w/4), y+(h/1.5));
-				cairo_line_to(cr, x+(w-(w/4)), y+(h/3));
-				cairo_stroke(cr);
-				break;
-				
-			case 1:	
-			// SQUARE
-
-				cairo_text_extents(cr, "SQUARE", &extents);
-				x_text_centred = (x + w / 2) - extents.width / 2;
-				cairo_move_to(cr,x_text_centred, y+h-(font_size/2));
-				cairo_show_text(cr, "SQUARE");
-				
-				if (hover)
-				{
-					cairo_set_source_rgb(cr, 0.7,0.7,0.7);
-				} else {
-					cairo_set_source_rgb(cr, 0.5,0.5,0.5);
-				}
-					
-				cairo_move_to(cr, x+(w/4), y+(h/1.5));
-				cairo_line_to(cr, x+(w/4), y+(h/3));
-				cairo_line_to(cr, x+(w-(w/4)), y+(h/3));
-				cairo_line_to(cr, x+(w-(w/4)), y+(h/1.5));
-				cairo_stroke(cr);
-				break;
-				
-			case 2:
-			// SINE
-
-				cairo_text_extents(cr, "SINE", &extents);
-				x_text_centred = (x + w / 2) - extents.width / 2;
-				cairo_move_to(cr,x_text_centred, y+h-(font_size/2));
-				cairo_show_text(cr, "SINE"); 
-				
-				if (hover)
-				{
-					cairo_set_source_rgb(cr, 0.7,0.7,0.7);
-				} else {
-					cairo_set_source_rgb(cr, 0.5,0.5,0.5);
-				}
-					
-				cairo_move_to(cr, x+(w/4), y+(h/2.75));
-		  		cairo_curve_to(cr, x+(w/2), y+(h*1.5), x+(w/2),y-(h/2), x+(w-(w/4)),y+(h/1.5));
-				cairo_stroke(cr);
-				break;
-				
-			case 3:
-			// S&H
-
-				cairo_text_extents(cr, "S&H", &extents);
-				x_text_centred = (x + w / 2) - extents.width / 2;
-				cairo_move_to(cr,x_text_centred, y+h-(font_size/2));
-				cairo_show_text(cr, "S&H"); 
-				
-				if (hover)
-				{
-					cairo_set_source_rgb(cr, 0.7,0.7,0.7);
-				} else {
-					cairo_set_source_rgb(cr, 0.5,0.5,0.5);
-				}
-				
-				cairo_move_to(cr, x+(w/8), y+(h/1.75));
-				cairo_line_to(cr, x+((w/6)*1), y+(h/2) + h/5);	
-				cairo_line_to(cr, x+((w/6)*2), y+(h/2) + h/5);	
-				cairo_line_to(cr, x+((w/6)*2), y+(h/2) - h/4);
-				cairo_line_to(cr, x+((w/6)*3), y+(h/2) - h/4);		
-				cairo_line_to(cr, x+((w/6)*3), y+(h/2) + h/8);	
-				cairo_line_to(cr, x+((w/6)*4), y+(h/2) + h/8);	
-				cairo_line_to(cr, x+((w/6)*4), y+(h/2) - h/8);			
-				cairo_line_to(cr, x+((w/6)*5), y+(h/2) - h/8);		
-				cairo_line_to(cr, x+((w/6)*5), y+(h/2) + h/5);				
-				cairo_stroke(cr);
-				break;
-				
-			case 4:
-			// NOISE
-
-				cairo_text_extents(cr, "NOISE", &extents);
-				x_text_centred = (x + w / 2) - extents.width / 2;
-				cairo_move_to(cr,x_text_centred, y+h-(font_size/2));
-				cairo_show_text(cr, "NOISE");
-				
-				if (hover)
-				{
-					cairo_set_source_rgb(cr, 0.7,0.7,0.7);
-				} else {
-					cairo_set_source_rgb(cr, 0.5,0.5,0.5);
-				}
-					
-				cairo_move_to(cr, x+(w/8), y+(h/2));
-				cairo_line_to(cr, x+((w/12)*1), y+(h/2) + h/8);
-				cairo_line_to(cr, x+((w/12)*2), y+(h/2) - h/8);	
-				cairo_line_to(cr, x+((w/12)*3), y+(h/2) + h/8);
-				cairo_line_to(cr, x+((w/12)*4), y+(h/2) - h/5);
-				cairo_line_to(cr, x+((w/12)*5), y+(h/2) + h/5);
-				cairo_line_to(cr, x+((w/12)*6), y+(h/2) - h/8);	
-				cairo_line_to(cr, x+((w/12)*7), y+(h/2) + h/9);
-				cairo_line_to(cr, x+((w/12)*8), y+(h/2) - h/5);
-				cairo_line_to(cr, x+((w/12)*9), y+(h/2) + h/6);
-				cairo_line_to(cr, x+((w/12)*10), y+(h/2));				
-				cairo_stroke(cr);
-				break;
-				
-			case 5:
-			// ISAW
-
-				cairo_text_extents(cr, "ISAW", &extents);
-				x_text_centred = (x + w / 2) - extents.width / 2;
-				cairo_move_to(cr,x_text_centred, y+h-(font_size/2));
-				cairo_show_text(cr, "ISAW");
-
-				if (hover)
-				{
-					cairo_set_source_rgb(cr, 0.7,0.7,0.7);
-				} else {
-					cairo_set_source_rgb(cr, 0.5,0.5,0.5);
-				}
-							
-				cairo_move_to(cr,x+(w/4), y+(h/3));
-				cairo_line_to(cr, x+(w-(w/4)), y+(h/1.5));
-				cairo_stroke(cr);
-				break;
-				
-			case 6:	
-			// SQUARE
-				
-				cairo_text_extents(cr, "ISQUARE", &extents);
-				x_text_centred = (x + w / 2) - extents.width / 2;
-				cairo_move_to(cr,x_text_centred, y+h-(font_size/2));
-				cairo_show_text(cr, "ISQUARE");
-				
-				if (hover)
-				{
-					cairo_set_source_rgb(cr, 0.7,0.7,0.7);
-				} else {
-					cairo_set_source_rgb(cr, 0.5,0.5,0.5);
-				}
-					
-				cairo_move_to(cr, x+(w/4), y+(h/3));
-				cairo_line_to(cr, x+(w/4), y+(h/1.5));
-				cairo_line_to(cr, x+(w-(w/4)), y+(h/1.5));
-				cairo_line_to(cr, x+(w-(w/4)), y+(h/3));
-				cairo_stroke(cr);
-				break;
-		}
+		cairo_line_to(cr,x+bx+10,y+(h/2)-(wavetables[values[current_value]].buffer[(bx*wavetable_steps)]*(h/5))-10 );
 	}
-		
 
+	cairo_line_to(cr, x+w-10, y+(h/2)-10);
+	cairo_stroke(cr);
+	
 	// DRAW LABEL
 	
 	cairo_set_source_rgb(cr, 0,0,0);
 	cairo_rectangle(cr, x, y, w,font_size);
 	cairo_fill(cr);
 
-	if (hover) {
+	if (hover)
+	{
 		cairo_set_source_rgba(cr, 1, 1, 1, 1);
 	} else {
 		cairo_set_source_rgba(cr, 1, 1, 1, 0.6);
@@ -341,19 +103,18 @@ void Delirium_UI_Widget_Selector::Left_Button_Press(int xm, int ym)
 	float h = height * y_grid_size;
 		
 	toggle_mode = 1 - toggle_mode;
-	int max_value;
-	
-	if (wave_mode == WAVE_MODE_OSC) max_value = 3;
-		else max_value = 6;
-	
 
-	if (toggle_mode==0) 
+	if (!toggle_mode)
 	{
 		values[current_value]++;
-		if (values[current_value] > max_value) values[current_value]=0;
-		Convert_Scaled_To_Value();
+		if (values[current_value] > max) values[current_value]=0;
 	}
+	
+	
+	Convert_Scaled_To_Value();
+	
 }
+
 
 //----------------------------------------------------------------------------------------------------------------------------------------
 // MOUSE OVER
@@ -361,7 +122,6 @@ void Delirium_UI_Widget_Selector::Left_Button_Press(int xm, int ym)
 void Delirium_UI_Widget_Selector::Mouse_Over(int xm, int ym)
 {
 }
-
 
 
 

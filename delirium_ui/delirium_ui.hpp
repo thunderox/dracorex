@@ -7,7 +7,9 @@
 #include <unistd.h>
 #include "DistrhoUI.hpp"
 #include <string>
-#include <vector> 
+#include <vector>
+
+using namespace std; 
 
 
 #ifndef DELIRIUM_UI
@@ -16,6 +18,13 @@
 const float font_size = 10;
 const int WAVE_MODE_OSC = 1;
 const int WAVE_MODE_LFO = 2;
+
+struct wavetable
+{
+	string name;
+	float* buffer;
+	long length;
+};
 
 using namespace std;
 
@@ -104,7 +113,9 @@ class Delirium_UI_Widget_Base
 	cairo_pattern_t *theme_background_grad;
 	cairo_surface_t *surface_image;
 	cairo_surface_t *logo_image;
-
+	
+	vector <wavetable> wavetables;
+	
 	private:
  
 };
@@ -238,6 +249,7 @@ struct Delirium_UI_Surface
 	vector <group> groups;
 			
 	cairo_surface_t* all_widgets;
+
 
 };
 

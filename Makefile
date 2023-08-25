@@ -54,6 +54,8 @@ install:
 	cp $(CURDIR)/bin/thunderox_dracorex-vst.so /usr/lib/vst
 	chmod +x $(CURDIR)/bin/thunderox_dracorex
 	cp $(CURDIR)/bin/thunderox_dracorex /usr/bin
+	mkdir /home/$(SUDO_USER)/.lv2/thunderox_dracorex.lv2 -p
+	cp $(CURDIR)/plugins/thunderox_dracorex/waves /home/$(SUDO_USER)/.lv2/thunderox_dracorex.lv2 -r
 
 # --------------------------------------------------------------
 uninstall:
@@ -62,7 +64,7 @@ uninstall:
 	rm /usr/lib/dssi/thunderox_dracorex-dssi.so -f
 	rm /usr/lib/vst/thunderox_dracorex-vst.so -f
 	rm /usr/bin/thunderox_dracorex
-
+	rm /home/$(SUDO_USER)/.lv2/thunderox_dracorex.lv2 -r
 
 # --------------------------------------------------------------
 
