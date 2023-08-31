@@ -43,6 +43,7 @@ class dracorexUI : public UI
 			
 			
 			int osc_panel = Delirium_UI_Create_Widget(GUI, deliriumUI_Panel, 0, panelX, panelY, 13,14, "OSCILLATORS", -1);
+			
 			Delirium_UI_Widget_Set_Group_And_Member(GUI, osc_panel, "global", "");
 
 						
@@ -201,6 +202,8 @@ class dracorexUI : public UI
 					
 			//-----------------------------
 
+			widget_categories_list = 65536;
+			widget_presets_list = 65536;
 			load_wavetables();
 			GUI->draw_flag = true;					
 			GUI->drag = 0;
@@ -677,8 +680,6 @@ class dracorexUI : public UI
 		 void onCairoDisplay(const CairoGraphicsContext& context)
 		{
 			cr = context.handle;
-
-	
 			
 			Delirium_UI_Display_All(GUI, cr);
 			
@@ -694,11 +695,12 @@ class dracorexUI : public UI
 			if (ev.button == 1)
 			{
 				Delirium_UI_MouseOver(GUI, cr, ev.pos.getX(), ev.pos.getY());
+				// if (Delirium_UI_Widget_Get_Type(GUI) == deliriumUI_Panel) return true;
 				Delirium_UI_Left_Button_Press(GUI, cr, ev.pos.getX(), ev.pos.getY());
 				repaint();
+
 				
 				int parameter_number = Delirium_UI_Widget_Get_Parameter_Number(GUI);
-	
 				
 				if ( GUI->current_widget == widget_categories_list)
 				{
@@ -715,6 +717,8 @@ class dracorexUI : public UI
 					}
 					
 				}
+
+				
 				
 				if ( GUI->current_widget == widget_presets_list )
 				{
@@ -734,7 +738,6 @@ class dracorexUI : public UI
 					}
 					 
 				}
-				return true;
 
 			}
 
@@ -764,6 +767,8 @@ class dracorexUI : public UI
 		{
 
 			Delirium_UI_MouseOver(GUI, cr, ev.pos.getX(), ev.pos.getY());
+			
+
 
 			repaint();	
 

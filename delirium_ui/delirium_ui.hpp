@@ -232,7 +232,6 @@ struct Delirium_UI_Surface
 	int current_widget;
 	bool drag;
 	bool draw_flag;
-	int drawn_at_least_once; // workaround for hosts that do weird things with the window on initialisation, looking at you Renoise!
 
 	float background_rgb[3];
 	float foreground_rgb[3];

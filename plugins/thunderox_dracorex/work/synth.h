@@ -13,6 +13,27 @@ using namespace std;
 
 //---------------------------------------------------------------------------------------------------	
 
+struct wavetable
+{
+	string name;
+	float* buffer;
+	long length;
+};
+
+vector <wavetable> wavetables;
+
+typedef struct
+{
+	float frequency;
+	float index;
+	float increment;
+	bool start_phase;
+	string waveA_name;
+	string waveB_name;
+	float wave_mix;
+	unsigned int bandlimit_offset;
+} oscillator;
+
 typedef struct
 {
 	oscillator osc[4];
@@ -58,7 +79,7 @@ class synth
 	void play(float* const, float* const, uint32_t);
 	void note_on(int, int);
 	void note_off(int);
-	int dget_number_of_voices_playing();
+	int get_number_of_voices_playing();
 	void set_osc_waves(int, int, int);
 };
 

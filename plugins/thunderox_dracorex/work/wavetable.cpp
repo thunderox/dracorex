@@ -1,16 +1,16 @@
 
-#include "wavetable.h"
+#include "synth.hpp"
 
 //---------------------------------------------------------------------------------------------------
 
-wavetable::wavetable()
+synth::synth()
 {
 
 }
 
 //---------------------------------------------------------------------------------------------------
 
-wavetable::~wavetable()
+synth::~synth()
 {
 
 }
@@ -18,60 +18,60 @@ wavetable::~wavetable()
 
 //---------------------------------------------------------------------------------------------------
 
-void wavetable::initialise()
+void synth::initialise()
 {
 }
 
 //---------------------------------------------------------------------------------------------------
 
-void wavetable::cleanup()
+void synth::cleanup()
 {
 }
 
 
 //---------------------------------------------------------------------------------------------------
 
-float* wavetable::get_buffer(int x)
-{
-	return 0;
-}
-
-//---------------------------------------------------------------------------------------------------
-
-float wavetable::tick(oscillator osc)
+float* synth::get_buffer(int x)
 {
 	return 0;
 }
 
+//---------------------------------------------------------------------------------------------------
+
+float synth::tick(oscillator osc)
+{
+	return 0;
+}
+
 
 
 //---------------------------------------------------------------------------------------------------
 
-void wavetable::set_oscillator_frequency(oscillator osc, float frequency )
+void synth::set_oscillator_frequency(oscillator osc, float frequency )
 {
 }
 
 //---------------------------------------------------------------------------------------------------
 
-void wavetable::set_oscillator_wave_number(oscillator osc, int wave1, int wave2 )
+void synth::set_oscillator_wave_number(oscillator osc, int wave1, int wave2 )
 {
 }
 
 //---------------------------------------------------------------------------------------------------
 
-void wavetable::make_wave(int wave_number, string name1, string name2)
+void synth::make_wave(int wave_number, string name1, string name2)
 {
 }
 
 //---------------------------------------------------------------------------------------------------
 
-void wavetable::set_oscillator_wave_mix(oscillator osc, float mix)
+void synth::set_oscillator_wave_mix(oscillator osc, float mix)
 {
 }
 
 //---------------------------------------------------------------------------------------------------
 
-void wavetable::set_sample_rate(int sample_rate)
+void synth::set_sample_rate(int sample_rate)
 {
 }
 

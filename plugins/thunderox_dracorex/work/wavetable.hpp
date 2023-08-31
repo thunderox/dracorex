@@ -2,6 +2,7 @@
 
 #include <stdbool.h>
 #include <string>
+#include <vector>
 
 using namespace std;
 
@@ -10,11 +11,14 @@ using namespace std;
 
 //---------------------------------------------------------------------------------------------------
 
-typedef struct
+struct wavetable
 {
-	int length;
-	float *buffer;
-} wave;
+	string name;
+	float* buffer;
+	long length;
+};
+
+vector <wavetable> wavetables;
 
 typedef struct
 {
@@ -22,18 +26,18 @@ typedef struct
 	float index;
 	float increment;
 	bool start_phase;
-	int wave1_number;
-	int wave2_number;
+	string waveA_name;
+	string waveB_name;
 	float wave_mix;
 	unsigned int bandlimit_offset;
 } oscillator;
 
 //---------------------------------------------------------------------------------------------------
 
-class wavetable
+class synth
 {
-	wavetable();
-	~wavetable();
+	synth();
+	~synth();
 	void initialise();
 	void cleanup();
 	float* get_buffer(int);
@@ -48,3 +52,6 @@ class wavetable
 
 
 #endif
+
+
+

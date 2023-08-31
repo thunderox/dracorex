@@ -21,7 +21,6 @@ Delirium_UI_Surface* Delirium_UI_Init(int width, int height, int gridX, int grid
 
 	GUI->current_widget = -1;
 	GUI->draw_flag = true;
-	GUI->drawn_at_least_once = false;
 	
 	group new_group;
 	new_group.name = "global";
@@ -260,7 +259,7 @@ void Delirium_UI_Display_All(Delirium_UI_Surface* GUI, cairo_t* cr)
 
 	if (GUI->draw_flag)
 	{
-		GUI->draw_flag = true;
+		GUI->draw_flag = false;
 		
 		cairo_set_source(cr_all_widgets, GUI->theme_background_grad);
 		cairo_paint(cr_all_widgets);
@@ -355,6 +354,10 @@ void Delirium_UI_MouseOver(Delirium_UI_Surface* GUI, cairo_t* cr, int mx,int my)
 				Delirium_UI_Left_Button_Press(GUI,cr,-1,my);
 		}
 	}	
+	
+	
+	
+	
 }
 
 //----------------------------------------------------------------------------------------------------------------------------------------
@@ -408,7 +411,6 @@ void Delirium_UI_Left_Button_Press(Delirium_UI_Surface* GUI, cairo_t* cr, int xm
 	}
 	
 	int current_value = GUI->Widgets[current_widget]->current_value;
-	// cout << GUI->Widgets[current_widget]->values[current_value] << endl;
 
 }
 
@@ -466,6 +468,7 @@ void Delirium_UI_Convert_Value_To_Range(Delirium_UI_Surface* GUI, int widget_num
 	if (min > 0) scaled_value += min;
 
 	GUI->Widgets[widget_number]->values[current_value] = scaled_value;
+	
 }
 
 //----------------------------------------------------------------------------------------------------------------------------------------

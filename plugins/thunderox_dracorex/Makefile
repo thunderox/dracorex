@@ -9,9 +9,8 @@ NAME = thunderox_dracorex
 
 FILES_DSP = \
 	dracorexPlugin.cpp \
-	wavetable.cpp \
-	synth.cpp \
-	fastmaths.c
+	oscillator.cpp \
+	voice.cpp \
 
 FILES_UI  = \
 	../../delirium_ui/delirium_ui.cpp \
