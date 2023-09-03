@@ -5,7 +5,6 @@
 
 oscillator::oscillator()
 {
-	wave_mix = 0;
 	start_phase = true;
 	frequency = 1;
 	index = 0;
@@ -32,7 +31,7 @@ float oscillator::tick()
 	int length = 4410;
 	int index_int = index;
 	
-	if (frequency < 1) frequency = 1;
+	if (frequency < 0.5) frequency = 0.5;
 
 	float result1 = 0, result2 = 0;
 
@@ -45,8 +44,6 @@ float oscillator::tick()
 	{
 		float fraction1 = index - index_int;
 		float fraction2 = 1 - fraction1;
-
-
 
 		if (index < length-2)
 		{	
@@ -74,15 +71,15 @@ float oscillator::tick()
 
 		int tst = (frq/100)*8;
 		if (tst<0) tst = 0;
-		if (tst>7) tst = 7;
+		if (tst>11) tst = 11;
 		bandlimit_offset = (tst*4410);
 	}
 
 	increment = (sample_rate * frequency) / sample_rate;
 	
-	cout << result1 << endl;
 
-	return result1; // (result2 * wave_mix) + (result1 * (1-wave_mix));
+
+	return (result2 * wave_mix) + (result1 * (1-wave_mix));
 
 }
 

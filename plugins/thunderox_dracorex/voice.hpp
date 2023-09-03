@@ -1,6 +1,7 @@
 
 
 #include "oscillator.hpp"
+#include "DistrhoPlugin.hpp"
 #include <string>
 #include <iostream>
 
@@ -22,6 +23,16 @@ struct wavetable
 	long length;
 };
 
+struct adsr
+{
+	float attack;
+	float decay;
+	float sustain;
+	float release;
+	float level;
+	int state;
+};
+
 class voice
 {
 	public:
@@ -29,10 +40,18 @@ class voice
 	voice();
 	~voice();
 	
+	bool active;
+	
 	float play(float* left_buffer, float* right_buffer,  uint32_t frames);
 	
 	oscillator osc1;
 	oscillator osc2;
+	
+	adsr amp_env;
+	adsr wave_env;
+	
+	// Parameters
+	float* fParameters;
 };
 
 

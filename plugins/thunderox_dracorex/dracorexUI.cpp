@@ -850,6 +850,8 @@ class dracorexUI : public UI
 		void parameterChanged(uint32_t index, float value) override
 		{					
 
+
+
 			// get widget number connected to this parameter
 			int widget_number = fParameters_widget_number[index];
 

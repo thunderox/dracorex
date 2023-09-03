@@ -131,8 +131,98 @@ class dracorexPlugin : public Plugin
 					parameter.ranges.def = 0.8f;
 					fParameters[dracorex_VOLUME] = parameter.ranges.def;
 					break;
-				
-
+					
+				case dracorex_OSC1_WAVE_A:
+					parameter.name   = "osc1_wave_a";
+					parameter.symbol = "osc1_wave_a";
+					parameter.hints = kParameterIsAutomatable;
+					parameter.ranges.min = 0.0f;
+					parameter.ranges.max = 12.0f;
+					parameter.ranges.def = 9.0f;
+					fParameters[dracorex_OSC1_WAVE_A] = parameter.ranges.def;
+					break;
+					
+				case dracorex_AMP_ATTACK:
+					parameter.name   = "amp_attack";
+					parameter.symbol = "amp_attack";
+					parameter.hints = kParameterIsAutomatable;
+					parameter.ranges.min = 0.0f;
+					parameter.ranges.max = 1.0f;
+					parameter.ranges.def = 1.0f;
+					fParameters[dracorex_AMP_ATTACK] = parameter.ranges.def;
+					break;
+					
+				case dracorex_AMP_DECAY:
+					parameter.name   = "amp_decay";
+					parameter.symbol = "amp_decay";
+					parameter.hints = kParameterIsAutomatable;
+					parameter.ranges.min = 0.0f;
+					parameter.ranges.max = 1.0f;
+					parameter.ranges.def = 0.0f;
+					fParameters[dracorex_AMP_DECAY] = parameter.ranges.def;
+					break;
+					
+				case dracorex_AMP_SUSTAIN:
+					parameter.name   = "amp_sustain";
+					parameter.symbol = "amp_sustain";
+					parameter.hints = kParameterIsAutomatable;
+					parameter.ranges.min = 0.0f;
+					parameter.ranges.max = 1.0f;
+					parameter.ranges.def = 0.0f;
+					fParameters[dracorex_AMP_SUSTAIN] = parameter.ranges.def;
+					break;
+					
+				case dracorex_AMP_RELEASE:
+					parameter.name   = "amp_release";
+					parameter.symbol = "amp_release";
+					parameter.hints = kParameterIsAutomatable;
+					parameter.ranges.min = 0.0f;
+					parameter.ranges.max = 0.0f;
+					parameter.ranges.def = 1.0f;
+					fParameters[dracorex_AMP_RELEASE] = parameter.ranges.def;
+					break;
+					
+					
+				case dracorex_WAVE_ATTACK:
+					parameter.name   = "wave_attack";
+					parameter.symbol = "wave_attack";
+					parameter.hints = kParameterIsAutomatable;
+					parameter.ranges.min = 0.0f;
+					parameter.ranges.max = 1.0f;
+					parameter.ranges.def = 1.0f;
+					fParameters[dracorex_WAVE_ATTACK] = parameter.ranges.def;
+					break;
+					
+				case dracorex_WAVE_DECAY:
+					parameter.name   = "wave_attack";
+					parameter.symbol = "wave_attack";
+					parameter.hints = kParameterIsAutomatable;
+					parameter.ranges.min = 0.0f;
+					parameter.ranges.max = 1.0f;
+					parameter.ranges.def = 0.0f;
+					fParameters[dracorex_AMP_DECAY] = parameter.ranges.def;
+					break;
+					
+				case dracorex_WAVE_SUSTAIN:
+					parameter.name   = "wave_attack";
+					parameter.symbol = "wave_attack";
+					parameter.hints = kParameterIsAutomatable;
+					parameter.ranges.min = 0.0f;
+					parameter.ranges.max = 1.0f;
+					parameter.ranges.def = 0.0f;
+					fParameters[dracorex_WAVE_SUSTAIN] = parameter.ranges.def;
+					break;
+					
+				case dracorex_WAVE_RELEASE:
+					parameter.name   = "wave_attack";
+					parameter.symbol = "wave_attack";
+					parameter.hints = kParameterIsAutomatable;
+					parameter.ranges.min = 0.0f;
+					parameter.ranges.max = 0.0f;
+					parameter.ranges.def = 1.0f;
+					fParameters[dracorex_WAVE_RELEASE] = parameter.ranges.def;
+					break;
+					
 			}
 
 		}
@@ -161,6 +251,33 @@ class dracorexPlugin : public Plugin
 			fParameters[index] = value;
 
 		}
+		
+		//===============================================================
+
+		float fastishP2F (float pitch)
+		{
+		long convert;
+		float *p=(float *)&convert;
+		float fl,fr,warp,out;
+
+		pitch *=0.0833333; //pitch scaling. remove this line for pow(2,a)
+		fl = floor(pitch);
+		fr = pitch - fl;
+		float fr2 = fr*fr;
+		warp = fr*0.696 + fr2*0.225 + fr*fr2*0.079;  // chebychev approx
+		//warp = fr*0.65 + fr*fr*0.35; // chebychev approx
+
+		out = fl+warp;
+		out *= 8388608.0; //2^23;
+		out += 127.0 * 8388608.0; //2^23;
+
+		convert = out; //magic
+
+		return *p;
+		}
+
+
+
 
 		void run(const float** inputs, float** outputs, uint32_t frames,
              const MidiEvent* midiEvents, uint32_t midiEventCount) override
@@ -168,25 +285,54 @@ class dracorexPlugin : public Plugin
 
 			// if (!fParameters[dracorex_DSP_RUN]) return; // Playing sound during preset load is a bad idea.	
 			
+			// DO MIDI STUFF -------------------------------------------------------------------------
+			
+			int midi_channel = 0;
+			
+			for (uint32_t i=0; i<midiEventCount; ++i)
+			{
+				const uint8_t* ev = midiEvents[i].data;
+			      	if ((int)ev[0]  == 0x90 + midi_channel && (int)ev[2] > 0)
+				{
+					int note = (int)ev[1];
+					voices[0].active = true;
+					voices[0].amp_env.state = ENV_STATE_ATTACK;
+					voices[0].wave_env.state = ENV_STATE_ATTACK;
+					voices[0].amp_env.level = 0;
+					voices[0].wave_env.level = 0;
+					voices[0].osc1.frequency = fastishP2F(note + fParameters[dracorex_OSC1_TUNING]);
+					voices[0].osc2.frequency = fastishP2F(note + fParameters[dracorex_OSC2_TUNING]);
+					
+				}
+				
+				if ((int)ev[0] == 0x80 || (int)ev[0] == 0x90 && (int)ev[2] == 0)
+				{
+					int note = (int)ev[1];
+					voices[0].amp_env.state = ENV_STATE_RELEASE;
+					voices[0].wave_env.state = ENV_STATE_RELEASE;
+				}
+			
+			}	        
+			
+			// DO AUDIO STUFF -------------------------------------------------------------------------
+			
 			float* out_left = outputs[0];
 			float* out_right = outputs[1];
 			
 			memset( out_left, 0, sizeof(double)*(frames*0.5) );
 			memset( out_right, 0, sizeof(double)*(frames*0.5) );
 			
-			voices[0].osc1.frequency = 440;
-			voices[0].osc2.frequency = 440;
-			
-			int wn = fParameters[dracorex_OSC1_WAVE_A];
-			
-			cout << wavetables[wn].name << endl;
+			int wn_a = fParameters[dracorex_OSC1_WAVE_A];
+			int wn_b = fParameters[dracorex_OSC1_WAVE_B];
 		
-			voices[0].osc1.wave_a = wavetables[wn].buffer;
-			voices[0].osc1.wave_b = wavetables[wn].buffer;
-			voices[0].osc1.frequency = 10 + ( fParameters[dracorex_OSC1_TUNING] * 6);
+			voices[0].osc1.wave_a = wavetables[wn_a].buffer;
+			voices[0].osc1.wave_b = wavetables[wn_b].buffer;
+			// voices[0].osc1.frequency = 10 + ( fParameters[dracorex_OSC1_TUNING] * 50);
+			voices[0].osc1.wave_mix = fParameters[dracorex_OSC1_PITCH_ADSR2];
 			
-			voices[0].osc2.wave_a = wavetables[wn].buffer;
-			voices[0].osc2.wave_b = wavetables[wn].buffer;
+			voices[0].osc2.wave_a = wavetables[wn_a].buffer;
+			voices[0].osc2.wave_b = wavetables[wn_b].buffer;
+			// voices[0].osc2.frequency = 10 + ( fParameters[dracorex_OSC1_TUNING] * 6);
 			
 			voices[0].play(out_left, out_right, frames);
 		}
@@ -245,15 +391,14 @@ Plugin* createPlugin()
 				wavetable new_waveform;
 					
 				float* source_waveform_buffer = (float *)malloc(length*sizeof(float)) ;
-				new_waveform.buffer = (float *)malloc((8*length)*sizeof(float)) ;
+				new_waveform.buffer = (float *)malloc((12*length)*sizeof(float)) ;
 							
 				// LOAD RAW WAVEFORM
 							
 				fseek(fp, 80, SEEK_SET);
 				fread(source_waveform_buffer ,1, length*sizeof(float), fp);
 				fclose(fp);	
-				
-				memcpy(new_waveform.buffer,source_waveform_buffer,length*sizeof(float));
+			
 								
 				//------ FILTER 8 DIFFERENT VERSINS OF WAVEFORM TO REDUCE ALIASING
 
@@ -263,18 +408,17 @@ Plugin* createPlugin()
 
 				// Set coefficients given frequency & resonance [0.0...1.0]
 				
-				float frequency = 0.04;
+				float frequency = 0.8;
 				float resonance = 0;	
 				float in;
 
-				float minpeak = 0;
-				float maxpeak = 0;
-				float maxvol = 0;
-				
 
-
-				for (int wave=1; wave<7; wave++)
+				for (int wave=0; wave<12; wave++)
 				{
+				
+					float minpeak = 0;
+					float maxpeak = 0;
+					float maxvol = 0;
 				
 					for (int x=0; x<length; x++)
 					{
@@ -307,9 +451,9 @@ Plugin* createPlugin()
 
 					if (-minpeak == maxpeak) maxvol = maxpeak;
 
-					float amp = 0.7/maxvol;
+					float amp = 0.8 / maxvol;
 
-					for (int y=0; y<length-1; y++)	// Normalise
+					for (int y=0; y<length; y++)	// Normalise
 					{
 						new_waveform.buffer[y+(wave*length)] = new_waveform.buffer[y+(wave*length)]*amp;
 					}
@@ -319,6 +463,12 @@ Plugin* createPlugin()
 				}
 			new_waveform.length = length;
 			new_waveform.name = d->d_name;
+			
+			for (int x=0; x<length; x++)
+			{
+				new_waveform.buffer[x] = source_waveform_buffer[x] * 0.8;
+				//memcpy(new_waveform.buffer,source_waveform_buffer,length*sizeof(float));
+			}		
 			dracorex->wavetables.push_back(new_waveform);
 			free(source_waveform_buffer);
 			}
@@ -330,7 +480,8 @@ Plugin* createPlugin()
 	{
 		dracorex->voices[v].osc1.sample_rate = dracorex->getSampleRate();
 		dracorex->voices[v].osc2.sample_rate = dracorex->getSampleRate();
-		
+		dracorex->voices[v].fParameters = dracorex->fParameters;
+	
 	}
 	
 	struct alphasort_wavetables
