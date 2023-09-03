@@ -36,7 +36,6 @@ class dracorexPlugin : public Plugin
 		// set up voices
 		voice voices[max_notes];	
 		vector <wavetable> wavetables;
-		
 
 			
 		// Parameters
@@ -49,10 +48,11 @@ class dracorexPlugin : public Plugin
 		};
 		float srate = getSampleRate();
 		
-		int midi_keys[128];
+		int keys[128];
 			 
 		int current_voice = 0;
 		int old_voice = 0;
+		int next_voice = 0;
 		
 		float* pitch_bend = new float();
 		float* channel_after_touch = new float();
@@ -68,7 +68,7 @@ class dracorexPlugin : public Plugin
 
 			audio_buffer.resize(srate*5);
 	
-			for (int x=0; x<128; x++) { midi_keys[x] = -1; }
+			for (int x=0; x<128; x++) { keys[x] = -1; }
 			
 			// clear all parameters
 			std::memset(fParameters, 0, sizeof(float)*kParameterCount);
@@ -291,25 +291,68 @@ class dracorexPlugin : public Plugin
 			
 			for (uint32_t i=0; i<midiEventCount; ++i)
 			{
+			
 				const uint8_t* ev = midiEvents[i].data;
 			      	if ((int)ev[0]  == 0x90 + midi_channel && (int)ev[2] > 0)
 				{
 					int note = (int)ev[1];
-					voices[0].active = true;
-					voices[0].amp_env.state = ENV_STATE_ATTACK;
-					voices[0].wave_env.state = ENV_STATE_ATTACK;
-					voices[0].amp_env.level = 0;
-					voices[0].wave_env.level = 0;
-					voices[0].osc1.frequency = fastishP2F(note + fParameters[dracorex_OSC1_TUNING]);
-					voices[0].osc2.frequency = fastishP2F(note + fParameters[dracorex_OSC2_TUNING]);
+					
+					next_voice = -1;
+
+					for (int x=0; x<max_notes; x++)
+					{
+						if (voices[x].active == false)
+						{
+							next_voice = x;
+							break;
+						}
+					}
+					
+					if (next_voice==-1) // Bugger we're using all voices, steal the quietest one that's no longer in attack 
+					{
+						int quietest_note = -1;
+						float quietest_level = 2; 
+						for (int x=0; x<max_notes; x++)
+						{
+							if (voices[x].amp_env.level < quietest_level && voices[x].amp_env.state != ENV_STATE_ATTACK)
+							{
+								quietest_note = x;
+								quietest_level = voices[x].amp_env.level;
+							}
+						}
+
+						next_voice = quietest_note;
+					}
+					
+					keys[note] = next_voice;
+					current_voice = next_voice;
+					
+					voices[current_voice].active = true;
+					voices[current_voice].amp_env.state = ENV_STATE_ATTACK;
+					voices[current_voice].wave_env.state = ENV_STATE_ATTACK;
+					voices[current_voice].amp_env.level = 0;
+					voices[current_voice].wave_env.level = 0;
+					voices[current_voice].osc1.note = note;
+					voices[current_voice].osc2.note = note;
+					voices[current_voice].osc1.frequency = fastishP2F(note + fParameters[dracorex_OSC1_TUNING]);
+					voices[current_voice].osc2.frequency = fastishP2F(note + fParameters[dracorex_OSC2_TUNING]);
 					
 				}
 				
 				if ((int)ev[0] == 0x80 || (int)ev[0] == 0x90 && (int)ev[2] == 0)
 				{
 					int note = (int)ev[1];
-					voices[0].amp_env.state = ENV_STATE_RELEASE;
-					voices[0].wave_env.state = ENV_STATE_RELEASE;
+					
+					for (int x=0; x<max_notes; x++)
+					{
+						if ( voices[x].active && keys[note]==x )
+						{
+							voices[x].amp_env.state = ENV_STATE_RELEASE;
+							voices[x].wave_env.state = ENV_STATE_RELEASE;
+							keys[note] = -1;
+						}
+					}
+					
 				}
 			
 			}	        
@@ -324,17 +367,18 @@ class dracorexPlugin : public Plugin
 			
 			int wn_a = fParameters[dracorex_OSC1_WAVE_A];
 			int wn_b = fParameters[dracorex_OSC1_WAVE_B];
-		
-			voices[0].osc1.wave_a = wavetables[wn_a].buffer;
-			voices[0].osc1.wave_b = wavetables[wn_b].buffer;
-			// voices[0].osc1.frequency = 10 + ( fParameters[dracorex_OSC1_TUNING] * 50);
-			voices[0].osc1.wave_mix = fParameters[dracorex_OSC1_PITCH_ADSR2];
 			
-			voices[0].osc2.wave_a = wavetables[wn_a].buffer;
-			voices[0].osc2.wave_b = wavetables[wn_b].buffer;
-			// voices[0].osc2.frequency = 10 + ( fParameters[dracorex_OSC1_TUNING] * 6);
+			for (int v=0; v<max_notes; v++)
+			{		
+				voices[v].osc1.wave_a = wavetables[wn_a].buffer;
+				voices[v].osc1.wave_b = wavetables[wn_b].buffer;
+				voices[v].osc1.wave_mix = fParameters[dracorex_OSC1_PITCH_ADSR2];
+				
+				voices[v].osc2.wave_a = wavetables[wn_a].buffer;
+				voices[v].osc2.wave_b = wavetables[wn_b].buffer;
 			
-			voices[0].play(out_left, out_right, frames);
+				voices[v].play(out_left, out_right, frames);
+			}
 		}
 
 
@@ -408,7 +452,7 @@ Plugin* createPlugin()
 
 				// Set coefficients given frequency & resonance [0.0...1.0]
 				
-				float frequency = 0.8;
+				float frequency = 0.5;
 				float resonance = 0;	
 				float in;
 
@@ -458,8 +502,8 @@ Plugin* createPlugin()
 						new_waveform.buffer[y+(wave*length)] = new_waveform.buffer[y+(wave*length)]*amp;
 					}
 
-					frequency /= 1.8;
-					
+					if (wave < 6) frequency /= 1.4;
+						else frequency /= 2.4;
 				}
 			new_waveform.length = length;
 			new_waveform.name = d->d_name;

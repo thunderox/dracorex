@@ -39,6 +39,8 @@ double fast_pow(double a, double b) {
 float voice::play(float* left_buffer, float* right_buffer,  uint32_t frames)
 {
 
+	if (!active) return 0;
+
 	float amp_attack = fast_pow(fParameters[dracorex_AMP_ATTACK],10); 
 	float amp_decay = fast_pow(fParameters[dracorex_AMP_DECAY],10);
 	float amp_sustain = 1-fParameters[dracorex_AMP_SUSTAIN];
@@ -105,15 +107,14 @@ float voice::play(float* left_buffer, float* right_buffer,  uint32_t frames)
 			}
 			break;
 		}
-			
-		cout << amp_env.level << " - " << amp_env.state << endl;
 					
 		//float env_amp_level_db = (amp_env.level * amp_env.level * amp_env.level) * master_volume; 
 
 	
+		float osc1_out = osc1.tick();
 	
-		left_buffer[x] = osc1.tick() * amp_env.level;
-		right_buffer[x] = left_buffer[x];
+		left_buffer[x] += osc1_out * (amp_env.level * fParameters[dracorex_VOLUME] );
+		right_buffer[x] += osc1_out * (amp_env.level * fParameters[dracorex_VOLUME] );
 	}
 
 	return 0;	

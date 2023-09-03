@@ -69,10 +69,12 @@ float oscillator::tick()
 		index -= length;	
 		start_phase = true;
 
-		int tst = (frq/100)*8;
-		if (tst<0) tst = 0;
-		if (tst>11) tst = 11;
-		bandlimit_offset = (tst*4410);
+		int bandlimit_number = note/8;
+		if (bandlimit_number<0) bandlimit_number = 0;
+		if (bandlimit_number>11) bandlimit_number = 11;
+		bandlimit_offset = (bandlimit_number*4410);
+		
+		cout << bandlimit_number << endl;
 	}
 
 	increment = (sample_rate * frequency) / sample_rate;
