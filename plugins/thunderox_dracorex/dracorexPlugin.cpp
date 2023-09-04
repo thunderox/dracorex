@@ -332,6 +332,10 @@ class dracorexPlugin : public Plugin
 					voices[current_voice].wave_env.state = ENV_STATE_ATTACK;
 					voices[current_voice].amp_env.level = 0;
 					voices[current_voice].wave_env.level = 0;
+					voices[current_voice].amp2_env.state = ENV_STATE_ATTACK;
+					voices[current_voice].wave2_env.state = ENV_STATE_ATTACK;
+					voices[current_voice].amp2_env.level = 0;
+					voices[current_voice].wave2_env.level = 0;
 					voices[current_voice].osc1.note = note;
 					voices[current_voice].osc2.note = note;
 					voices[current_voice].osc1.frequency = fastishP2F(note + fParameters[dracorex_OSC1_TUNING]);
@@ -349,6 +353,8 @@ class dracorexPlugin : public Plugin
 						{
 							voices[x].amp_env.state = ENV_STATE_RELEASE;
 							voices[x].wave_env.state = ENV_STATE_RELEASE;
+							voices[x].amp2_env.state = ENV_STATE_RELEASE;
+							voices[x].wave2_env.state = ENV_STATE_RELEASE;
 							keys[note] = -1;
 						}
 					}
@@ -365,17 +371,21 @@ class dracorexPlugin : public Plugin
 			memset( out_left, 0, sizeof(double)*(frames*0.5) );
 			memset( out_right, 0, sizeof(double)*(frames*0.5) );
 			
-			int wn_a = fParameters[dracorex_OSC1_WAVE_A];
-			int wn_b = fParameters[dracorex_OSC1_WAVE_B];
+			int wn1_a = fParameters[dracorex_OSC1_WAVE_A];
+			int wn1_b = fParameters[dracorex_OSC1_WAVE_B];
+			
+			int wn2_a = fParameters[dracorex_OSC2_WAVE_A];
+			int wn2_b = fParameters[dracorex_OSC2_WAVE_B];
 			
 			for (int v=0; v<max_notes; v++)
 			{		
-				voices[v].osc1.wave_a = wavetables[wn_a].buffer;
-				voices[v].osc1.wave_b = wavetables[wn_b].buffer;
+				voices[v].osc1.wave_a = wavetables[wn1_a].buffer;
+				voices[v].osc1.wave_b = wavetables[wn1_b].buffer;
 				voices[v].osc1.wave_mix = fParameters[dracorex_OSC1_PITCH_ADSR2];
 				
-				voices[v].osc2.wave_a = wavetables[wn_a].buffer;
-				voices[v].osc2.wave_b = wavetables[wn_b].buffer;
+				voices[v].osc2.wave_a = wavetables[wn2_a].buffer;
+				voices[v].osc2.wave_b = wavetables[wn2_b].buffer;
+				voices[v].osc2.wave_mix = fParameters[dracorex_OSC2_PITCH_ADSR2];
 			
 				voices[v].play(out_left, out_right, frames);
 			}

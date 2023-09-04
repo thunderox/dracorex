@@ -49,6 +49,8 @@ class voice
 	
 	adsr amp_env;
 	adsr wave_env;
+	adsr amp2_env;
+	adsr wave2_env;
 	
 	// Parameters
 	float* fParameters;

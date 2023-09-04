@@ -73,8 +73,6 @@ float oscillator::tick()
 		if (bandlimit_number<0) bandlimit_number = 0;
 		if (bandlimit_number>11) bandlimit_number = 11;
 		bandlimit_offset = (bandlimit_number*4410);
-		
-		cout << bandlimit_number << endl;
 	}
 
 	increment = (sample_rate * frequency) / sample_rate;
