@@ -51,6 +51,20 @@ class voice
 	adsr wave_env;
 	adsr amp2_env;
 	adsr wave2_env;
+	adsr filter_env;
+			
+	
+	float buf0_left,buf1_left;
+	float f_left, pc_left, q_left;             //filter coefficients
+	float bf0_left, bf1_left, bf2_left, bf3_left, bf4_left;  //filter buffers (beware denormals!)
+	float t1_left, t2_left;              //temporary buffers
+	float selectivity_left, gain1_left, gain2_left, ratio_left, cap_left; 
+	
+	float buf0_right,buf1_right;
+	float f_right, pc_right, q_right;             //filter coefficients
+	float bf0_right, bf1_right, bf2_right, bf3_right, bf4_right;  //filter buffers (beware denormals!)
+	float t1_right, t2_right;              //temporary buffers
+	float selectivity_right, gain1_right, gain2_right, ratio_right, cap_right; 
 	
 	// Parameters
 	float* fParameters;

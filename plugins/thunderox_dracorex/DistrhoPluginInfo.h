@@ -78,6 +78,13 @@ enum Parameters {
 	dracorex_WAVE2_DECAY,
 	dracorex_WAVE2_SUSTAIN,
 	dracorex_WAVE2_RELEASE,
+	dracorex_OSC1_VOLUME,
+	dracorex_OSC2_VOLUME,	
+	dracorex_FILTER_ATTACK,
+	dracorex_FILTER_DECAY,
+	dracorex_FILTER_SUSTAIN,
+	dracorex_FILTER_RELEASE,
+	dracorex_FILTER_ADSR3_AMOUNT,
 	
 	kParameterBufferSize,
 	kParametertriceratopsTime,        
