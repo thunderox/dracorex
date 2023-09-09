@@ -23,6 +23,7 @@ class oscillator
 	float tick();
 	
 	float frequency;
+	int length;
 	int note;
 	float index;
 	float increment;

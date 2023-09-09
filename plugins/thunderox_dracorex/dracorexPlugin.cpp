@@ -3,7 +3,6 @@
 // DISTRHO Plugin Framework (DPF) Copyright (C) 2012-2019 Filipe Coelho <falktx@falktx.com>
 
 #include "voice.hpp"
-
 #include "DistrhoPlugin.hpp"
 #include <string.h>
 #include <string>
@@ -158,7 +157,7 @@ class dracorexPlugin : public Plugin
 					parameter.hints = kParameterIsAutomatable;
 					parameter.ranges.min = 0.0f;
 					parameter.ranges.max = 12.0f;
-					parameter.ranges.def = 9.0f;
+					parameter.ranges.def = 0.0f;
 					fParameters[dracorex_OSC1_WAVE_A] = parameter.ranges.def;
 					break;
 					
@@ -539,8 +538,6 @@ class dracorexPlugin : public Plugin
 				voices[v].play(out_left, out_right, frames);
 			}
 			
-
-
 		}
 
 
@@ -573,6 +570,7 @@ Plugin* createPlugin()
 	stringstream wave_file;
 	struct dirent *d;
 	struct stat st;
+	long length;
 
 	DIR *dr;
 	wave_path.str("");
@@ -589,10 +587,10 @@ Plugin* createPlugin()
 
 			FILE* fp = fopen (wave_file.str().c_str(),"r");
 			fseek(fp, 0, SEEK_END); // We can use rewind(fp); also
-				
-			if (ftell(fp) == 17720)
+			
+			if (ftell(fp) == 35360 )
 			{					
-				long length = (ftell(fp) - 80 )/ 4;
+				length = (ftell(fp) - 80 )/ 4;
 				
 				wavetable new_waveform;
 					
@@ -604,6 +602,8 @@ Plugin* createPlugin()
 				fseek(fp, 80, SEEK_SET);
 				fread(source_waveform_buffer ,1, length*sizeof(float), fp);
 				fclose(fp);	
+				
+				
 			
 								
 				//------ FILTER 8 DIFFERENT VERSINS OF WAVEFORM TO REDUCE ALIASING
@@ -614,18 +614,19 @@ Plugin* createPlugin()
 
 				// Set coefficients given frequency & resonance [0.0...1.0]
 				
-				float frequency = 0.5;
+				float frequency = 1.6;
 				float resonance = 0;	
 				float in;
 
-
-				for (int wave=0; wave<12; wave++)
+				for (int wave=1; wave<12; wave++)
 				{
 				
 					float minpeak = 0;
 					float maxpeak = 0;
 					float maxvol = 0;
-				
+					
+					in = 0;
+					
 					for (int x=0; x<length; x++)
 					{
 						in = source_waveform_buffer[x];
@@ -664,17 +665,16 @@ Plugin* createPlugin()
 						new_waveform.buffer[y+(wave*length)] = new_waveform.buffer[y+(wave*length)]*amp;
 					}
 
-					if (wave < 6) frequency /= 1.4;
-						else frequency /= 2.4;
-				}
-			new_waveform.length = length;
-			new_waveform.name = d->d_name;
-			
+					// frequency /= 2.5;	
+			}
+				
 			for (int x=0; x<length; x++)
 			{
 				new_waveform.buffer[x] = source_waveform_buffer[x] * 0.8;
-				//memcpy(new_waveform.buffer,source_waveform_buffer,length*sizeof(float));
 			}		
+			
+			new_waveform.length = length;
+			new_waveform.name = d->d_name;
 			dracorex->wavetables.push_back(new_waveform);
 			free(source_waveform_buffer);
 			}
@@ -685,10 +685,14 @@ Plugin* createPlugin()
 	for (int v=0; v<max_notes; v++)
 	{
 		dracorex->voices[v].osc1.sample_rate = dracorex->getSampleRate();
+		dracorex->voices[v].osc1.length = length;
 		dracorex->voices[v].osc2.sample_rate = dracorex->getSampleRate();
+		dracorex->voices[v].osc2.length = length;
 		dracorex->voices[v].fParameters = dracorex->fParameters;
 	
 	}
+	
+	
 	
 	struct alphasort_wavetables
 	{

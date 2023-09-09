@@ -323,6 +323,16 @@ class dracorexUI : public UI
 			Delirium_UI_Widget_Set_Value(GUI, widget_filter_adsr3_amount, 0);
 			Delirium_UI_Widget_Set_Group_And_Member(GUI, widget_filter_adsr3_amount, "matrix", "filter");
 			fParameters_widget_number[dracorex_FILTER_ADSR3_AMOUNT] = widget_filter_adsr3_amount; 
+			
+			//--------------------------------------------------------------------------------------------------------------------------------
+			// FX ----- ------------------------------------------------------------------------------------------------------------------
+			
+			// CHORUS ACTIVE
+			int widget_chorus_active = Delirium_UI_Create_Widget(GUI, deliriumUI_Switch, 0, panelX + 13.5, panelY + 1.25, 2, 2, "ACTIVE", dracorex_CHORUS_ACTIVE);
+			Delirium_UI_Widget_Set_Min_Max(GUI, widget_chorus_active, 0,1);
+			Delirium_UI_Widget_Set_Value(GUI, widget_chorus_active, 0);
+			Delirium_UI_Widget_Set_Group_And_Member(GUI, widget_chorus_active, "matrix", "fx");
+			fParameters_widget_number[dracorex_CHORUS_ACTIVE] = widget_chorus_active; 
 
 			// loadSymbols();
 			// searchPresets();
@@ -396,6 +406,7 @@ class dracorexUI : public UI
 			wave_path << "/home/" << user_path << "/.lv2/thunderox_dracorex.lv2/waves";
 			
 			dr = opendir(wave_path.str().c_str());
+			
 			 
 			if (dr != NULL)
 			{
@@ -407,7 +418,7 @@ class dracorexUI : public UI
 					FILE* fp = fopen (wave_file.str().c_str(),"r");
 					fseek(fp, 0, SEEK_END); // We can use rewind(fp); also
 					
-					if (ftell(fp) == 17720)
+					if (ftell(fp) == 35360)
 					{					
 						long length = (ftell(fp) - 80 )/ 4;
 						cout << "Loading Waveform: " << wave_file.str() << " - " << ftell(fp) << endl;

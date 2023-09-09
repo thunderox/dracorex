@@ -11,6 +11,7 @@ FILES_DSP = \
 	dracorexPlugin.cpp \
 	oscillator.cpp \
 	voice.cpp \
+	chorus.cpp \
 
 FILES_UI  = \
 	../../delirium_ui/delirium_ui.cpp \

@@ -8,6 +8,7 @@
 
 void Delirium_UI_Widget_Selector::Draw(cairo_t* cr)
 {
+
 	if (integer) values[current_value] = int(values[current_value]);
 	Convert_Scaled_To_Value();
 

@@ -1,6 +1,7 @@
 
 
 #include "oscillator.hpp"
+#include "chorus.hpp"
 #include "DistrhoPlugin.hpp"
 #include <string>
 #include <iostream>
@@ -42,10 +43,11 @@ class voice
 	
 	bool active;
 	
-	float play(float* left_buffer, float* right_buffer,  uint32_t frames);
+	float play(float*, float*,  uint32_t);
 	
 	oscillator osc1;
 	oscillator osc2;
+	chorus _chorus;
 	
 	adsr amp_env;
 	adsr wave_env;

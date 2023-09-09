@@ -320,19 +320,20 @@ float voice::play(float* left_buffer, float* right_buffer,  uint32_t frames)
 			}
 			break;
 
+				
 			// RELEASE
 
 			case ENV_STATE_RELEASE:
-				if (wave2_env.level > 0) 
+			if (wave2_env.level > 0) 
+			{
+				wave2_env.level -= wave2_release;
+				if (wave2_env.level <= 0)
 				{
-					wave2_env.level -= wave2_release;
-					if (wave_env.level <= 0)
-					{
-						wave2_env.level = 0;
-						wave2_env.state = ENV_STATE_DORMANT;
-					}
+					wave2_env.level = 0;
+					wave2_env.state = ENV_STATE_DORMANT;
 				}
-				break;
+			}
+			break;
 		}
 		
 		
@@ -406,63 +407,75 @@ float voice::play(float* left_buffer, float* right_buffer,  uint32_t frames)
 		if (fParameters[dracorex_OSC1_ACTIVE]) osc1_out = osc1.tick() * fParameters[dracorex_OSC1_VOLUME]; else osc1_out = 0;
 		if (fParameters[dracorex_OSC2_ACTIVE]) osc2_out = osc2.tick() * fParameters[dracorex_OSC2_VOLUME]; else osc2_out = 0;		
 
-		// DO FILTER LEFT
-		
-		float frequency = fParameters[dracorex_CUTOFF] + ( fParameters[dracorex_FILTER_ADSR3_AMOUNT] * filter_env.level );
-		float resonance = fParameters[dracorex_RESONANCE];	
 		float in_left;
-		float in_right;	
-		
-		if (frequency > 1) frequency = 1;
-	
-		in_left = osc1_out * (amp_env.level * fParameters[dracorex_VOLUME] )
-			+ osc2_out * (amp2_env.level * fParameters[dracorex_VOLUME] );
+		float in_right;
 
-		q_left = 1.0f - frequency;
-		pc_left = frequency + 0.8f * frequency * q_left;
-		f_left= pc_left + pc_left - 1.0f;
-		q_left = resonance * (1.0f + 0.5f * q_left * (1.0f - q_left + 5.6f * q_left * q_left));
+		// DO FILTER
+		
+		if (fParameters[dracorex_FILTER_ACTIVE])
+		{
+			// DO FILTER LEFT
+					
+			float frequency = fParameters[dracorex_CUTOFF] + ( fParameters[dracorex_FILTER_ADSR3_AMOUNT] * filter_env.level );
+			float resonance = fParameters[dracorex_RESONANCE];		
+			
+			if (frequency > 1) frequency = 1;
+		
+			in_left = osc1_out * (amp_env.level * fParameters[dracorex_VOLUME] )
+				+ osc2_out * (amp2_env.level * fParameters[dracorex_VOLUME] );
 
-		in_left  -= q_left * bf4_left;                          //feedback
-		t1_left = bf1_left;  bf1_left = (in_left + bf0_left) * pc_left - bf1_left * f_left;
-		t2_left = bf2_left;  bf2_left = (bf1_left + t1_left) * pc_left - bf2_left * f_left;
-		t1_left = bf3_left;  bf3_left = (bf2_left + t2_left) * pc_left - bf3_left * f_left;
-	        bf4_left = (bf3_left + t1_left) * pc_left - bf4_left * f_left;
-		bf4_left = bf4_left - bf4_left * bf4_left * bf4_left * 0.166667f;    //clipping
-		bf0_left = in_left;
-		in_left = bf4_left;
-		
-		if (  isnan(bf4_right) ) {bf1_right = 0; bf2_right = 0; bf3_right = 0; bf4_right = 0; in_right = 0;}
-		
-		// DO FILTER RIGHT
+			q_left = 1.0f - frequency;
+			pc_left = frequency + 0.8f * frequency * q_left;
+			f_left= pc_left + pc_left - 1.0f;
+			q_left = resonance * (1.0f + 0.5f * q_left * (1.0f - q_left + 5.6f * q_left * q_left));
 
-		in_right = osc1_out * (amp_env.level * fParameters[dracorex_VOLUME] )
-			+ osc2_out * (amp2_env.level * fParameters[dracorex_VOLUME] );
+			in_left  -= q_left * bf4_left;                          //feedback
+			t1_left = bf1_left;  bf1_left = (in_left + bf0_left) * pc_left - bf1_left * f_left;
+			t2_left = bf2_left;  bf2_left = (bf1_left + t1_left) * pc_left - bf2_left * f_left;
+			t1_left = bf3_left;  bf3_left = (bf2_left + t2_left) * pc_left - bf3_left * f_left;
+			bf4_left = (bf3_left + t1_left) * pc_left - bf4_left * f_left;
+			bf4_left = bf4_left - bf4_left * bf4_left * bf4_left * 0.166667f;    //clipping
+			bf0_left = in_left;
+			in_left = bf4_left;
+			
+			if (  isnan(bf4_right) ) {bf1_right = 0; bf2_right = 0; bf3_right = 0; bf4_right = 0; in_right = 0;}
+			
+			// DO FILTER RIGHT
 
-		q_right = 1.0f - frequency;
-		pc_right = frequency + 0.4f * frequency * q_right;
-		f_right= pc_right + pc_right - 1.0f;
-		q_right = resonance * (1.0f + 0.5f * q_right * (1.0f - q_right + 5.6f * q_right * q_right));
+			in_right = osc1_out * (amp_env.level * fParameters[dracorex_VOLUME] )
+				+ osc2_out * (amp2_env.level * fParameters[dracorex_VOLUME] );
+
+			q_right = 1.0f - frequency;
+			pc_right = frequency + 0.4f * frequency * q_right;
+			f_right= pc_right + pc_right - 1.0f;
+			q_right = resonance * (1.0f + 0.5f * q_right * (1.0f - q_right + 5.6f * q_right * q_right));
+			
+			in_right  -= q_right * bf4_right;                          //feedback
+			t1_right = bf1_right;  bf1_right = (in_right + bf0_right) * pc_right - bf1_right * f_right;
+			t2_right = bf2_right;  bf2_right = (bf1_right + t1_right) * pc_right - bf2_right * f_right;
+			t1_right = bf3_right;  bf3_right = (bf2_right + t2_right) * pc_right - bf3_right * f_right;
+			bf4_right = (bf3_right + t1_right) * pc_right - bf4_right * f_right;
+			bf4_right = bf4_right - bf4_right * bf4_right * bf4_right * 0.166667f;    //clipping
+			bf0_right = in_right;
+			in_right = bf4_right;
+			
+			if (  isnan(bf4_left) ) {bf1_left = 0; bf2_left = 0; bf3_left = 0; bf4_left = 0; in_left = 0;}
 		
-		in_right  -= q_right * bf4_right;                          //feedback
-		t1_right = bf1_right;  bf1_right = (in_right + bf0_right) * pc_right - bf1_right * f_right;
-		t2_right = bf2_right;  bf2_right = (bf1_right + t1_right) * pc_right - bf2_right * f_right;
-		t1_right = bf3_right;  bf3_right = (bf2_right + t2_right) * pc_right - bf3_right * f_right;
-	        bf4_right = (bf3_right + t1_right) * pc_right - bf4_right * f_right;
-		bf4_right = bf4_right - bf4_right * bf4_right * bf4_right * 0.166667f;    //clipping
-		bf0_right = in_right;
-		in_right = bf4_right;
-		
-		if (  isnan(bf4_left) ) {bf1_left = 0; bf2_left = 0; bf3_left = 0; bf4_left = 0; in_left = 0;}
-	
-		left_buffer[x] += in_left;
-		right_buffer[x] += in_right;
+		} 
+		else
+		{
+			in_left = osc1_out * (amp_env.level * fParameters[dracorex_VOLUME] )
+				+ osc2_out * (amp2_env.level * fParameters[dracorex_VOLUME] );
+				
+			in_right = osc1_out * (amp_env.level * fParameters[dracorex_VOLUME] )
+				+ osc2_out * (amp2_env.level * fParameters[dracorex_VOLUME] );	
+		}
 		
 		if (osc1.start_phase)
 		{
 			osc1.frequency = fastishP2F(osc1.note + fParameters[dracorex_OSC1_TUNING]
 				+ (fParameters[dracorex_OSC1_PITCH_ADSR2] * wave_env.level * 12)
-				+ (fParameters[dracorex_OSC1_PITCH_ADSR3] * wave_env.level * 12));
+				+ (fParameters[dracorex_OSC1_PITCH_ADSR3] * wave_env.level * 12)) * 0.8175;;
 			osc1.start_phase = false;
 		}
 		
@@ -470,12 +483,23 @@ float voice::play(float* left_buffer, float* right_buffer,  uint32_t frames)
 		{
 			osc2.frequency = fastishP2F(osc2.note + fParameters[dracorex_OSC2_TUNING]
 				+ (fParameters[dracorex_OSC2_PITCH_ADSR2] * wave_env.level * 12)
-				+ (fParameters[dracorex_OSC2_PITCH_ADSR3] * wave_env.level * 12));
+				+ (fParameters[dracorex_OSC2_PITCH_ADSR3] * wave_env.level * 12)) * 0.8175;;
 			osc2.start_phase = false;
 		}
 		
 		if (amp_env.state == ENV_STATE_DORMANT && amp2_env.state == ENV_STATE_DORMANT) active = false;
 		
+		if (fParameters[dracorex_CHORUS_ACTIVE])
+		{
+			float* chorus_out = _chorus.run(in_left, in_right);
+			left_buffer[x] += chorus_out[0];
+			right_buffer[x] += chorus_out[1];
+		}
+		else
+		{
+			left_buffer[x] += in_left;
+			right_buffer[x] += in_right;	
+		}
 	}
 
 	return 0;	
