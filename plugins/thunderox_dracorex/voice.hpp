@@ -53,8 +53,8 @@ class voice
 	adsr wave_env;
 	adsr amp2_env;
 	adsr wave2_env;
-	adsr filter_env;
-			
+	adsr adsr3_env;
+	adsr adsr4_env;	
 	
 	float buf0_left,buf1_left;
 	float f_left, pc_left, q_left;             //filter coefficients

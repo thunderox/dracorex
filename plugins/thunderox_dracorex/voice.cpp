@@ -13,8 +13,10 @@ voice::voice()
 	amp2_env.level = 0;
 	wave2_env.state = ENV_STATE_DORMANT;
 	wave2_env.level = 0;
-	filter_env.state = ENV_STATE_DORMANT;
-	filter_env.level = 0;
+	adsr3_env.state = ENV_STATE_DORMANT;
+	adsr3_env.level = 0;
+	adsr4_env.state = ENV_STATE_DORMANT;
+	adsr4_env.level = 0;
 	
 	active = false;
 
@@ -92,10 +94,15 @@ float voice::play(float* left_buffer, float* right_buffer,  uint32_t frames)
 	float wave2_sustain = 1-fParameters[dracorex_WAVE2_SUSTAIN];
 	float wave2_release = fast_pow(fParameters[dracorex_WAVE2_RELEASE],10);
 			
-	float filter_attack = fast_pow(fParameters[dracorex_FILTER_ATTACK],10); 
-	float filter_decay = fast_pow(fParameters[dracorex_FILTER_DECAY],10);
-	float filter_sustain = 1-fParameters[dracorex_FILTER_SUSTAIN];
-	float filter_release = fast_pow(fParameters[dracorex_FILTER_RELEASE],10);
+	float adsr3_attack = fast_pow(fParameters[dracorex_ADSR3_ATTACK],10); 
+	float adsr3_decay = fast_pow(fParameters[dracorex_ADSR3_DECAY],10);
+	float adsr3_sustain = 1-fParameters[dracorex_ADSR3_SUSTAIN];
+	float adsr3_release = fast_pow(fParameters[dracorex_ADSR3_RELEASE],10);
+	
+	float adsr4_attack = fast_pow(fParameters[dracorex_ADSR4_ATTACK],10); 
+	float adsr4_decay = fast_pow(fParameters[dracorex_ADSR4_DECAY],10);
+	float adsr4_sustain = 1-fParameters[dracorex_ADSR4_SUSTAIN];
+	float adsr4_release = fast_pow(fParameters[dracorex_ADSR4_RELEASE],10);
 
 	for (uint32_t x=0; x<frames; x++)
 	{
@@ -337,19 +344,19 @@ float voice::play(float* left_buffer, float* right_buffer,  uint32_t frames)
 		}
 		
 		
-		//--------- ADSR 3 FILTER ------------------------------------------------------------------------------------
+		//--------- ADSR 3 ------------------------------------------------------------------------------------
 		// ATTACK
 
-		switch (filter_env.state)
+		switch (adsr3_env.state)
 				{
 		case ENV_STATE_ATTACK:
-			if (filter_env.level < 1) 
+			if (adsr3_env.level < 1) 
 			{
-				filter_env.level += filter_attack;
-				if (filter_env.level >= 1)
+				adsr3_env.level += adsr3_attack;
+				if (adsr3_env.level >= 1)
 				{
-					filter_env.level = 1;
-					filter_env.state = ENV_STATE_DECAY;
+					adsr3_env.level = 1;
+					adsr3_env.state = ENV_STATE_DECAY;
 				}
 			}
 			break;
@@ -358,23 +365,23 @@ float voice::play(float* left_buffer, float* right_buffer,  uint32_t frames)
 			
 			case ENV_STATE_DECAY:
 			{	
-				if (filter_env.level > filter_sustain) 
+				if (adsr3_env.level > adsr3_sustain) 
 				{
-					filter_env.level -= filter_decay;
-					if (filter_env.level <= filter_sustain)
+					adsr3_env.level -= adsr3_decay;
+					if (adsr3_env.level <= adsr3_sustain)
 					{
-						filter_env.level = filter_sustain;
-						filter_env.state = ENV_STATE_WAIT;
+						adsr3_env.level = adsr3_sustain;
+						adsr3_env.state = ENV_STATE_WAIT;
 					}
 				}
 
-				if (filter_env.level < filter_sustain) 
+				if (adsr3_env.level < adsr3_sustain) 
 				{
-					filter_env.level += filter_decay;
-					if (filter_env.level >= filter_sustain)
+					adsr3_env.level += adsr3_decay;
+					if (adsr3_env.level >= adsr3_sustain)
 					{
-						filter_env.level = filter_sustain;
-						filter_env.state = ENV_STATE_WAIT;
+						adsr3_env.level = adsr3_sustain;
+						adsr3_env.state = ENV_STATE_WAIT;
 					}
 				}
 			}
@@ -383,18 +390,75 @@ float voice::play(float* left_buffer, float* right_buffer,  uint32_t frames)
 			// RELEASE
 
 			case ENV_STATE_RELEASE:
-				if (filter_env.level > 0) 
+				if (adsr3_env.level > 0) 
 				{
-					filter_env.level -= filter_release;
-					if (filter_env.level <= 0)
+					adsr3_env.level -= adsr3_release;
+					if (adsr3_env.level <= 0)
 					{
-						filter_env.level = 0;
-						filter_env.state = ENV_STATE_DORMANT;
+						adsr3_env.level = 0;
+						adsr3_env.state = ENV_STATE_DORMANT;
 					}
 				}
 			break;
 			}
 					
+		//--------- ADSR 4 ------------------------------------------------------------------------------------
+		// ATTACK
+
+		switch (adsr4_env.state)
+				{
+		case ENV_STATE_ATTACK:
+			if (adsr4_env.level < 1) 
+			{
+				adsr4_env.level += adsr4_attack;
+				if (adsr4_env.level >= 1)
+				{
+					adsr4_env.level = 1;
+					adsr4_env.state = ENV_STATE_DECAY;
+				}
+			}
+			break;
+
+			// DECAY / SUSTAIN
+			
+			case ENV_STATE_DECAY:
+			{	
+				if (adsr4_env.level > adsr4_sustain) 
+				{
+					adsr4_env.level -= adsr4_decay;
+					if (adsr4_env.level <= adsr4_sustain)
+					{
+						adsr4_env.level = adsr4_sustain;
+						adsr4_env.state = ENV_STATE_WAIT;
+					}
+				}
+
+				if (adsr4_env.level < adsr4_sustain) 
+				{
+					adsr4_env.level += adsr4_decay;
+					if (adsr4_env.level >= adsr4_sustain)
+					{
+						adsr4_env.level = adsr4_sustain;
+						adsr4_env.state = ENV_STATE_WAIT;
+					}
+				}
+			}
+			break;
+
+			// RELEASE
+
+			case ENV_STATE_RELEASE:
+				if (adsr4_env.level > 0) 
+				{
+					adsr4_env.level -= adsr4_release;
+					if (adsr4_env.level <= 0)
+					{
+						adsr4_env.level = 0;
+						adsr4_env.state = ENV_STATE_DORMANT;
+					}
+				}
+			break;
+			}
 		
 		//float env_amp_level_db = (amp_env.level * amp_env.level * amp_env.level) * master_volume; 
 
@@ -416,7 +480,7 @@ float voice::play(float* left_buffer, float* right_buffer,  uint32_t frames)
 		{
 			// DO FILTER LEFT
 					
-			float frequency = fParameters[dracorex_CUTOFF] + ( fParameters[dracorex_FILTER_ADSR3_AMOUNT] * filter_env.level );
+			float frequency = fParameters[dracorex_CUTOFF] + ( fParameters[dracorex_FILTER_ADSR3_AMOUNT] * adsr3_env.level );
 			float resonance = fParameters[dracorex_RESONANCE];		
 			
 			if (frequency > 1) frequency = 1;
@@ -474,16 +538,16 @@ float voice::play(float* left_buffer, float* right_buffer,  uint32_t frames)
 		if (osc1.start_phase)
 		{
 			osc1.frequency = fastishP2F(osc1.note + fParameters[dracorex_OSC1_TUNING]
-				+ (fParameters[dracorex_OSC1_PITCH_ADSR2] * wave_env.level * 12)
-				+ (fParameters[dracorex_OSC1_PITCH_ADSR3] * wave_env.level * 12)) * 0.8175;;
+				+ (fParameters[dracorex_OSC1_PITCH_ADSR3] * adsr3_env.level * 12)
+				+ (fParameters[dracorex_OSC1_PITCH_ADSR4] * adsr4_env.level * 12)) * 0.8175;;
 			osc1.start_phase = false;
 		}
 		
 		if (osc2.start_phase)
 		{
 			osc2.frequency = fastishP2F(osc2.note + fParameters[dracorex_OSC2_TUNING]
-				+ (fParameters[dracorex_OSC2_PITCH_ADSR2] * wave_env.level * 12)
-				+ (fParameters[dracorex_OSC2_PITCH_ADSR3] * wave_env.level * 12)) * 0.8175;;
+				+ (fParameters[dracorex_OSC2_PITCH_ADSR3] * adsr3_env.level * 12)
+				+ (fParameters[dracorex_OSC2_PITCH_ADSR4] * adsr4_env.level * 12)) * 0.8175;;
 			osc2.start_phase = false;
 		}
 		

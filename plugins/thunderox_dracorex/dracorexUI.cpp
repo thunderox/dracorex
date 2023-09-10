@@ -22,7 +22,7 @@ class dracorexUI : public UI
 
 		//------------------------------------------------------------------------------------------------------
 
-		dracorexUI() : UI(640, 480)
+		dracorexUI() : UI(640, 500)
 		{
 
 			memset(fParameters, 0, sizeof(float)*kParameterCount);
@@ -89,24 +89,24 @@ class dracorexUI : public UI
 			
 			//------- Oscilator One - ADSR2 to OSC 1 Pitch  -----------------------------------------------------------------------
 			
-			int widget_adsr2_amount = Delirium_UI_Create_Widget(GUI, deliriumUI_Fader, 0, panelX + 3, panelY + 4, 1, 5.25, "ADSR2", dracorex_OSC1_PITCH_ADSR2);
-			Delirium_UI_Widget_Set_Min_Max(GUI, widget_adsr2_amount, 1,0);
-			Delirium_UI_Widget_Set_Value(GUI, widget_adsr2_amount, 0);
-			Delirium_UI_Widget_Set_Group_And_Member(GUI, widget_adsr2_amount, "oscillators", "osc1");
-			fParameters_widget_number[dracorex_OSC1_PITCH_ADSR2] = widget_adsr2_amount; 
+			int widget_osc1_adsr3_amount = Delirium_UI_Create_Widget(GUI, deliriumUI_Fader, 0, panelX + 3, panelY + 4, 1, 5.25, "ADSR3", dracorex_OSC1_PITCH_ADSR3);
+			Delirium_UI_Widget_Set_Min_Max(GUI, widget_osc1_adsr3_amount, 1,0);
+			Delirium_UI_Widget_Set_Value(GUI, widget_osc1_adsr3_amount, 0);
+			Delirium_UI_Widget_Set_Group_And_Member(GUI, widget_osc1_adsr3_amount, "oscillators", "osc1");
+			fParameters_widget_number[dracorex_OSC1_PITCH_ADSR3] = widget_osc1_adsr3_amount; 
 			
 			//------- Oscilator One - ADSR3 to OSC 1 Pitch  -----------------------------------------------------------------------
 			
-			int widget_adsr3_amount = Delirium_UI_Create_Widget(GUI, deliriumUI_Fader, 0, panelX + 5, panelY + 4, 1, 5.25, "ADSR3", dracorex_OSC1_PITCH_ADSR3);
-			Delirium_UI_Widget_Set_Min_Max(GUI, widget_adsr3_amount, 1,0);
-			Delirium_UI_Widget_Set_Value(GUI, widget_adsr3_amount, 0);
-			Delirium_UI_Widget_Set_Group_And_Member(GUI, widget_adsr3_amount, "oscillators", "osc1");
-			fParameters_widget_number[dracorex_OSC1_PITCH_ADSR3] = widget_adsr3_amount; 
+			int widget_osc1_adsr4_amount = Delirium_UI_Create_Widget(GUI, deliriumUI_Fader, 0, panelX + 5, panelY + 4, 1, 5.25, "ADSR4", dracorex_OSC1_PITCH_ADSR4);
+			Delirium_UI_Widget_Set_Min_Max(GUI, widget_osc1_adsr4_amount, 1,0);
+			Delirium_UI_Widget_Set_Value(GUI, widget_osc1_adsr4_amount, 0);
+			Delirium_UI_Widget_Set_Group_And_Member(GUI, widget_osc1_adsr4_amount, "oscillators", "osc1");
+			fParameters_widget_number[dracorex_OSC1_PITCH_ADSR4] = widget_osc1_adsr4_amount; 
 			
 
 			//------- Oscilator One - ADSR1 - OSC1 AMP ENVELOPE -----------------------------------------------------------------------
 
-			int widget_amp_env = Delirium_UI_Create_Widget(GUI, deliriumUI_ADSR, 0, panelX + 1, panelY + 10, 5, 3,"ADSR1 - AMP",dracorex_AMP_ATTACK); 
+			int widget_amp_env = Delirium_UI_Create_Widget(GUI, deliriumUI_ADSR, 0, panelX + 1, panelY + 11, 5, 3,"ADSR1 - AMP",dracorex_AMP_ATTACK); 
 			Delirium_UI_Widget_Set_Group_And_Member(GUI, widget_amp_env, "oscillators", "osc1");	
 			fParameters_widget_number[dracorex_AMP_ATTACK] = widget_amp_env; 
 			fParameters_widget_number[dracorex_AMP_ATTACK+1] = widget_amp_env; 
@@ -115,7 +115,7 @@ class dracorexUI : public UI
 			
 			//------- Oscilator One - ADSR2 - OSC1 WAVE ENVELOPE -----------------------------------------------------------------------
 			
-			int widget_wave_env = Delirium_UI_Create_Widget(GUI, deliriumUI_ADSR, 0, panelX + 7, panelY + 10, 5, 3,"ADSR2 - WAVE",dracorex_WAVE_ATTACK); 
+			int widget_wave_env = Delirium_UI_Create_Widget(GUI, deliriumUI_ADSR, 0, panelX + 7, panelY + 11, 5, 3,"ADSR2 - WAVE",dracorex_WAVE_ATTACK); 
 			Delirium_UI_Widget_Set_Group_And_Member(GUI, widget_wave_env, "oscillators", "osc1");	
 			fParameters_widget_number[dracorex_WAVE_ATTACK] = widget_wave_env; 
 			fParameters_widget_number[dracorex_WAVE_ATTACK+1] = widget_wave_env; 
@@ -167,24 +167,24 @@ class dracorexUI : public UI
 			
 			//------- Oscilator TWO - ADSR2 to OSC 1 Pitch  -----------------------------------------------------------------------
 			
-			int widget_adsr2_amount2 = Delirium_UI_Create_Widget(GUI, deliriumUI_Fader, 0, panelX + 3, panelY + 4, 1, 5.25, "ADSR2", dracorex_OSC2_PITCH_ADSR2);
-			Delirium_UI_Widget_Set_Min_Max(GUI, widget_adsr2_amount2, 1,0);
-			Delirium_UI_Widget_Set_Value(GUI, widget_adsr2_amount2, 0);
-			Delirium_UI_Widget_Set_Group_And_Member(GUI, widget_adsr2_amount2, "oscillators", "osc2");
-			fParameters_widget_number[dracorex_OSC2_PITCH_ADSR2] = widget_adsr2_amount2; 
+			int widget_osc2_adsr3_amount = Delirium_UI_Create_Widget(GUI, deliriumUI_Fader, 0, panelX + 3, panelY + 4, 1, 5.25, "ADSR3", dracorex_OSC2_PITCH_ADSR3);
+			Delirium_UI_Widget_Set_Min_Max(GUI, widget_osc2_adsr3_amount, 1,0);
+			Delirium_UI_Widget_Set_Value(GUI, widget_osc2_adsr3_amount, 0);
+			Delirium_UI_Widget_Set_Group_And_Member(GUI, widget_osc2_adsr3_amount, "oscillators", "osc2");
+			fParameters_widget_number[dracorex_OSC2_PITCH_ADSR3] = widget_osc2_adsr3_amount; 
 			
 			//------- Oscilator TWO - ADSR3 to OSC 1 Pitch  -----------------------------------------------------------------------
 			
-			int widget_adsr3_amount2 = Delirium_UI_Create_Widget(GUI, deliriumUI_Fader, 0, panelX + 5, panelY + 4, 1, 5.25, "ADSR3", dracorex_OSC2_PITCH_ADSR3);
-			Delirium_UI_Widget_Set_Min_Max(GUI, widget_adsr3_amount2, 1,0);
-			Delirium_UI_Widget_Set_Value(GUI, widget_adsr3_amount2, 0);
-			Delirium_UI_Widget_Set_Group_And_Member(GUI, widget_adsr3_amount2, "oscillators", "osc2");
-			fParameters_widget_number[dracorex_OSC2_PITCH_ADSR3] = widget_adsr3_amount2; 
+			int widget_osc2_adsr4_amount = Delirium_UI_Create_Widget(GUI, deliriumUI_Fader, 0, panelX + 5, panelY + 4, 1, 5.25, "ADSR4", dracorex_OSC2_PITCH_ADSR4);
+			Delirium_UI_Widget_Set_Min_Max(GUI, widget_osc2_adsr4_amount, 1,0);
+			Delirium_UI_Widget_Set_Value(GUI, widget_osc2_adsr4_amount, 0);
+			Delirium_UI_Widget_Set_Group_And_Member(GUI, widget_osc2_adsr4_amount, "oscillators", "osc2");
+			fParameters_widget_number[dracorex_OSC2_PITCH_ADSR4] = widget_osc2_adsr4_amount; 
 			
 
 			//------- Oscilator TWO - ADSR1 - OSC2 AMP ENVELOPE -----------------------------------------------------------------------
 
-			int widget_amp2_env = Delirium_UI_Create_Widget(GUI, deliriumUI_ADSR, 0, panelX + 1, panelY + 10, 5, 3,"ADSR2 - AMP",dracorex_AMP2_ATTACK); 
+			int widget_amp2_env = Delirium_UI_Create_Widget(GUI, deliriumUI_ADSR, 0, panelX + 1,  panelY + 11, 5, 3,"ADSR2 - AMP",dracorex_AMP2_ATTACK); 
 			Delirium_UI_Widget_Set_Group_And_Member(GUI, widget_amp2_env, "oscillators", "osc2");	
 			fParameters_widget_number[dracorex_AMP2_ATTACK] = widget_amp2_env; 
 			fParameters_widget_number[dracorex_AMP2_ATTACK+1] = widget_amp2_env; 
@@ -193,7 +193,7 @@ class dracorexUI : public UI
 			
 			//------- Oscilator TWO - ADSR2 - OSC2 WAVE ENVELOPE -----------------------------------------------------------------------
 			
-			int widget_wave2_env = Delirium_UI_Create_Widget(GUI, deliriumUI_ADSR, 0, panelX + 7, panelY + 10, 5, 3,"ADSR2 - WAVE",dracorex_WAVE2_ATTACK); 
+			int widget_wave2_env = Delirium_UI_Create_Widget(GUI, deliriumUI_ADSR, 0, panelX + 7,  panelY + 11, 5, 3,"ADSR2 - WAVE",dracorex_WAVE2_ATTACK); 
 			Delirium_UI_Widget_Set_Group_And_Member(GUI, widget_wave2_env, "oscillators", "osc2");	
 			fParameters_widget_number[dracorex_WAVE2_ATTACK] = widget_wave2_env; 
 			fParameters_widget_number[dracorex_WAVE2_ATTACK+1] = widget_wave2_env; 
@@ -216,21 +216,7 @@ class dracorexUI : public UI
 			
 			
 			
-			//-------- MASTER VOLUME -----------------------------------------------------------------------
-			int widget_volume = Delirium_UI_Create_Widget(GUI, deliriumUI_Knob, 0, panelX + 16.5, panelY + 9, 3.5, 3.5, "VOLUME", dracorex_VOLUME);
-			Delirium_UI_Widget_Set_Min_Max(GUI, widget_volume, 0,2);
-			Delirium_UI_Widget_Set_Value(GUI, widget_volume, 0.6);
-			Delirium_UI_Widget_Set_Default_Value(GUI, widget_volume, 0.6);
-			Delirium_UI_Widget_Set_Group_And_Member(GUI, widget_volume, "global", "");
-			fParameters_widget_number[dracorex_VOLUME] = widget_volume; 
-			
-			//-------- MASTER TUNE -----------------------------------------------------------------------
-			int widget_master_tuning = Delirium_UI_Create_Widget(GUI, deliriumUI_Knob, 0, panelX + 13, panelY +9, 3.5, 3.5, "TUNING", dracorex_MASTER_TUNING);
-			Delirium_UI_Widget_Set_Min_Max(GUI, widget_master_tuning, -7,7);
-			Delirium_UI_Widget_Set_Value(GUI, widget_master_tuning, 0.6);
-			Delirium_UI_Widget_Set_Default_Value(GUI, widget_master_tuning, 0.6);
-			Delirium_UI_Widget_Set_Group_And_Member(GUI, widget_master_tuning, "global", "");
-			fParameters_widget_number[dracorex_MASTER_TUNING] = widget_master_tuning; 
+
 			
 			//--------- PANEL MATRIX FOR LFO / FILTER FX ---------------------------------------------------------
 			
@@ -299,21 +285,7 @@ class dracorexUI : public UI
 			Delirium_UI_Widget_Set_Group_And_Member(GUI, widget_lfo1_osc2_pitch_amount, "matrix", "lfo1");
 			fParameters_widget_number[dracorex_LFO1_OSC2_PITCH_AMOUNT] = widget_lfo1_osc2_pitch_amount; 
 			
-			//------- LFO ONE OSC1 PITCH -----------------------------------------------------------------------------
-			
-			int widget_lfo1_osc1_wave_amount = Delirium_UI_Create_Widget(GUI, deliriumUI_Fader, 0, panelX + 21, panelY + 8, 1, 5.25, "OSC1-W", dracorex_LFO1_OSC1_WAVE_AMOUNT);
-			Delirium_UI_Widget_Set_Min_Max(GUI, widget_lfo1_osc1_wave_amount, 1,0);
-			Delirium_UI_Widget_Set_Value(GUI, widget_lfo1_osc1_wave_amount, 0);
-			Delirium_UI_Widget_Set_Group_And_Member(GUI, widget_lfo1_osc1_wave_amount, "matrix", "lfo1");
-			fParameters_widget_number[dracorex_LFO1_OSC1_WAVE_AMOUNT] = widget_lfo1_osc1_wave_amount; 
-			
-			//------- LFO ONE OSC2 PITCH -----------------------------------------------------------------------------
-			
-			int widget_lfo1_osc2_wave_amount = Delirium_UI_Create_Widget(GUI, deliriumUI_Fader, 0, panelX + 23.25, panelY + 8, 1, 5.25, "OSC2-W", dracorex_LFO1_OSC2_WAVE_AMOUNT);
-			Delirium_UI_Widget_Set_Min_Max(GUI, widget_lfo1_osc2_wave_amount, 1,0);
-			Delirium_UI_Widget_Set_Value(GUI, widget_lfo1_osc2_wave_amount, 0);
-			Delirium_UI_Widget_Set_Group_And_Member(GUI, widget_lfo1_osc2_wave_amount, "matrix", "lfo1");
-			fParameters_widget_number[dracorex_LFO1_OSC2_WAVE_AMOUNT] = widget_lfo1_osc2_wave_amount; 
+
 			
 			//--------- LFO 2 --------------------------------------------------------------------------------------
 			
@@ -368,26 +340,19 @@ class dracorexUI : public UI
 			Delirium_UI_Widget_Set_Group_And_Member(GUI, widget_filter_active, "matrix", "filter");
 			fParameters_widget_number[dracorex_FILTER_ACTIVE] = widget_filter_active; 
 			
-			// ADSR3 - FILTER ENVELOPE --------------------------------------------------------------------------------------------------------
 
-			int widget_filter_env = Delirium_UI_Create_Widget(GUI, deliriumUI_ADSR, 0,panelX + 13.5, panelY + 4, 5, 3,"ADSR3 - FILTER",dracorex_FILTER_ATTACK); 
-			Delirium_UI_Widget_Set_Group_And_Member(GUI, widget_filter_env, "matrix", "filter");	
-			fParameters_widget_number[dracorex_FILTER_ATTACK] = widget_filter_env; 
-			fParameters_widget_number[dracorex_FILTER_ATTACK+1] = widget_filter_env; 
-			fParameters_widget_number[dracorex_FILTER_ATTACK+2] = widget_filter_env; 
-			fParameters_widget_number[dracorex_FILTER_ATTACK+3] = widget_filter_env; 
 			
 			//------- FILTER CUTOFF  -----------------------------------------------------------------------
 			
-			int widget_filter_cutoff = Delirium_UI_Create_Widget(GUI, deliriumUI_Fader, 0, panelX + 20, panelY + 2, 1, 5.25, "CUTOFF", dracorex_CUTOFF);
+			int widget_filter_cutoff = Delirium_UI_Create_Widget(GUI, deliriumUI_Fader, 0, panelX + 16, panelY + 1.25, 1, 5.25, "CUTOFF", dracorex_CUTOFF);
 			Delirium_UI_Widget_Set_Min_Max(GUI, widget_filter_cutoff, 1,0);
-			Delirium_UI_Widget_Set_Value(GUI, widget_adsr3_amount2, 0);
+			Delirium_UI_Widget_Set_Value(GUI, widget_filter_cutoff, 0);
 			Delirium_UI_Widget_Set_Group_And_Member(GUI, widget_filter_cutoff, "matrix", "filter");
 			fParameters_widget_number[dracorex_CUTOFF] = widget_filter_cutoff; 
 			
 			//------- FILTER RESONANCE  -----------------------------------------------------------------------
 			
-			int widget_filter_resonance = Delirium_UI_Create_Widget(GUI, deliriumUI_Fader, 0, panelX + 22, panelY + 2, 1, 5.25, "RES", dracorex_RESONANCE);
+			int widget_filter_resonance = Delirium_UI_Create_Widget(GUI, deliriumUI_Fader, 0, panelX + 18, panelY + 1.25, 1, 5.25, "RES", dracorex_RESONANCE);
 			Delirium_UI_Widget_Set_Min_Max(GUI, widget_filter_resonance, 1,0);
 			Delirium_UI_Widget_Set_Value(GUI, widget_filter_resonance, 0);
 			Delirium_UI_Widget_Set_Group_And_Member(GUI, widget_filter_resonance, "matrix", "filter");
@@ -395,7 +360,7 @@ class dracorexUI : public UI
 			
 			//------- FILTER ADSR3 AMOUNT  -----------------------------------------------------------------------
 			
-			int widget_filter_adsr3_amount = Delirium_UI_Create_Widget(GUI, deliriumUI_Fader, 0, panelX + 24, panelY + 2, 1, 5.25, "ADSR3", dracorex_FILTER_ADSR3_AMOUNT);
+			int widget_filter_adsr3_amount = Delirium_UI_Create_Widget(GUI, deliriumUI_Fader, 0, panelX + 20, panelY + 1.25, 1, 5.25, "ADSR3", dracorex_FILTER_ADSR3_AMOUNT);
 			Delirium_UI_Widget_Set_Min_Max(GUI, widget_filter_adsr3_amount, 1,0);
 			Delirium_UI_Widget_Set_Value(GUI, widget_filter_adsr3_amount, 0);
 			Delirium_UI_Widget_Set_Group_And_Member(GUI, widget_filter_adsr3_amount, "matrix", "filter");
@@ -405,11 +370,53 @@ class dracorexUI : public UI
 			// FX ----- ------------------------------------------------------------------------------------------------------------------
 			
 			// CHORUS ACTIVE
-			int widget_chorus_active = Delirium_UI_Create_Widget(GUI, deliriumUI_Switch, 0, panelX + 13.5, panelY + 1.25, 2, 2, "ACTIVE", dracorex_CHORUS_ACTIVE);
+			int widget_chorus_active = Delirium_UI_Create_Widget(GUI, deliriumUI_Switch, 0, panelX + 13.5, panelY + 1.25, 2, 2, "CHORUS", dracorex_CHORUS_ACTIVE);
 			Delirium_UI_Widget_Set_Min_Max(GUI, widget_chorus_active, 0,1);
 			Delirium_UI_Widget_Set_Value(GUI, widget_chorus_active, 0);
 			Delirium_UI_Widget_Set_Group_And_Member(GUI, widget_chorus_active, "matrix", "fx");
 			fParameters_widget_number[dracorex_CHORUS_ACTIVE] = widget_chorus_active; 
+			
+			// GLOBAL PANEL ----------------------------------------------------------------------------------------------------------------
+			
+			//-------- MASTER TUNE -----------------------------------------------------------------------
+			int widget_master_tuning = Delirium_UI_Create_Widget(GUI, deliriumUI_Knob, 0, panelX + 18,  panelY + 7, 3.5, 3.5, "TUNING", dracorex_MASTER_TUNING);
+			Delirium_UI_Widget_Set_Min_Max(GUI, widget_master_tuning, -7,7);
+			Delirium_UI_Widget_Set_Value(GUI, widget_master_tuning, 0.6);
+			Delirium_UI_Widget_Set_Default_Value(GUI, widget_master_tuning, 0.6);
+			Delirium_UI_Widget_Set_Group_And_Member(GUI, widget_master_tuning, "global", "");
+			fParameters_widget_number[dracorex_MASTER_TUNING] = widget_master_tuning; 
+			
+			
+			//-------- MASTER VOLUME -----------------------------------------------------------------------
+			int widget_volume = Delirium_UI_Create_Widget(GUI, deliriumUI_Knob, 0, panelX + 21.5, panelY + 7, 3.5, 3.5, "VOLUME", dracorex_VOLUME);
+			Delirium_UI_Widget_Set_Min_Max(GUI, widget_volume, 0,2);
+			Delirium_UI_Widget_Set_Value(GUI, widget_volume, 0.6);
+			Delirium_UI_Widget_Set_Default_Value(GUI, widget_volume, 0.6);
+			Delirium_UI_Widget_Set_Group_And_Member(GUI, widget_volume, "global", "");
+			fParameters_widget_number[dracorex_VOLUME] = widget_volume; 
+			
+	
+
+			// ADSR3 - FILTER ENVELOPE --------------------------------------------------------------------------------------------------------
+
+			int widget_filter_env = Delirium_UI_Create_Widget(GUI, deliriumUI_ADSR, 0,panelX + 13.5,  panelY + 11, 5, 3,"ADSR3",dracorex_ADSR3_ATTACK); 
+			Delirium_UI_Widget_Set_Group_And_Member(GUI, widget_filter_env, "global", "");	
+			fParameters_widget_number[dracorex_ADSR3_ATTACK] = widget_filter_env; 
+			fParameters_widget_number[dracorex_ADSR3_ATTACK+1] = widget_filter_env; 
+			fParameters_widget_number[dracorex_ADSR3_ATTACK+2] = widget_filter_env; 
+			fParameters_widget_number[dracorex_ADSR3_ATTACK+3] = widget_filter_env; 
+
+			//-------- ADSR4 ------------------------------------------------------------------------------------------------
+
+			int widget_adsr4 = Delirium_UI_Create_Widget(GUI, deliriumUI_ADSR, 0,panelX + 19.5,  panelY + 11, 5, 3,"ADSR4",dracorex_ADSR4_ATTACK); 
+			Delirium_UI_Widget_Set_Group_And_Member(GUI, widget_adsr4, "global", "");	
+			fParameters_widget_number[dracorex_ADSR4_ATTACK] = widget_adsr4; 
+			fParameters_widget_number[dracorex_ADSR4_ATTACK+1] = widget_adsr4; 
+			fParameters_widget_number[dracorex_ADSR4_ATTACK+2] = widget_adsr4; 
+			fParameters_widget_number[dracorex_ADSR4_ATTACK+3] = widget_adsr4; 
+			
+
+			
 
 			// loadSymbols();
 			// searchPresets();

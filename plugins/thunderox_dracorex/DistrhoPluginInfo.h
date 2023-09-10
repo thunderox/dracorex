@@ -35,8 +35,8 @@ enum Parameters {
 	dracorex_WAVE_DECAY,
 	dracorex_WAVE_SUSTAIN,
 	dracorex_WAVE_RELEASE,
-	dracorex_OSC1_PITCH_ADSR2,
 	dracorex_OSC1_PITCH_ADSR3,
+	dracorex_OSC1_PITCH_ADSR4,
 	
 	dracorex_OSC2_ACTIVE,
 	dracorex_OSC2_WAVE_A,
@@ -52,19 +52,13 @@ enum Parameters {
 	dracorex_WAVE2_DECAY,
 	dracorex_WAVE2_SUSTAIN,
 	dracorex_WAVE2_RELEASE,
-	dracorex_OSC2_PITCH_ADSR2,
 	dracorex_OSC2_PITCH_ADSR3,
+	dracorex_OSC2_PITCH_ADSR4,
 
 	dracorex_FILTER_ACTIVE,
 	dracorex_CUTOFF,
 	dracorex_RESONANCE,
 	dracorex_FILTER_ADSR3_AMOUNT,
-	dracorex_FILTER_ATTACK,
-	dracorex_FILTER_DECAY,
-	dracorex_FILTER_SUSTAIN,
-	dracorex_FILTER_RELEASE,
-
-	dracorex_CHORUS_ACTIVE,
 
 	dracorex_LFO1_RETRIG,
 	dracorex_LFO1_WAVE,
@@ -84,11 +78,19 @@ enum Parameters {
 	dracorex_LFO2_OSC2_WAVE_AMOUNT,
 	dracorex_LFO2_FILTER_CUTOFF_AMOUNT,
 	
-
-
-	
+	dracorex_CHORUS_ACTIVE,
+		
 	dracorex_VOLUME,
 	dracorex_MASTER_TUNING,
+
+	dracorex_ADSR3_ATTACK,
+	dracorex_ADSR3_DECAY,
+	dracorex_ADSR3_SUSTAIN,
+	dracorex_ADSR3_RELEASE,
+	dracorex_ADSR4_ATTACK,
+	dracorex_ADSR4_DECAY,
+	dracorex_ADSR4_SUSTAIN,
+	dracorex_ADSR4_RELEASE,
 
 	kParameterBufferSize,
 	kParametertriceratopsTime,        

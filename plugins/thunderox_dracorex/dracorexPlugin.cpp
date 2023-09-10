@@ -453,55 +453,6 @@ class dracorexPlugin : public Plugin
 					fParameters[dracorex_RESONANCE] = parameter.ranges.def;
 					break;			
 				
-				case dracorex_FILTER_ADSR3_AMOUNT:
-					parameter.name   = "filter_adsr3_amount";
-					parameter.symbol = "filter_adse3_amount";
-					parameter.hints = kParameterIsAutomatable;
-					parameter.ranges.min = 0.0f;
-					parameter.ranges.max = 1.0f;
-					parameter.ranges.def = 0.0f;
-					fParameters[dracorex_FILTER_ADSR3_AMOUNT] = parameter.ranges.def;
-					break;		
-					
-				case dracorex_FILTER_ATTACK:
-					parameter.name   = "filter_attack";
-					parameter.symbol = "filter_attack";
-					parameter.hints = kParameterIsAutomatable;
-					parameter.ranges.min = 0.0f;
-					parameter.ranges.max = 1.0f;
-					parameter.ranges.def = 0.0f;
-					fParameters[dracorex_FILTER_ATTACK] = parameter.ranges.def;
-					break;	
-					
-				case dracorex_FILTER_SUSTAIN:
-					parameter.name   = "filter_sustain";
-					parameter.symbol = "filter_sustain";
-					parameter.hints = kParameterIsAutomatable;
-					parameter.ranges.min = 0.0f;
-					parameter.ranges.max = 1.0f;
-					parameter.ranges.def = 0.0f;
-					fParameters[dracorex_FILTER_SUSTAIN] = parameter.ranges.def;
-					break;	
-					
-				case dracorex_FILTER_DECAY:
-					parameter.name   = "filter_decay";
-					parameter.symbol = "filter_decay";
-					parameter.hints = kParameterIsAutomatable;
-					parameter.ranges.min = 0.0f;
-					parameter.ranges.max = 1.0f;
-					parameter.ranges.def = 0.0f;
-					fParameters[dracorex_FILTER_DECAY] = parameter.ranges.def;
-					break;	
-					
-				case dracorex_FILTER_RELEASE:
-					parameter.name   = "filter_release";
-					parameter.symbol = "filter_attack";
-					parameter.hints = kParameterIsAutomatable;
-					parameter.ranges.min = 0.0f;
-					parameter.ranges.max = 1.0f;
-					parameter.ranges.def = 0.0f;
-					fParameters[dracorex_FILTER_RELEASE] = parameter.ranges.def;
-					break;		
 					
 				// CHORUS
 				
@@ -588,6 +539,177 @@ class dracorexPlugin : public Plugin
 					parameter.ranges.max = 12.0f;
 					parameter.ranges.def = 0.0f;
 					fParameters[dracorex_LFO1_FILTER_CUTOFF_AMOUNT] = parameter.ranges.def;
+					
+				// LFO 2
+				
+				case dracorex_LFO2_RETRIG:
+					parameter.name   = "lfo2_retrig";
+					parameter.symbol = "lfo2_retrig";
+					parameter.hints = kParameterIsAutomatable;
+					parameter.ranges.min = 0.0f;
+					parameter.ranges.max = 1.0f;
+					parameter.ranges.def = 0.0f;
+					fParameters[dracorex_LFO2_RETRIG] = parameter.ranges.def;
+					
+				case dracorex_LFO2_WAVE:
+					parameter.name   = "lfo2_wave";
+					parameter.symbol = "lfo2_wave";
+					parameter.hints = kParameterIsAutomatable;
+					parameter.ranges.min = 0.0f;
+					parameter.ranges.max = 12.0f;
+					parameter.ranges.def = 0.0f;
+					fParameters[dracorex_LFO2_WAVE] = parameter.ranges.def;
+					
+				case dracorex_LFO2_SPEED:
+					parameter.name   = "lfo2_speed";
+					parameter.symbol = "lfo2_speed";
+					parameter.hints = kParameterIsAutomatable;
+					parameter.ranges.min = 0.0f;
+					parameter.ranges.max = 999.0f;
+					parameter.ranges.def = 0.0f;
+					fParameters[dracorex_LFO2_SPEED] = parameter.ranges.def;
+					
+				case dracorex_LFO2_OSC1_PITCH_AMOUNT:
+					parameter.name   = "lfo2_osc1_pitch_amount";
+					parameter.symbol = "lfo2_osc1_pitch_amount";
+					parameter.hints = kParameterIsAutomatable;
+					parameter.ranges.min = 0.0f;
+					parameter.ranges.max = 1.0f;
+					parameter.ranges.def = 0.0f;
+					fParameters[dracorex_LFO2_OSC1_PITCH_AMOUNT] = parameter.ranges.def;
+					
+				case dracorex_LFO2_OSC2_PITCH_AMOUNT:
+					parameter.name   = "lfo2_osc2_pitch_amount";
+					parameter.symbol = "lfo2_osc2_pitch_amount";
+					parameter.hints = kParameterIsAutomatable;
+					parameter.ranges.min = 0.0f;
+					parameter.ranges.max = 1.0f;
+					parameter.ranges.def = 0.0f;
+					fParameters[dracorex_LFO2_OSC2_PITCH_AMOUNT] = parameter.ranges.def;
+					
+				case dracorex_LFO2_OSC1_WAVE_AMOUNT:
+					parameter.name   = "lfo2_osc2_wave_amount";
+					parameter.symbol = "lfo2_osc2_wave_amount";
+					parameter.hints = kParameterIsAutomatable;
+					parameter.ranges.min = 0.0f;
+					parameter.ranges.max = 12.0f;
+					parameter.ranges.def = 0.0f;
+					fParameters[dracorex_LFO2_OSC1_WAVE_AMOUNT] = parameter.ranges.def;
+					
+				case dracorex_LFO2_OSC2_WAVE_AMOUNT:
+					parameter.name   = "lfo2_osc2_wave_amount";
+					parameter.symbol = "lfo2_osc2_wave_amount";
+					parameter.hints = kParameterIsAutomatable;
+					parameter.ranges.min = 0.0f;
+					parameter.ranges.max = 12.0f;
+					parameter.ranges.def = 0.0f;
+					fParameters[dracorex_LFO2_OSC2_WAVE_AMOUNT] = parameter.ranges.def;
+					
+				case dracorex_LFO2_FILTER_CUTOFF_AMOUNT:
+					parameter.name   = "lfo2_filter_cutoff_amount";
+					parameter.symbol = "lfo2_filter_cutoff_amount";
+					parameter.hints = kParameterIsAutomatable;
+					parameter.ranges.min = 0.0f;
+					parameter.ranges.max = 12.0f;
+					parameter.ranges.def = 0.0f;
+					fParameters[dracorex_LFO2_FILTER_CUTOFF_AMOUNT] = parameter.ranges.def;
+									
+					
+				case dracorex_FILTER_ADSR3_AMOUNT:
+					parameter.name   = "filter_adsr3_amount";
+					parameter.symbol = "filter_adse3_amount";
+					parameter.hints = kParameterIsAutomatable;
+					parameter.ranges.min = 0.0f;
+					parameter.ranges.max = 1.0f;
+					parameter.ranges.def = 0.0f;
+					fParameters[dracorex_FILTER_ADSR3_AMOUNT] = parameter.ranges.def;
+					break;		
+					
+					
+
+					
+				case dracorex_ADSR3_ATTACK:
+					parameter.name   = "adsr3_attack";
+					parameter.symbol = "adsr3_attack";
+					parameter.hints = kParameterIsAutomatable;
+					parameter.ranges.min = 0.0f;
+					parameter.ranges.max = 1.0f;
+					parameter.ranges.def = 1.0f;
+					fParameters[dracorex_ADSR3_ATTACK] = parameter.ranges.def;
+					break;	
+					
+				case dracorex_ADSR3_SUSTAIN:
+					parameter.name   = "adsr3_sustain";
+					parameter.symbol = "adsr3_sustain";
+					parameter.hints = kParameterIsAutomatable;
+					parameter.ranges.min = 0.0f;
+					parameter.ranges.max = 1.0f;
+					parameter.ranges.def = 0.0f;
+					fParameters[dracorex_ADSR3_SUSTAIN] = parameter.ranges.def;
+					break;	
+					
+				case dracorex_ADSR3_DECAY:
+					parameter.name   = "adsr3_decay";
+					parameter.symbol = "adsr3_decay";
+					parameter.hints = kParameterIsAutomatable;
+					parameter.ranges.min = 0.0f;
+					parameter.ranges.max = 1.0f;
+					parameter.ranges.def = 0.0f;
+					fParameters[dracorex_ADSR3_DECAY] = parameter.ranges.def;
+					break;	
+					
+				case dracorex_ADSR3_RELEASE:
+					parameter.name   = "adsr3_release";
+					parameter.symbol = "adsr3_release";
+					parameter.hints = kParameterIsAutomatable;
+					parameter.ranges.min = 0.0f;
+					parameter.ranges.max = 1.0f;
+					parameter.ranges.def = 1.0f;
+					fParameters[dracorex_ADSR3_RELEASE] = parameter.ranges.def;
+					break;	
+					
+					
+					
+					
+				case dracorex_ADSR4_ATTACK:
+					parameter.name   = "adsr4_attack";
+					parameter.symbol = "adsr4_attack";
+					parameter.hints = kParameterIsAutomatable;
+					parameter.ranges.min = 0.0f;
+					parameter.ranges.max = 1.0f;
+					parameter.ranges.def = 1.0f;
+					fParameters[dracorex_ADSR4_ATTACK] = parameter.ranges.def;
+					break;	
+					
+				case dracorex_ADSR4_SUSTAIN:
+					parameter.name   = "adsr4_sustain";
+					parameter.symbol = "adsr4_sustain";
+					parameter.hints = kParameterIsAutomatable;
+					parameter.ranges.min = 0.0f;
+					parameter.ranges.max = 1.0f;
+					parameter.ranges.def = 0.0f;
+					fParameters[dracorex_ADSR4_SUSTAIN] = parameter.ranges.def;
+					break;	
+					
+				case dracorex_ADSR4_DECAY:
+					parameter.name   = "adsr4_decay";
+					parameter.symbol = "adsr4_decay";
+					parameter.hints = kParameterIsAutomatable;
+					parameter.ranges.min = 0.0f;
+					parameter.ranges.max = 1.0f;
+					parameter.ranges.def = 0.0f;
+					fParameters[dracorex_ADSR4_DECAY] = parameter.ranges.def;
+					break;	
+					
+				case dracorex_ADSR4_RELEASE:
+					parameter.name   = "adsr4_release";
+					parameter.symbol = "adsr4_release";
+					parameter.hints = kParameterIsAutomatable;
+					parameter.ranges.min = 0.0f;
+					parameter.ranges.max = 1.0f;
+					parameter.ranges.def = 1.0f;
+					fParameters[dracorex_ADSR4_RELEASE] = parameter.ranges.def;
+					break;	
 			}
 
 		}
@@ -719,8 +841,10 @@ class dracorexPlugin : public Plugin
 					voices[current_voice].osc2.note = note;
 					voices[current_voice].osc1.frequency = fastishP2F(note);
 					voices[current_voice].osc2.frequency = fastishP2F(note);
-					voices[current_voice].filter_env.state = ENV_STATE_ATTACK;
-					voices[current_voice].filter_env.level = 0;
+					voices[current_voice].adsr3_env.state = ENV_STATE_ATTACK;
+					voices[current_voice].adsr3_env.level = 0;
+					voices[current_voice].adsr4_env.state = ENV_STATE_ATTACK;
+					voices[current_voice].adsr4_env.level = 0;
 					
 				}
 				
@@ -736,7 +860,8 @@ class dracorexPlugin : public Plugin
 							voices[x].wave_env.state = ENV_STATE_RELEASE;
 							voices[x].amp2_env.state = ENV_STATE_RELEASE;
 							voices[x].wave2_env.state = ENV_STATE_RELEASE;
-							voices[x].filter_env.state = ENV_STATE_RELEASE;
+							voices[x].adsr3_env.state = ENV_STATE_RELEASE;
+							voices[x].adsr4_env.state = ENV_STATE_RELEASE;
 							keys[note] = -1;
 						}
 					}
@@ -763,11 +888,11 @@ class dracorexPlugin : public Plugin
 			{		
 				voices[v].osc1.wave_a = wavetables[wn1_a].buffer;
 				voices[v].osc1.wave_b = wavetables[wn1_b].buffer;
-				voices[v].osc1.wave_mix = fParameters[dracorex_OSC1_PITCH_ADSR2];
+				voices[v].osc1.wave_mix = fParameters[dracorex_OSC2_PITCH_ADSR3];
 				
 				voices[v].osc2.wave_a = wavetables[wn2_a].buffer;
 				voices[v].osc2.wave_b = wavetables[wn2_b].buffer;
-				voices[v].osc2.wave_mix = fParameters[dracorex_OSC2_PITCH_ADSR2];
+				voices[v].osc2.wave_mix = fParameters[dracorex_OSC2_PITCH_ADSR3];
 			
 				voices[v].play(out_left, out_right, frames);
 			}
