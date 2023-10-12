@@ -30,8 +30,8 @@ float oscillator::tick()
 	float frq = frequency * tuning;
 	int index_int = index;
 	
-	if (frequency < 0.5) frequency = 0.5;
-
+	if (frequency < 0.01) frequency = 0.01;
+	
 	float result1 = 0, result2 = 0;
 
 	if (index == index_int) 
@@ -62,6 +62,8 @@ float oscillator::tick()
 	}	
 
 	index += increment;
+	
+	
 
 	if (index > length - 1 )
 	{	

@@ -35,6 +35,9 @@ class dracorexPlugin : public Plugin
 		// set up voices
 		voice voices[max_notes];	
 		vector <wavetable> wavetables;
+		
+		oscillator lfo1;
+		oscillator lfo2;
 
 		// Parameters
 		float fParameters[kParameterCount+3];
@@ -490,9 +493,9 @@ class dracorexPlugin : public Plugin
 					parameter.name   = "lfo1_speed";
 					parameter.symbol = "lfo1_speed";
 					parameter.hints = kParameterIsAutomatable;
-					parameter.ranges.min = 0.0f;
+					parameter.ranges.min = 1.0f;
 					parameter.ranges.max = 999.0f;
-					parameter.ranges.def = 0.0f;
+					parameter.ranges.def = 1.0f;
 					fParameters[dracorex_LFO1_SPEED] = parameter.ranges.def;
 					
 				case dracorex_LFO1_OSC1_PITCH_AMOUNT:
@@ -564,9 +567,9 @@ class dracorexPlugin : public Plugin
 					parameter.name   = "lfo2_speed";
 					parameter.symbol = "lfo2_speed";
 					parameter.hints = kParameterIsAutomatable;
-					parameter.ranges.min = 0.0f;
+					parameter.ranges.min = 1.0f;
 					parameter.ranges.max = 999.0f;
-					parameter.ranges.def = 0.0f;
+					parameter.ranges.def = 1.0f;
 					fParameters[dracorex_LFO2_SPEED] = parameter.ranges.def;
 					
 				case dracorex_LFO2_OSC1_PITCH_AMOUNT:
@@ -878,6 +881,29 @@ class dracorexPlugin : public Plugin
 			memset( out_left, 0, sizeof(double)*(frames*0.5) );
 			memset( out_right, 0, sizeof(double)*(frames*0.5) );
 			
+			lfo1.frequency = fParameters[dracorex_LFO1_SPEED] / 300.0;
+			lfo2.frequency = fParameters[dracorex_LFO2_SPEED] / 300.0;
+			
+
+			lfo1.wave_a = wavetables[ fParameters[dracorex_LFO1_WAVE] ].buffer;
+			lfo1.wave_b = wavetables[ fParameters[dracorex_LFO1_WAVE] ].buffer;
+			lfo1.wave_mix = 0;
+			lfo1.note = 0;
+			
+			lfo2.wave_a = wavetables[ fParameters[dracorex_LFO2_WAVE] ].buffer;
+			lfo2.wave_b = wavetables[ fParameters[dracorex_LFO2_WAVE] ].buffer;
+			lfo2.wave_mix = 0;
+			lfo2.note = 0;
+			
+			float lfo1_out[frames];
+			float lfo2_out[frames];
+			
+			for (uint32_t x=0; x<frames; x++)
+			{
+				lfo1_out[x] = lfo1.tick();
+				lfo2_out[x] = lfo2.tick();
+			}
+					
 			int wn1_a = fParameters[dracorex_OSC1_WAVE_A];
 			int wn1_b = fParameters[dracorex_OSC1_WAVE_B];
 			
@@ -888,12 +914,15 @@ class dracorexPlugin : public Plugin
 			{		
 				voices[v].osc1.wave_a = wavetables[wn1_a].buffer;
 				voices[v].osc1.wave_b = wavetables[wn1_b].buffer;
-				voices[v].osc1.wave_mix = fParameters[dracorex_OSC2_PITCH_ADSR3];
+				voices[v].osc1.wave_mix = 0;
 				
 				voices[v].osc2.wave_a = wavetables[wn2_a].buffer;
 				voices[v].osc2.wave_b = wavetables[wn2_b].buffer;
-				voices[v].osc2.wave_mix = fParameters[dracorex_OSC2_PITCH_ADSR3];
-			
+				voices[v].osc2.wave_mix = 0;
+				
+				voices[v].lfo1_out = &lfo1_out[0];
+				voices[v].lfo2_out = &lfo2_out[0];
+							
 				voices[v].play(out_left, out_right, frames);
 			}
 			
@@ -921,6 +950,11 @@ Plugin* createPlugin()
 {
 
 	dracorexPlugin* dracorex = new dracorexPlugin();
+	
+	dracorex->lfo1.wave_mix = 0;
+	dracorex->lfo2.wave_mix = 0;
+	dracorex->lfo1.frequency = 1;
+	dracorex->lfo2.frequency = 1;	
 	
 	// LOAD WAVETABLES;
 
@@ -1048,7 +1082,8 @@ Plugin* createPlugin()
 		dracorex->voices[v].osc2.sample_rate = dracorex->getSampleRate();
 		dracorex->voices[v].osc2.length = length;
 		dracorex->voices[v].fParameters = dracorex->fParameters;
-	
+		dracorex->lfo1.length = length;
+		dracorex->lfo2.length = length;
 	}
 	
 	

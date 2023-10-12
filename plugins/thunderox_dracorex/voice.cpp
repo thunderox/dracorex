@@ -535,11 +535,14 @@ float voice::play(float* left_buffer, float* right_buffer,  uint32_t frames)
 				+ osc2_out * (amp2_env.level * fParameters[dracorex_VOLUME] );	
 		}
 		
+		// cout <<  lfo1_out[x] << endl;
+		
 		if (osc1.start_phase)
 		{
 			osc1.frequency = fastishP2F(osc1.note + fParameters[dracorex_OSC1_TUNING]
 				+ (fParameters[dracorex_OSC1_PITCH_ADSR3] * adsr3_env.level * 12)
-				+ (fParameters[dracorex_OSC1_PITCH_ADSR4] * adsr4_env.level * 12)) * 0.8175;;
+				+ (fParameters[dracorex_OSC1_PITCH_ADSR4] * adsr4_env.level * 12)
+				+ (12 * lfo1_out[x] * fParameters[dracorex_LFO1_OSC1_PITCH_AMOUNT])) * 0.8175;
 			osc1.start_phase = false;
 		}
 		
@@ -547,7 +550,8 @@ float voice::play(float* left_buffer, float* right_buffer,  uint32_t frames)
 		{
 			osc2.frequency = fastishP2F(osc2.note + fParameters[dracorex_OSC2_TUNING]
 				+ (fParameters[dracorex_OSC2_PITCH_ADSR3] * adsr3_env.level * 12)
-				+ (fParameters[dracorex_OSC2_PITCH_ADSR4] * adsr4_env.level * 12)) * 0.8175;;
+				+ (fParameters[dracorex_OSC2_PITCH_ADSR4] * adsr4_env.level * 12)
+				+ (12 * lfo1_out[x] * fParameters[dracorex_LFO1_OSC2_PITCH_AMOUNT])) * 0.8175;
 			osc2.start_phase = false;
 		}
 		

@@ -47,6 +47,8 @@ class voice
 	
 	oscillator osc1;
 	oscillator osc2;
+	float* lfo1_out;
+	float* lfo2_out;
 	chorus _chorus;
 	
 	adsr amp_env;
