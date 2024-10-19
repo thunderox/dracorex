@@ -27,7 +27,6 @@ float oscillator::tick()
 {
 	sample_rate = 44100;
 	tuning = 1;
-	float frq = frequency * tuning;
 	int index_int = index;
 	
 	if (frequency < 0.01) frequency = 0.01;

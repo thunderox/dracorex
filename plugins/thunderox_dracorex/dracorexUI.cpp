@@ -50,6 +50,7 @@ class dracorexUI : public UI
 			// OSCILATOR NAVIGATION ONE / TWO -----------------------------------------------------------------------
 			
 			int oscillators_group = Delirium_UI_Group_Create(GUI, "oscillators");
+			(void)oscillators_group;
 			Delirium_UI_Group_Add_Member(GUI, "oscillators", "osc1");
 			Delirium_UI_Group_Add_Member(GUI, "oscillators", "osc2");
 			
@@ -221,11 +222,13 @@ class dracorexUI : public UI
 			//--------- PANEL MATRIX FOR LFO / FILTER FX ---------------------------------------------------------
 			
 			int matrix_panel = Delirium_UI_Create_Widget(GUI, deliriumUI_Panel, 0, panelX+13, panelY, 12,8, "MATRIX", -1);
+			(void) matrix_panel;
 			Delirium_UI_Widget_Set_Group_And_Member(GUI, matrix_panel, "global", "");
 			
 			//------ MATRIX NAVIGATION LFO / FILTER / FX ----------------------------------------------------------
 			
 			int matrix_group = Delirium_UI_Group_Create(GUI, "matrix");
+			(void) matrix_group;
 			Delirium_UI_Group_Add_Member(GUI, "matrix", "lfo1");
 			Delirium_UI_Group_Add_Member(GUI, "matrix", "lfo2");
 			Delirium_UI_Group_Add_Member(GUI, "matrix", "filter");
@@ -441,7 +444,7 @@ class dracorexUI : public UI
 		
 			int widget_number = -1;
 		
-			for (int w=0; w<GUI->Widgets.size(); w++)
+			for (unsigned long int w=0; w<GUI->Widgets.size(); w++)
 			{
 				if (GUI->Widgets[w]->type == deliriumUI_Selector)
 					widget_number = w;
@@ -449,7 +452,7 @@ class dracorexUI : public UI
 			
 			if (widget_number > -1)
 			{
-				for (int w=0; w<GUI->Widgets[widget_number]->wavetables.size(); w++)
+				for (unsigned long int w=0; w<GUI->Widgets[widget_number]->wavetables.size(); w++)
 				{
 					free( GUI->Widgets[widget_number]->wavetables[w].buffer );
 					cout << "Unloading: " << GUI->Widgets[widget_number]->wavetables[w].name << endl;
@@ -483,7 +486,6 @@ class dracorexUI : public UI
 			stringstream wave_path;
 			stringstream wave_file;
 			struct dirent *d;
-			struct stat st;
 			
 			DIR *dr;
 			wave_path.str("");
@@ -510,11 +512,12 @@ class dracorexUI : public UI
 						new_waveform.name = d->d_name;
 						new_waveform.buffer = (float *)malloc(length*sizeof(float)) ;
 						
-						fseek(fp, 80, SEEK_SET);
-						fread(new_waveform.buffer ,1, length*sizeof(float), fp);
+						size_t rt = fseek(fp, 80, SEEK_SET);
+						rt = fread(new_waveform.buffer ,1, length*sizeof(float), fp);
+						(void) rt;
 						new_waveform.length = length;
 						
-						for (int w=0; w<GUI->Widgets.size(); w++)
+						for (unsigned long int w=0; w<GUI->Widgets.size(); w++)
 						{
 							if (GUI->Widgets[w]->type == deliriumUI_Selector)
 							{
@@ -524,7 +527,7 @@ class dracorexUI : public UI
 					}
 					fclose(fp);
 					
-					for (int w=0; w<GUI->Widgets.size(); w++)
+					for (unsigned long int w=0; w<GUI->Widgets.size(); w++)
 					{
 						if (GUI->Widgets[w]->type == deliriumUI_Selector)
 						{
@@ -548,9 +551,6 @@ class dracorexUI : public UI
 		{
 			string lv2_path = getenv("LV2_PATH");
 			string line;
-			struct dirent *d;
-			struct stat st;
-			DIR *dr;
 			stringstream dracorex_ttl_file_name;
 			number_of_symbols = 0;
 					
@@ -558,7 +558,7 @@ class dracorexUI : public UI
 			
 			vector<string> v = split (lv2_path, ':');
 			
-			for (int z=0; z<v.size(); z++)
+			for (unsigned long int z=0; z<v.size(); z++)
 			{
 				dracorex_ttl_file_name.str("");
 				dracorex_ttl_file_name << v[z] << "/thunderox_dracorex.lv2/thunderox_dracorex_dsp.ttl";
@@ -580,7 +580,7 @@ class dracorexUI : public UI
 						symbol_found = true;
 						int add_this_char = 0;
 						
-						for (int char_number = 0; char_number < line.length(); char_number++)
+						for (unsigned long int char_number = 0; char_number < line.length(); char_number++)
 						{
 							if (line[char_number] == 34) add_this_char = 1 - add_this_char;
 							else if (add_this_char) symbol_name << line[char_number];
@@ -645,7 +645,7 @@ class dracorexUI : public UI
 			// preset_category_file.open("test.txt");
 			vector<string> v = split (lv2_path, ':');
 			    
-			for (int z=0; z<v.size(); z++)
+			for (unsigned long int z=0; z<v.size(); z++)
 			{
 				dr = opendir(v[z].c_str()); // search through LV2 folders in LV2_PATH 
 				
@@ -719,7 +719,7 @@ class dracorexUI : public UI
 												string category_name = Find_Preset_Category(new_preset.file);
 												bool category_found = false;
 												
-												for (int x=0; x<categories.size(); x++)
+												for (unsigned long int x=0; x<categories.size(); x++)
 												{
 													if (categories[x].name == category_name)
 													{
@@ -762,12 +762,12 @@ class dracorexUI : public UI
 			
 			sort(categories.begin(),categories.end(),alphasort_category());
 			
-			for (int x=0; x<categories.size(); x++)
+			for (unsigned long int x=0; x<categories.size(); x++)
 			{
 				Delirium_UI_Widget_List_Add_Item(GUI, widget_categories_list, categories[x].name);
 			}
 			
-			for (int x=0; x<categories.size(); x++)
+			for (unsigned long int x=0; x<categories.size(); x++)
 			{
 				sort(categories[x].presets.begin(),categories[x].presets.end(),alphasort_preset());	
 			}
@@ -794,9 +794,9 @@ class dracorexUI : public UI
 
 		void loadPreset()
 		{ 	
-			int category_number = current_category;
+			unsigned long int category_number = current_category;
 
-			int preset_number = GUI->Widgets[widget_presets_list]->list_position
+			unsigned long int preset_number = GUI->Widgets[widget_presets_list]->list_position
 				+ GUI->Widgets[widget_presets_list]->list_scroll;
 				
 			if ( preset_number > categories[category_number].presets.size()-1
@@ -934,7 +934,7 @@ class dracorexUI : public UI
 					GUI->Widgets[widget_presets_list]->list_scroll = 0;
 					current_category = category_number;
 
-					for (int pr=0; pr<categories[category_number].presets.size(); pr++)
+					for (unsigned long int pr=0; pr<categories[category_number].presets.size(); pr++)
 					{			
 						Delirium_UI_Widget_List_Add_Item(GUI, widget_presets_list, categories[category_number].presets[pr].name);
 					}
@@ -1059,6 +1059,7 @@ class dracorexUI : public UI
 		//--------------------------------------------------------------------------------------------------------
 		void programLoaded(uint32_t index) override
 		{
+			(void) index;
 			GUI->draw_flag = true;
 			Delirium_UI_Display_All(GUI, cr);
 		}
@@ -1082,9 +1083,9 @@ class dracorexUI : public UI
 			{
 				Delirium_UI_Widget_Base* wdg = (Delirium_UI_Widget_Base*)GUI->Widgets[widget_number];
 				
-				if (index == wdg->parameter_number && wdg->type == deliriumUI_ADSR) wdg->current_value = 0;
+				if (index == (uint32_t)wdg->parameter_number && wdg->type == deliriumUI_ADSR) wdg->current_value = 0;
 				
-				if (index > wdg->parameter_number && wdg->type == deliriumUI_ADSR)
+				if (index > (uint32_t)wdg->parameter_number && wdg->type == deliriumUI_ADSR)
 				{
 					wdg->current_value = ( index - wdg->parameter_number);
 				}

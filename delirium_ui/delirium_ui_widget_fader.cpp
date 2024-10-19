@@ -114,12 +114,13 @@ void Delirium_UI_Widget_Fader::Draw(cairo_t* cr)
 
 void Delirium_UI_Widget_Fader::Left_Button_Press(int xm, int ym)
 {
-	float wX = x_position * x_grid_size;
+	(void) xm;
+	// float wX = x_position * x_grid_size;
 	float wY = y_position * y_grid_size;
-	float wW = width * x_grid_size;
+	//float wW = width * x_grid_size;
 	float wH = height * y_grid_size;
 	
-	float fader_top = wY + font_size;
+	// float fader_top = wY + font_size;
 	float fader_height = wH - (font_size*3);
 
 	float ypixel = (ym - wY) - font_size;

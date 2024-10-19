@@ -104,7 +104,7 @@ class Delirium_UI_Widget_Base
 	int press_count;
 	int wave_mode;
 	vector <string> list_items;
-	int list_position, list_scroll;
+	long unsigned int list_position, list_scroll;
 	bool active;
 	vector <string> tabs;
 	vector <string> tabs_group_name;

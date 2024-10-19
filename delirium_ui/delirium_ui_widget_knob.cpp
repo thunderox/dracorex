@@ -115,12 +115,14 @@ void Delirium_UI_Widget_Knob::Draw(cairo_t* cr)
 
 void Delirium_UI_Widget_Knob::Left_Button_Press(int xm, int ym)
 {
-	float wX = x_position * x_grid_size;
+	(void) xm;
+	(void) ym;
+	// float wX = x_position * x_grid_size;
 	float wY = y_position * y_grid_size;
-	float wW = width * x_grid_size;
+	// float wW = width * x_grid_size;
 	float wH = height * y_grid_size;
 	
-	float Knob_top = wY + (font_size / 2);
+	// float Knob_top = wY + (font_size / 2);
 	float Knob_height = wH;
 
 	float ypixel = (ym - wY);

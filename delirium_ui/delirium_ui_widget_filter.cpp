@@ -135,10 +135,12 @@ void Delirium_UI_Widget_Filter::Draw(cairo_t* cr)
 
 void Delirium_UI_Widget_Filter::Left_Button_Press(int xm, int ym)
 {
-	float x = x_position * x_grid_size;
-	float y = y_position * y_grid_size;
-	float w = width * x_grid_size;
-	float h = height * y_grid_size;
+	(void) xm;
+	(void) ym;
+	// float x = x_position * x_grid_size;
+	// float y = y_position * y_grid_size;
+	// float w = width * x_grid_size;
+	// float h = height * y_grid_size;
 		
 	toggle_mode = 1 - toggle_mode;
 
