@@ -14,8 +14,8 @@ void Delirium_UI_Widget_ADSR::Draw(cairo_t* cr)
 
 	float sx = x;
 	float sy = y + (h/6);
-	float sw = w;
-	float sh = h * 0.8;
+	// float sw = w;
+	// float sh = h * 0.8;
 
 	cairo_set_source_rgb(cr, 0,0,0);
 	cairo_rectangle(cr, x,y-font_size,w,h);
@@ -114,17 +114,18 @@ void Delirium_UI_Widget_ADSR::Draw(cairo_t* cr)
 
 void Delirium_UI_Widget_ADSR::Left_Button_Press(int xm, int ym)
 {
-	float widget_x_position = x_position * x_grid_size;
+	(void) xm;
+	// float widget_x_position = x_position * x_grid_size;
 	float widget_y_position = y_position * y_grid_size;
-	float widget_width = width * x_grid_size;
+	// float widget_width = width * x_grid_size;
 	float widget_height = height * y_grid_size;
 
-	float sx = widget_x_position;
-	float sy = widget_y_position;
-	float sw = widget_width;
+	// float sx = widget_x_position;
+	// float sy = widget_y_position;
+	// float sw = widget_width;
 	float sh = widget_height;
 	
-	float fader_top = sy + font_size;
+	// float fader_top = sy + font_size;
 	float fader_height = sh * 0.5;
 
 	float ypixel = (ym - widget_y_position) - font_size;
@@ -141,11 +142,11 @@ void Delirium_UI_Widget_ADSR::Left_Button_Press(int xm, int ym)
 
 void Delirium_UI_Widget_ADSR::Mouse_Over(int xm, int ym)
 {
-
+	(void) ym;
 	float x = x_position * x_grid_size;
-	float y = y_position * y_grid_size;
+	// float y = y_position * y_grid_size;
 	float w = width * x_grid_size;
-	float h = height * y_grid_size;
+	// float h = height * y_grid_size;
 
 	int new_current_value = int((xm-x)/(w/5))-1;
 

@@ -1,4 +1,2 @@
-make
-sudo make install
-jalv.gtk http://thunderox.com/thunderox_dracorex
+jalv.gtk http://thunderox.com/dracorex
 

@@ -2,7 +2,7 @@
 # --------------------------------------------------------------
 # Project name, used for binaries
 
-NAME = thunderox_dracorex
+NAME = dracorex
 
 # --------------------------------------------------------------
 # Files to build

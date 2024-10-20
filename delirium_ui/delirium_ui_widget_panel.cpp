@@ -10,9 +10,9 @@ void Delirium_UI_Widget_Panel::Draw(cairo_t* cr)
 	float wW = width * x_grid_size;
 	float wH = height * y_grid_size;
 
-	float r = 0.1;
-	float g = 0;
-	float b = 0;
+	// float r = 0.1;
+	// float g = 0;
+	// float b = 0;
 
 	cairo_text_extents_t extents;
  
@@ -45,7 +45,10 @@ void Delirium_UI_Widget_Panel::Draw(cairo_t* cr)
 
 void Delirium_UI_Widget_Panel::Left_Button_Press(int xm, int ym)
 {
+	(void)xm;
+	(void)ym;
 }
+
 
 
 

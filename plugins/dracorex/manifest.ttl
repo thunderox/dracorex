@@ -1,0 +1,18 @@
+@prefix lv2:  <http://lv2plug.in/ns/lv2core#> .
+@prefix doap: <http://usefulinc.com/ns/doap#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ui:   <http://lv2plug.in/ns/extensions/ui#> .
+
+
+<http://thunderox.com/dracorex>
+    a lv2:Plugin ;
+    lv2:binary <dracorex_dsp.so> ;
+    rdfs:seeAlso <dracorex_dsp.ttl> .
+
+<http://thunderox.com/dracorex#UI>
+    a ui:X11UI ;
+    ui:binary <dracorex_ui.so> ;
+    rdfs:seeAlso <dracorex_ui.ttl> .
+
+
+

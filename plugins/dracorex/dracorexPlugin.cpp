@@ -479,6 +479,7 @@ class dracorexPlugin : public Plugin
 					parameter.ranges.max = 1.0f;
 					parameter.ranges.def = 0.0f;
 					fParameters[dracorex_LFO1_RETRIG] = parameter.ranges.def;
+					break;	
 					
 				case dracorex_LFO1_WAVE:
 					parameter.name   = "lfo1_wave";
@@ -488,6 +489,7 @@ class dracorexPlugin : public Plugin
 					parameter.ranges.max = 12.0f;
 					parameter.ranges.def = 0.0f;
 					fParameters[dracorex_LFO1_WAVE] = parameter.ranges.def;
+					break;	
 					
 				case dracorex_LFO1_SPEED:
 					parameter.name   = "lfo1_speed";
@@ -497,6 +499,7 @@ class dracorexPlugin : public Plugin
 					parameter.ranges.max = 999.0f;
 					parameter.ranges.def = 1.0f;
 					fParameters[dracorex_LFO1_SPEED] = parameter.ranges.def;
+					break;	
 					
 				case dracorex_LFO1_OSC1_PITCH_AMOUNT:
 					parameter.name   = "lfo1_osc1_pitch_amount";
@@ -506,6 +509,7 @@ class dracorexPlugin : public Plugin
 					parameter.ranges.max = 1.0f;
 					parameter.ranges.def = 0.0f;
 					fParameters[dracorex_LFO1_OSC1_PITCH_AMOUNT] = parameter.ranges.def;
+					break;	
 					
 				case dracorex_LFO1_OSC2_PITCH_AMOUNT:
 					parameter.name   = "lfo1_osc2_pitch_amount";
@@ -515,6 +519,7 @@ class dracorexPlugin : public Plugin
 					parameter.ranges.max = 1.0f;
 					parameter.ranges.def = 0.0f;
 					fParameters[dracorex_LFO1_OSC2_PITCH_AMOUNT] = parameter.ranges.def;
+					break;	
 					
 				case dracorex_LFO1_OSC1_WAVE_AMOUNT:
 					parameter.name   = "lfo1_osc2_wave_amount";
@@ -524,6 +529,7 @@ class dracorexPlugin : public Plugin
 					parameter.ranges.max = 12.0f;
 					parameter.ranges.def = 0.0f;
 					fParameters[dracorex_LFO1_OSC1_WAVE_AMOUNT] = parameter.ranges.def;
+					break;	
 					
 				case dracorex_LFO1_OSC2_WAVE_AMOUNT:
 					parameter.name   = "lfo1_osc2_wave_amount";
@@ -533,6 +539,7 @@ class dracorexPlugin : public Plugin
 					parameter.ranges.max = 12.0f;
 					parameter.ranges.def = 0.0f;
 					fParameters[dracorex_LFO1_OSC2_WAVE_AMOUNT] = parameter.ranges.def;
+					break;	
 					
 				case dracorex_LFO1_FILTER_CUTOFF_AMOUNT:
 					parameter.name   = "lfo1_filter_cutoff_amount";
@@ -542,6 +549,18 @@ class dracorexPlugin : public Plugin
 					parameter.ranges.max = 12.0f;
 					parameter.ranges.def = 0.0f;
 					fParameters[dracorex_LFO1_FILTER_CUTOFF_AMOUNT] = parameter.ranges.def;
+					break;	
+					
+				case dracorex_LFO1_ADSR4_SWITCH:
+					parameter.name   = "lfo1_adsr4_switch";
+					parameter.symbol = "lfo1_adsr4_switch";
+					parameter.hints = kParameterIsAutomatable;
+					parameter.ranges.min = 0.0f;
+					parameter.ranges.max = 1.0f;
+					parameter.ranges.def = 0.0f;
+					fParameters[dracorex_LFO1_ADSR4_SWITCH] = parameter.ranges.def;
+					break;						
+					
 					
 				// LFO 2
 				
@@ -553,6 +572,7 @@ class dracorexPlugin : public Plugin
 					parameter.ranges.max = 1.0f;
 					parameter.ranges.def = 0.0f;
 					fParameters[dracorex_LFO2_RETRIG] = parameter.ranges.def;
+					break;	
 					
 				case dracorex_LFO2_WAVE:
 					parameter.name   = "lfo2_wave";
@@ -562,6 +582,7 @@ class dracorexPlugin : public Plugin
 					parameter.ranges.max = 12.0f;
 					parameter.ranges.def = 0.0f;
 					fParameters[dracorex_LFO2_WAVE] = parameter.ranges.def;
+					break;	
 					
 				case dracorex_LFO2_SPEED:
 					parameter.name   = "lfo2_speed";
@@ -571,6 +592,7 @@ class dracorexPlugin : public Plugin
 					parameter.ranges.max = 999.0f;
 					parameter.ranges.def = 1.0f;
 					fParameters[dracorex_LFO2_SPEED] = parameter.ranges.def;
+					break;	
 					
 				case dracorex_LFO2_OSC1_PITCH_AMOUNT:
 					parameter.name   = "lfo2_osc1_pitch_amount";
@@ -580,6 +602,7 @@ class dracorexPlugin : public Plugin
 					parameter.ranges.max = 1.0f;
 					parameter.ranges.def = 0.0f;
 					fParameters[dracorex_LFO2_OSC1_PITCH_AMOUNT] = parameter.ranges.def;
+					break;	
 					
 				case dracorex_LFO2_OSC2_PITCH_AMOUNT:
 					parameter.name   = "lfo2_osc2_pitch_amount";
@@ -589,6 +612,7 @@ class dracorexPlugin : public Plugin
 					parameter.ranges.max = 1.0f;
 					parameter.ranges.def = 0.0f;
 					fParameters[dracorex_LFO2_OSC2_PITCH_AMOUNT] = parameter.ranges.def;
+					break;	
 					
 				case dracorex_LFO2_OSC1_WAVE_AMOUNT:
 					parameter.name   = "lfo2_osc2_wave_amount";
@@ -598,6 +622,7 @@ class dracorexPlugin : public Plugin
 					parameter.ranges.max = 12.0f;
 					parameter.ranges.def = 0.0f;
 					fParameters[dracorex_LFO2_OSC1_WAVE_AMOUNT] = parameter.ranges.def;
+					break;	
 					
 				case dracorex_LFO2_OSC2_WAVE_AMOUNT:
 					parameter.name   = "lfo2_osc2_wave_amount";
@@ -607,6 +632,7 @@ class dracorexPlugin : public Plugin
 					parameter.ranges.max = 12.0f;
 					parameter.ranges.def = 0.0f;
 					fParameters[dracorex_LFO2_OSC2_WAVE_AMOUNT] = parameter.ranges.def;
+					break;	
 					
 				case dracorex_LFO2_FILTER_CUTOFF_AMOUNT:
 					parameter.name   = "lfo2_filter_cutoff_amount";
@@ -616,7 +642,18 @@ class dracorexPlugin : public Plugin
 					parameter.ranges.max = 12.0f;
 					parameter.ranges.def = 0.0f;
 					fParameters[dracorex_LFO2_FILTER_CUTOFF_AMOUNT] = parameter.ranges.def;
-									
+					break;		
+					
+				case dracorex_LFO2_ADSR4_SWITCH:
+					parameter.name   = "lfo2_adsr4_switch";
+					parameter.symbol = "lfo2_adsr4_switch";
+					parameter.hints = kParameterIsAutomatable;
+					parameter.ranges.min = 0.0f;
+					parameter.ranges.max = 1.0f;
+					parameter.ranges.def = 0.0f;
+					fParameters[dracorex_LFO2_ADSR4_SWITCH] = parameter.ranges.def;
+					break;			
+					
 					
 				case dracorex_FILTER_ADSR3_AMOUNT:
 					parameter.name   = "filter_adsr3_amount";
@@ -627,9 +664,6 @@ class dracorexPlugin : public Plugin
 					parameter.ranges.def = 0.0f;
 					fParameters[dracorex_FILTER_ADSR3_AMOUNT] = parameter.ranges.def;
 					break;		
-					
-					
-
 					
 				case dracorex_ADSR3_ATTACK:
 					parameter.name   = "adsr3_attack";
@@ -783,10 +817,10 @@ class dracorexPlugin : public Plugin
 
 
 
-		void run(const float** inputs, float** outputs, uint32_t frames,
-             const MidiEvent* midiEvents, uint32_t midiEventCount) override
+		void run(const float** inputs, float** outputs, uint32_t frames, 
+			const MidiEvent* midiEvents, uint32_t midiEventCount) override
 		{
-
+			(void)inputs;
 			// if (!fParameters[dracorex_DSP_RUN]) return; // Playing sound during preset load is a bad idea.	
 			
 			// DO MIDI STUFF -------------------------------------------------------------------------
@@ -797,7 +831,7 @@ class dracorexPlugin : public Plugin
 			{
 			
 				const uint8_t* ev = midiEvents[i].data;
-			      	if ((int)ev[0]  == 0x90 + midi_channel && (int)ev[2] > 0)
+			      	if ( ((int)ev[0] == (0x90 + midi_channel) && (int)ev[2] > 0))
 				{
 					int note = (int)ev[1];
 					
@@ -851,7 +885,7 @@ class dracorexPlugin : public Plugin
 					
 				}
 				
-				if ((int)ev[0] == 0x80 || (int)ev[0] == 0x90 && (int)ev[2] == 0)
+				if ((int)ev[0] == 0x80 || ((int)ev[0] == 0x90 && (int)ev[2] == 0))
 				{
 					int note = (int)ev[1];
 					
@@ -900,8 +934,23 @@ class dracorexPlugin : public Plugin
 			
 			for (uint32_t x=0; x<frames; x++)
 			{
-				lfo1_out[x] = lfo1.tick();
-				lfo2_out[x] = lfo2.tick();
+				if (fParameters[dracorex_LFO1_ADSR4_SWITCH])
+				{
+					lfo1_out[x] = lfo1.tick() * voices[current_voice].adsr4_env.level;
+				}
+				else
+				{
+					lfo1_out[x] = lfo1.tick();
+				}
+				
+				if (fParameters[dracorex_LFO2_ADSR4_SWITCH])
+				{
+					lfo2_out[x] = lfo2.tick() * voices[current_voice].adsr4_env.level;
+				}
+				else
+				{
+					lfo2_out[x] = lfo2.tick();
+				}
 			}
 					
 			int wn1_a = fParameters[dracorex_OSC1_WAVE_A];
@@ -933,6 +982,8 @@ class dracorexPlugin : public Plugin
 		 				
 		void initProgramName(uint32_t index, String& program_name) override
 		{
+			(void)index;
+			(void)program_name;
 		}
 	
 		
@@ -962,12 +1013,11 @@ Plugin* createPlugin()
 	stringstream wave_path;
 	stringstream wave_file;
 	struct dirent *d;
-	struct stat st;
-	long length;
+	long length = 0;
 
 	DIR *dr;
 	wave_path.str("");
-	wave_path << "/home/" << user_path << "/.lv2/thunderox_dracorex.lv2/waves";
+	wave_path << "/home/" << user_path << "/.lv2/dracorex.lv2/waves";
 			
 	dr = opendir(wave_path.str().c_str());
 		 
@@ -993,7 +1043,8 @@ Plugin* createPlugin()
 				// LOAD RAW WAVEFORM
 							
 				fseek(fp, 80, SEEK_SET);
-				fread(source_waveform_buffer ,1, length*sizeof(float), fp);
+				size_t sz = fread(source_waveform_buffer ,1, length*sizeof(float), fp);
+				(void)sz;
 				fclose(fp);	
 				
 				

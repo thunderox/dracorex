@@ -43,6 +43,8 @@ void Delirium_UI_Widget_Base::Draw(cairo_t* cr)
 
 void Delirium_UI_Widget_Base::Left_Button_Press(int xm, int ym)
 {
+	(void) xm;
+	(void) ym;
 }
 
 //-------------------------------------------------------------------------------------------
@@ -57,6 +59,8 @@ void Delirium_UI_Widget_Base::Middle_Button_Press()
 
 void Delirium_UI_Widget_Base::Mouse_Over(int xm, int ym)
 {
+	(void) xm;
+	(void) ym;
 }
 
 //----------------------------------------------------------------------------------------------------------------------------------------
@@ -64,6 +68,9 @@ void Delirium_UI_Widget_Base::Mouse_Over(int xm, int ym)
 
 void Delirium_UI_Widget_Base::Mouse_Scroll(int mx,int my, float delta)
 {
+	(void) mx;
+	(void) my;
+	
 	if (type != deliriumUI_Knob)
 	{
 		if (min < max)
