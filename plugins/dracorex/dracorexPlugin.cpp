@@ -551,6 +551,17 @@ class dracorexPlugin : public Plugin
 					fParameters[dracorex_LFO1_FILTER_CUTOFF_AMOUNT] = parameter.ranges.def;
 					break;	
 					
+				case dracorex_LFO1_ADSR4_SWITCH:
+					parameter.name   = "lfo1_adsr4_switch";
+					parameter.symbol = "lfo1_adsr4_switch";
+					parameter.hints = kParameterIsAutomatable;
+					parameter.ranges.min = 0.0f;
+					parameter.ranges.max = 1.0f;
+					parameter.ranges.def = 0.0f;
+					fParameters[dracorex_LFO1_ADSR4_SWITCH] = parameter.ranges.def;
+					break;						
+					
+					
 				// LFO 2
 				
 				case dracorex_LFO2_RETRIG:
@@ -631,7 +642,18 @@ class dracorexPlugin : public Plugin
 					parameter.ranges.max = 12.0f;
 					parameter.ranges.def = 0.0f;
 					fParameters[dracorex_LFO2_FILTER_CUTOFF_AMOUNT] = parameter.ranges.def;
-					break;				
+					break;		
+					
+				case dracorex_LFO2_ADSR4_SWITCH:
+					parameter.name   = "lfo2_adsr4_switch";
+					parameter.symbol = "lfo2_adsr4_switch";
+					parameter.hints = kParameterIsAutomatable;
+					parameter.ranges.min = 0.0f;
+					parameter.ranges.max = 1.0f;
+					parameter.ranges.def = 0.0f;
+					fParameters[dracorex_LFO2_ADSR4_SWITCH] = parameter.ranges.def;
+					break;			
+					
 					
 				case dracorex_FILTER_ADSR3_AMOUNT:
 					parameter.name   = "filter_adsr3_amount";
@@ -912,8 +934,23 @@ class dracorexPlugin : public Plugin
 			
 			for (uint32_t x=0; x<frames; x++)
 			{
-				lfo1_out[x] = lfo1.tick();
-				lfo2_out[x] = lfo2.tick();
+				if (fParameters[dracorex_LFO1_ADSR4_SWITCH])
+				{
+					lfo1_out[x] = lfo1.tick() * voices[current_voice].adsr4_env.level;
+				}
+				else
+				{
+					lfo1_out[x] = lfo1.tick();
+				}
+				
+				if (fParameters[dracorex_LFO2_ADSR4_SWITCH])
+				{
+					lfo2_out[x] = lfo2.tick() * voices[current_voice].adsr4_env.level;
+				}
+				else
+				{
+					lfo2_out[x] = lfo2.tick();
+				}
 			}
 					
 			int wn1_a = fParameters[dracorex_OSC1_WAVE_A];

@@ -42,6 +42,7 @@ typedef enum {
 	dracorex_LFO1_OSC1_WAVE_AMOUNT = 29,
 	dracorex_LFO1_OSC2_WAVE_AMOUNT = 30,
 	dracorex_LFO1_FILTER_AMOUNT = 31,
+	dracorex_LFO1_ADSR4_SWITCH = 49,
 
 	dracorex_LFO2_WAVE = 32,
 	dracorex_LFO2_SPEED = 33,
@@ -51,6 +52,8 @@ typedef enum {
 	dracorex_LFO2_OSC1_WAVE_AMOUNT = 37,
 	dracorex_LFO2_OSC2_WAVE_AMOUNT = 38,
 	dracorex_LFO2_FILTER_AMOUNT = 39,
+	dracorex_LFO2_ADSR4_SWITCH = 50,
+	
 	dracorex_ADSR3_ATTACK = 40,
 	dracorex_ADSR3_DECAY = 41,
 	dracorex_ADSR3_SUSTAIN = 42,

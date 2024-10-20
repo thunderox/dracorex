@@ -94,6 +94,9 @@ enum Parameters {
 
 	dracorex_PRESET_CATEGORY,
 
+	dracorex_LFO1_ADSR4_SWITCH,
+	dracorex_LFO2_ADSR4_SWITCH,
+
 	kParameterBufferSize,
 	kParametertriceratopsTime,        
 	kParameterCount
