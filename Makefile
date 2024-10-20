@@ -5,7 +5,7 @@
 #
 # Modified by REIS0
 
-PLUGIN=thunderox_dracorex 	
+PLUGIN=dracorex 	
 
 include dpf/Makefile.base.mk
 
@@ -47,24 +47,24 @@ clean:
 
 # --------------------------------------------------------------
 install:
-	cp $(CURDIR)/bin/thunderox_dracorex.lv2 /usr/lib/lv2 -r
-	cp $(CURDIR)/plugins/thunderox_dracorex/manifest.ttl /usr/lib/lv2/thunderox_dracorex.lv2
-	cp $(CURDIR)/bin/thunderox_dracorex-dssi /usr/lib/dssi -r
-	cp $(CURDIR)/bin/thunderox_dracorex-dssi.so /usr/lib/dssi
-	cp $(CURDIR)/bin/thunderox_dracorex-vst.so /usr/lib/vst
-	chmod +x $(CURDIR)/bin/thunderox_dracorex
-	cp $(CURDIR)/bin/thunderox_dracorex /usr/bin
-	mkdir /home/$(SUDO_USER)/.lv2/thunderox_dracorex.lv2 -p
-	cp $(CURDIR)/plugins/thunderox_dracorex/waves /home/$(SUDO_USER)/.lv2/thunderox_dracorex.lv2 -r
+	cp $(CURDIR)/bin/dracorex.lv2 /usr/lib/lv2 -r
+	cp $(CURDIR)/plugins/dracorex/manifest.ttl /usr/lib/lv2/dracorex.lv2
+	cp $(CURDIR)/bin/dracorex-dssi /usr/lib/dssi -r
+	cp $(CURDIR)/bin/dracorex-dssi.so /usr/lib/dssi
+	cp $(CURDIR)/bin/dracorex-vst.so /usr/lib/vst
+	chmod +x $(CURDIR)/bin/dracorex
+	cp $(CURDIR)/bin/dracorex /usr/bin
+	mkdir /home/$(SUDO_USER)/.lv2/dracorex.lv2 -p
+	cp $(CURDIR)/plugins/dracorex/waves /home/$(SUDO_USER)/.lv2/dracorex.lv2 -r
 
 # --------------------------------------------------------------
 uninstall:
-	rm /usr/lib/lv2/thunderox_dracorex.lv2 -rf
-	rm /usr/lib/dssi/thunderox_dracorex.dssi -rf
-	rm /usr/lib/dssi/thunderox_dracorex-dssi.so -f
-	rm /usr/lib/vst/thunderox_dracorex-vst.so -f
-	rm /usr/bin/thunderox_dracorex
-	rm /home/$(SUDO_USER)/.lv2/thunderox_dracorex.lv2 -r
+	rm /usr/lib/lv2/dracorex.lv2 -rf
+	rm /usr/lib/dssi/dracorex.dssi -rf
+	rm /usr/lib/dssi/dracorex-dssi.so -f
+	rm /usr/lib/vst/dracorex-vst.so -f
+	rm /usr/bin/dracorex
+	rm /home/$(SUDO_USER)/.lv2/dracorex.lv2 -r
 
 # --------------------------------------------------------------
 
