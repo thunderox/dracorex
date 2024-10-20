@@ -92,6 +92,8 @@ enum Parameters {
 	dracorex_ADSR4_SUSTAIN,
 	dracorex_ADSR4_RELEASE,
 
+	dracorex_PRESET_CATEGORY,
+
 	kParameterBufferSize,
 	kParametertriceratopsTime,        
 	kParameterCount

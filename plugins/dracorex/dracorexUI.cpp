@@ -53,11 +53,13 @@ class dracorexUI : public UI
 			(void)oscillators_group;
 			Delirium_UI_Group_Add_Member(GUI, "oscillators", "osc1");
 			Delirium_UI_Group_Add_Member(GUI, "oscillators", "osc2");
+			Delirium_UI_Group_Add_Member(GUI, "oscillators", "presets");
 			
 			int nav_oscillators = Delirium_UI_Create_Widget(GUI,  deliriumUI_Tabbed_Navigator,
 				0, panelX , panelY + 0.25, 12,0.6,"",-1);			
 			Delirium_UI_Group_Add_Navigator_Tab(GUI, nav_oscillators, "OSC-1", "oscillators", "osc1");
 			Delirium_UI_Group_Add_Navigator_Tab(GUI, nav_oscillators, "OSC-2", "oscillators", "osc2");	
+			Delirium_UI_Group_Add_Navigator_Tab(GUI, nav_oscillators, "PRESETS", "oscillators", "presets");	
 			
 			Delirium_UI_Group_Set_Visible_member(GUI, "oscillators", "osc1");
 			
@@ -216,8 +218,15 @@ class dracorexUI : public UI
 			fParameters_widget_number[dracorex_OSC2_WAVE_B] = dracorex_osc2_waveB;			
 			
 			
+			//----------------------------------------------------------------------------------------------------
+			//---------- PRESET PANEL
 			
+			widget_presets_list = Delirium_UI_Create_Widget(GUI, deliriumUI_List, 0, panelX + 0.5, panelY + 1.25, 12,6, "PRESETS", -1);
+			Delirium_UI_Widget_Set_Group_And_Member(GUI, widget_presets_list, "oscillators", "presets");
 
+
+			widget_categories_list = Delirium_UI_Create_Widget(GUI, deliriumUI_List, 0, panelX + 0.5, panelY + 8, 12,6, "CATEGORIES", -1);
+			Delirium_UI_Widget_Set_Group_And_Member(GUI, widget_categories_list, "oscillators", "presets");
 			
 			//--------- PANEL MATRIX FOR LFO / FILTER FX ---------------------------------------------------------
 			
@@ -418,17 +427,12 @@ class dracorexUI : public UI
 			fParameters_widget_number[dracorex_ADSR4_ATTACK+2] = widget_adsr4; 
 			fParameters_widget_number[dracorex_ADSR4_ATTACK+3] = widget_adsr4; 
 			
-
-			
-
-			// loadSymbols();
-			// searchPresets();
+			loadSymbols();
+			searchPresets();
 					
 					
 			//-----------------------------
 
-			widget_categories_list = 65536;
-			widget_presets_list = 65536;
 			load_wavetables();
 			GUI->draw_flag = true;					
 			GUI->drag = 0;
@@ -477,6 +481,7 @@ class dracorexUI : public UI
 
 		    return result;
 		}
+
 		
 		//------------------------------------------------------------------------------------------------------
 		
@@ -549,7 +554,7 @@ class dracorexUI : public UI
 		//------------------------------------------------------------------------------------------------------
 		void loadSymbols()
 		{
-			string lv2_path = getenv("LV2_PATH");
+			string lv2_path = "/usr/lib/lv2"; // getenv("LV2_PATH");				
 			string line;
 			stringstream dracorex_ttl_file_name;
 			number_of_symbols = 0;
@@ -606,6 +611,7 @@ class dracorexUI : public UI
 				
 				dracorex_ttl_file.close();
 			}
+			cout << "Number of symbols: " << number_of_symbols << endl;
 		}
 
 
@@ -614,13 +620,15 @@ class dracorexUI : public UI
 		
 		void searchPresets()
 		{
-			string lv2_path = getenv("LV2_PATH");
+			string lv2_path = "/home/odin/.lv2/"; // getenv("LV2_PATH");				
 			stringstream ss;
 			struct dirent *d, *pr_d;
 			struct stat st;
 			DIR *dr, *prDr;
 			stringstream file_name_and_path;
 			stringstream path_name;
+			current_category = 0;
+
 			
 			/*
 		
@@ -644,10 +652,11 @@ class dracorexUI : public UI
 
 			// preset_category_file.open("test.txt");
 			vector<string> v = split (lv2_path, ':');
-			    
+						    
 			for (unsigned long int z=0; z<v.size(); z++)
 			{
 				dr = opendir(v[z].c_str()); // search through LV2 folders in LV2_PATH 
+
 				
 				if (dr!=NULL)
 				{
@@ -678,7 +687,8 @@ class dracorexUI : public UI
 										
 										if (file_is_ttl > 0 && file_is_manifest < 0 && file_is_dracorex < 0)
 										{
-																
+														
+
 											bool is_dracorex_preset = false;
 											ifstream preset_file(file_name_and_path.str().c_str(), ios::in);
 											string line;
@@ -688,7 +698,7 @@ class dracorexUI : public UI
 												int search_pos = line.rfind("dracorex");
 												if (search_pos > 0)
 												{
-													is_dracorex_preset = true;
+													is_dracorex_preset = true;				
 
 												}
 												
@@ -709,6 +719,7 @@ class dracorexUI : public UI
 											}
 																			
 											preset_file.close();
+											
 											if (is_dracorex_preset)
 											{
 												preset new_preset;
@@ -717,7 +728,11 @@ class dracorexUI : public UI
 												new_preset.name = preset_name.substr(0,preset_name.length()-4);
 												
 												string category_name = Find_Preset_Category(new_preset.file);
+												cout << category_name << endl;
 												bool category_found = false;
+												
+												cout << preset_name << endl;
+												
 												
 												for (unsigned long int x=0; x<categories.size(); x++)
 												{
@@ -738,7 +753,6 @@ class dracorexUI : public UI
 												
 												
 												
-												
 												// Find_Preset_Category(new_preset.file);
 											}	
 										}			
@@ -751,17 +765,15 @@ class dracorexUI : public UI
 				}				
 			}		
 
-			/*
-
 			for (int pr=0; pr<categories[0].presets.size(); pr++)
 			{			
 				Delirium_UI_Widget_List_Add_Item(GUI, widget_presets_list, categories[0].presets[pr].name);
 			}
 			
-			*/
+		
 			
 			sort(categories.begin(),categories.end(),alphasort_category());
-			
+		
 			for (unsigned long int x=0; x<categories.size(); x++)
 			{
 				Delirium_UI_Widget_List_Add_Item(GUI, widget_categories_list, categories[x].name);
@@ -771,7 +783,7 @@ class dracorexUI : public UI
 			{
 				sort(categories[x].presets.begin(),categories[x].presets.end(),alphasort_preset());	
 			}
-			
+				
 		}
 		
 		//--------------------------------------------------------------------------------------
@@ -807,7 +819,6 @@ class dracorexUI : public UI
 
 			ifstream preset_file;
 	
-			cout << preset_path_and_file_name << endl;
 			preset_file.open(preset_path_and_file_name );
 
 			string preset_symbol;
@@ -831,24 +842,6 @@ class dracorexUI : public UI
 					
 					if (symbol_index > -1) 
 					{
-						// /*
-					
-						if (symbol_index >= 36 && symbol_index <=40 ) 
-						 {
-						 	preset_value = 1 - preset_value;
-						 }
-						 
-						if (symbol_index >= 44 && symbol_index <=47 ) 
-						 {
-						 	preset_value = 1 - preset_value;
-						 }
-						 
-						if (symbol_index >= 52 && symbol_index <=55 ) 
-						 {
-						 	preset_value = 1 - preset_value;
-						 }
-						 
-						 // */
 						 
 						parameterChanged(symbol_index, preset_value);
 						 
