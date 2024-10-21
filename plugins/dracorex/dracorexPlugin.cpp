@@ -31,7 +31,6 @@ class dracorexPlugin : public Plugin
 {
 	public:
 	
-	
 		// set up voices
 		voice voices[max_notes];	
 		vector <wavetable> wavetables;
@@ -815,8 +814,6 @@ class dracorexPlugin : public Plugin
 		}
 
 
-
-
 		void run(const float** inputs, float** outputs, uint32_t frames, 
 			const MidiEvent* midiEvents, uint32_t midiEventCount) override
 		{
@@ -884,6 +881,9 @@ class dracorexPlugin : public Plugin
 					voices[current_voice].adsr4_env.state = ENV_STATE_ATTACK;
 					voices[current_voice].adsr4_env.level = 0;
 					
+					if (fParameters[dracorex_LFO1_RETRIG]) lfo1.index = 0;
+					if (fParameters[dracorex_LFO2_RETRIG]) lfo2.index = 0;
+					
 				}
 				
 				if ((int)ev[0] == 0x80 || ((int)ev[0] == 0x90 && (int)ev[2] == 0))
@@ -908,8 +908,6 @@ class dracorexPlugin : public Plugin
 			
 			}	        
 			
-
-			
 			// DO AUDIO STUFF -------------------------------------------------------------------------
 					
 			float* out_left = outputs[0];
@@ -921,39 +919,23 @@ class dracorexPlugin : public Plugin
 			lfo1.frequency = fParameters[dracorex_LFO1_SPEED] / 300.0;
 			lfo2.frequency = fParameters[dracorex_LFO2_SPEED] / 300.0;
 			
-
 			lfo1.wave_a = wavetables[ fParameters[dracorex_LFO1_WAVE] ].buffer;
 			lfo1.wave_b = wavetables[ fParameters[dracorex_LFO1_WAVE] ].buffer;
 			lfo1.wave_mix = 0;
 			lfo1.note = 0;
-			
+
 			lfo2.wave_a = wavetables[ fParameters[dracorex_LFO2_WAVE] ].buffer;
 			lfo2.wave_b = wavetables[ fParameters[dracorex_LFO2_WAVE] ].buffer;
 			lfo2.wave_mix = 0;
 			lfo2.note = 0;
-			
+
 			float lfo1_out[frames];
 			float lfo2_out[frames];
 			
 			for (uint32_t x=0; x<frames; x++)
 			{
-				if (fParameters[dracorex_LFO1_ADSR4_SWITCH])
-				{
-					lfo1_out[x] = lfo1.tick() * voices[current_voice].adsr4_env.level;
-				}
-				else
-				{
 					lfo1_out[x] = lfo1.tick();
-				}
-				
-				if (fParameters[dracorex_LFO2_ADSR4_SWITCH])
-				{
-					lfo2_out[x] = lfo2.tick() * voices[current_voice].adsr4_env.level;
-				}
-				else
-				{
 					lfo2_out[x] = lfo2.tick();
-				}
 			}
 					
 			int wn1_a = fParameters[dracorex_OSC1_WAVE_A];
