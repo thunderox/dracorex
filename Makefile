@@ -56,6 +56,7 @@ install:
 	cp $(CURDIR)/bin/dracorex /usr/bin
 	mkdir /home/$(SUDO_USER)/.lv2/dracorex.lv2 -p
 	cp $(CURDIR)/plugins/dracorex/waves /home/$(SUDO_USER)/.lv2/dracorex.lv2 -r
+	cp $(CURDIR)/plugins/dracorex/presets /home/$(SUDO_USER)/.lv2/dracorex.lv2 -r
 
 # --------------------------------------------------------------
 uninstall:

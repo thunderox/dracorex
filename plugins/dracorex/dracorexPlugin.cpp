@@ -842,6 +842,7 @@ class dracorexPlugin : public Plugin
 						if (voices[x].active == false)
 						{
 							next_voice = x;
+							voices[next_voice].volume = (float)ev[2] / 128.0f;
 							break;
 						}
 					}
@@ -906,6 +907,8 @@ class dracorexPlugin : public Plugin
 				}
 			
 			}	        
+			
+
 			
 			// DO AUDIO STUFF -------------------------------------------------------------------------
 					

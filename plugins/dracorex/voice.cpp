@@ -5,6 +5,7 @@
 
 voice::voice()
 {
+	volume = 1;
 	amp_env.state = ENV_STATE_DORMANT;
 	amp_env.level = 0;
 	wave_env.state = ENV_STATE_DORMANT;
@@ -562,13 +563,13 @@ float voice::play(float* left_buffer, float* right_buffer,  uint32_t frames)
 		if (fParameters[dracorex_CHORUS_ACTIVE])
 		{
 			float* chorus_out = _chorus.run(in_left, in_right);
-			left_buffer[x] += chorus_out[0];
-			right_buffer[x] += chorus_out[1];
+			left_buffer[x] += chorus_out[0] * volume;
+			right_buffer[x] += chorus_out[1] * volume;
 		}
 		else
 		{
-			left_buffer[x] += in_left;
-			right_buffer[x] += in_right;	
+			left_buffer[x] += in_left * volume;
+			right_buffer[x] += in_right * volume;
 		}
 	}
 
