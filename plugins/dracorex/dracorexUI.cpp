@@ -627,7 +627,6 @@ class dracorexUI : public UI
 				
 				dracorex_ttl_file.close();
 			}
-			cout << "Number of symbols: " << number_of_symbols << endl;
 		}
 
 
@@ -636,7 +635,12 @@ class dracorexUI : public UI
 		
 		void searchPresets()
 		{
-			string lv2_path = "/home/odin/.lv2/"; // getenv("LV2_PATH");				
+			string user_path = getenv("USER");
+			stringstream presets_path;
+			
+			presets_path << "/home/" << user_path << "/.lv2/dracorex.lv2/presets";
+			
+			string lv2_path = presets_path.str();				
 			stringstream ss;
 			struct dirent *d, *pr_d;
 			struct stat st;
@@ -744,10 +748,7 @@ class dracorexUI : public UI
 												new_preset.name = preset_name.substr(0,preset_name.length()-4);
 												
 												string category_name = Find_Preset_Category(new_preset.file);
-												cout << category_name << endl;
 												bool category_found = false;
-												
-												cout << preset_name << endl;
 												
 												
 												for (unsigned long int x=0; x<categories.size(); x++)
@@ -780,12 +781,6 @@ class dracorexUI : public UI
 					closedir(dr);
 				}				
 			}		
-
-			for (unsigned long int pr=0; pr<categories[0].presets.size(); pr++)
-			{			
-				Delirium_UI_Widget_List_Add_Item(GUI, widget_presets_list, categories[0].presets[pr].name);
-			}
-			
 		
 			
 			sort(categories.begin(),categories.end(),alphasort_category());
@@ -799,6 +794,12 @@ class dracorexUI : public UI
 			{
 				sort(categories[x].presets.begin(),categories[x].presets.end(),alphasort_preset());	
 			}
+
+			for (unsigned long int pr=0; pr<categories[current_category].presets.size(); pr++)
+			{			
+				Delirium_UI_Widget_List_Add_Item(GUI, widget_presets_list, categories[current_category].presets[pr].name);
+			}
+			
 				
 		}
 		
@@ -1100,7 +1101,6 @@ class dracorexUI : public UI
 				}
 				
 				if (wdg->type == deliriumUI_ADSR)
-				cout << widget_number << " - " <<  wdg->current_value << endl;
 				
 				if ((int)index > wdg->parameter_number && wdg->type == deliriumUI_Fader_Route)
 					wdg->route_number = value;

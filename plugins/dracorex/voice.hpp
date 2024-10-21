@@ -45,6 +45,7 @@ class voice
 	
 	float play(float*, float*,  uint32_t);
 	
+	float volume;
 	oscillator osc1;
 	oscillator osc2;
 	float* lfo1_out;
