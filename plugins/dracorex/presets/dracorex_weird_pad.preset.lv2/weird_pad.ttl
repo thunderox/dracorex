@@ -1,0 +1,227 @@
+@prefix atom: <http://lv2plug.in/ns/ext/atom#> .
+@prefix lv2: <http://lv2plug.in/ns/lv2core#> .
+@prefix pset: <http://lv2plug.in/ns/ext/presets#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix state: <http://lv2plug.in/ns/ext/state#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<>
+	a pset:Preset ;
+	lv2:appliesTo <http://thunderox.com/dracorex> ;
+	rdfs:label "weird pad" ;
+	lv2:port [
+		lv2:symbol "adsr3_attack" ;
+		pset:value 0.27833351
+	] , [
+		lv2:symbol "adsr3_decay" ;
+		pset:value 0.27750039
+	] , [
+		lv2:symbol "adsr3_release" ;
+		pset:value 0.2466668
+	] , [
+		lv2:symbol "adsr3_sustain" ;
+		pset:value 0.88000011
+	] , [
+		lv2:symbol "adsr4_attack" ;
+		pset:value 0.29333338
+	] , [
+		lv2:symbol "adsr4_decay" ;
+		pset:value 0.38416663
+	] , [
+		lv2:symbol "adsr4_release" ;
+		pset:value 1.0
+	] , [
+		lv2:symbol "adsr4_sustain" ;
+		pset:value 1.0
+	] , [
+		lv2:symbol "amp2_attack" ;
+		pset:value 1.0
+	] , [
+		lv2:symbol "amp2_decay" ;
+		pset:value 0.0
+	] , [
+		lv2:symbol "amp2_release" ;
+		pset:value 0.34166688
+	] , [
+		lv2:symbol "amp2_sustain" ;
+		pset:value 0.0
+	] , [
+		lv2:symbol "amp_attack" ;
+		pset:value 1.0
+	] , [
+		lv2:symbol "amp_decay" ;
+		pset:value 0.0
+	] , [
+		lv2:symbol "amp_release" ;
+		pset:value 0.28916684
+	] , [
+		lv2:symbol "amp_sustain" ;
+		pset:value 0.0
+	] , [
+		lv2:symbol "chorus_active" ;
+		pset:value 0.0
+	] , [
+		lv2:symbol "filter_active" ;
+		pset:value 1.0
+	] , [
+		lv2:symbol "filter_adse3_amount" ;
+		pset:value 0.52362341
+	] , [
+		lv2:symbol "filter_cutoff" ;
+		pset:value 0.0
+	] , [
+		lv2:symbol "filter_resonance" ;
+		pset:value 0.0
+	] , [
+		lv2:symbol "lfo1_adsr4_switch" ;
+		pset:value 1.0
+	] , [
+		lv2:symbol "lfo1_filter_cutoff_amount" ;
+		pset:value 0.0
+	] , [
+		lv2:symbol "lfo1_osc1_pitch_amount" ;
+		pset:value 0.39130437
+	] , [
+		lv2:symbol "lfo1_osc2_pitch_amount" ;
+		pset:value 0.00999999
+	] , [
+		lv2:symbol "lfo1_osc2_wave_amount" ;
+		pset:value 0.0
+	] , [
+		lv2:symbol "lfo1_osc2_wave_amount" ;
+		pset:value 0.0
+	] , [
+		lv2:symbol "lfo1_retrig" ;
+		pset:value 0.0
+	] , [
+		lv2:symbol "lfo1_speed" ;
+		pset:value 512.0
+	] , [
+		lv2:symbol "lfo1_wave" ;
+		pset:value 13.0
+	] , [
+		lv2:symbol "lfo2_adsr4_switch" ;
+		pset:value 0.0
+	] , [
+		lv2:symbol "lfo2_filter_cutoff_amount" ;
+		pset:value 0.0
+	] , [
+		lv2:symbol "lfo2_osc1_pitch_amount" ;
+		pset:value 0.0
+	] , [
+		lv2:symbol "lfo2_osc2_pitch_amount" ;
+		pset:value 0.0
+	] , [
+		lv2:symbol "lfo2_osc2_wave_amount" ;
+		pset:value 0.0
+	] , [
+		lv2:symbol "lfo2_osc2_wave_amount" ;
+		pset:value 0.0
+	] , [
+		lv2:symbol "lfo2_retrig" ;
+		pset:value 0.0
+	] , [
+		lv2:symbol "lfo2_speed" ;
+		pset:value 1.0
+	] , [
+		lv2:symbol "lfo2_wave" ;
+		pset:value 0.0
+	] , [
+		lv2:symbol "lv2_port_19" ;
+		pset:value 0.0
+	] , [
+		lv2:symbol "lv2_port_2" ;
+		pset:value 0.0
+	] , [
+		lv2:symbol "lv2_port_20" ;
+		pset:value 0.13608712
+	] , [
+		lv2:symbol "lv2_port_3" ;
+		pset:value 0.0
+	] , [
+		lv2:symbol "lv2_port_35" ;
+		pset:value 0.0
+	] , [
+		lv2:symbol "lv2_port_36" ;
+		pset:value 0.40579712
+	] , [
+		lv2:symbol "lv2_port_4" ;
+		pset:value 0.0
+	] , [
+		lv2:symbol "lv2_port_59" ;
+		pset:value 0.60000002
+	] , [
+		lv2:symbol "lv2_port_68" ;
+		pset:value 0.0
+	] , [
+		lv2:symbol "lv2_port_71" ;
+		pset:value 0.0
+	] , [
+		lv2:symbol "lv2_port_72" ;
+		pset:value 0.0
+	] , [
+		lv2:symbol "osc1_active" ;
+		pset:value 1.0
+	] , [
+		lv2:symbol "osc1_octave" ;
+		pset:value 3.0
+	] , [
+		lv2:symbol "osc1_tuning" ;
+		pset:value 0.0
+	] , [
+		lv2:symbol "osc1_volume" ;
+		pset:value 0.38000011
+	] , [
+		lv2:symbol "osc1_wave_a" ;
+		pset:value 14.0
+	] , [
+		lv2:symbol "osc1_wave_b" ;
+		pset:value 9.0
+	] , [
+		lv2:symbol "osc2_active" ;
+		pset:value 1.0
+	] , [
+		lv2:symbol "osc2_octave" ;
+		pset:value 3.0
+	] , [
+		lv2:symbol "osc2_tuning" ;
+		pset:value 0.11000061
+	] , [
+		lv2:symbol "osc2_volume" ;
+		pset:value 0.38000011
+	] , [
+		lv2:symbol "osc2_wave_a" ;
+		pset:value 14.0
+	] , [
+		lv2:symbol "osc2_wave_b" ;
+		pset:value 11.0
+	] , [
+		lv2:symbol "volume" ;
+		pset:value 0.77999997
+	] , [
+		lv2:symbol "wave2_attack" ;
+		pset:value 0.24750003
+	] , [
+		lv2:symbol "wave2_decay" ;
+		pset:value 0.27083334
+	] , [
+		lv2:symbol "wave2_release" ;
+		pset:value 0.29166666
+	] , [
+		lv2:symbol "wave2_sustain" ;
+		pset:value 1.0
+	] , [
+		lv2:symbol "wave_attack" ;
+		pset:value 0.29666668
+	] , [
+		lv2:symbol "wave_decay" ;
+		pset:value 0.33999991
+	] , [
+		lv2:symbol "wave_release" ;
+		pset:value 0.39166659
+	] , [
+		lv2:symbol "wave_sustain" ;
+		pset:value 1.0
+	] .
+
