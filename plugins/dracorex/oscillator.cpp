@@ -10,6 +10,7 @@ oscillator::oscillator()
 	index = 0;
 	increment = 1;
 	bandlimit_offset = 0;
+	sample_rate = 44100;
 }
 
 //---------------------------------------------------------------------------------------------------
@@ -25,7 +26,7 @@ oscillator::~oscillator()
 
 float oscillator::tick()
 {
-	sample_rate = 44100;
+
 	tuning = 1;
 	int index_int = index;
 	
@@ -75,7 +76,7 @@ float oscillator::tick()
 		bandlimit_offset = (bandlimit_number*length);
 	}
 
-	increment = (sample_rate * frequency) / sample_rate;
+	increment = (44100 * frequency) / sample_rate;
 	
 
 

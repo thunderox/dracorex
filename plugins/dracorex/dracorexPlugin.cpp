@@ -1110,7 +1110,6 @@ Plugin* createPlugin()
 		}	
 	}	
 	
-	
 	for (int v=0; v<max_notes; v++)
 	{
 		dracorex->voices[v].osc1.sample_rate = dracorex->getSampleRate();
