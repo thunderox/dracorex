@@ -104,6 +104,42 @@ float voice::play(float* left_buffer, float* right_buffer,  uint32_t frames)
 	float adsr4_decay = fast_pow(fParameters[dracorex_ADSR4_DECAY],10);
 	float adsr4_sustain = 1-fParameters[dracorex_ADSR4_SUSTAIN];
 	float adsr4_release = fast_pow(fParameters[dracorex_ADSR4_RELEASE],10);
+	
+	// OSC1 PAN
+	
+	float osc1_pan_left = fParameters[dracorex_OSC1_PAN];
+	float osc1_pan_right = -fParameters[dracorex_OSC1_PAN];
+	
+	if (osc1_pan_left > 0) osc1_pan_left = 1 - osc1_pan_left;
+	if (osc1_pan_left < 0) osc1_pan_left = 1;
+
+	if (osc1_pan_right > 0) osc1_pan_right = 1 - osc1_pan_right;
+	if (osc1_pan_right < 0) osc1_pan_right = 1;
+
+	if ( fParameters[dracorex_OSC1_PAN] == 0 )
+	{
+		osc1_pan_left = 1;
+		osc1_pan_right = 1;
+	}
+	
+	// OSC2 PAN
+	
+	float osc2_pan_left = fParameters[dracorex_OSC2_PAN];
+	float osc2_pan_right = -fParameters[dracorex_OSC2_PAN];
+	
+	if (osc2_pan_left > 0) osc2_pan_left = 1 - osc2_pan_left;
+	if (osc2_pan_left < 0) osc2_pan_left = 1;
+
+	if (osc2_pan_right > 0) osc2_pan_right = 1 - osc2_pan_right;
+	if (osc2_pan_right < 0) osc2_pan_right = 1;
+
+	if ( fParameters[dracorex_OSC2_PAN] == 0 )
+	{
+		osc2_pan_left = 1;
+		osc2_pan_right = 1;
+	}
+	
+	// DO MAIN RING BUFFER OUTPUT
 
 	for (uint32_t x=0; x<frames; x++)
 	{
@@ -463,6 +499,16 @@ float voice::play(float* left_buffer, float* right_buffer,  uint32_t frames)
 		
 		//float env_amp_level_db = (amp_env.level * amp_env.level * amp_env.level) * master_volume; 
 
+		osc1.wave_a = fParameters[dracorex_OSC1_WAVE_A];
+		osc1.wave_b = fParameters[dracorex_OSC1_WAVE_B];
+		osc2.wave_a = fParameters[dracorex_OSC2_WAVE_A];
+		osc2.wave_b = fParameters[dracorex_OSC1_WAVE_B];
+		
+		float w_sz = osc1.wavetable.size()-1;
+		
+		osc1.wave_a += w_sz * (fParameters[dracorex_LFO1_OSC1_WAVE_AMOUNT] * lfo1_out[x]);
+		osc2.wave_a += w_sz * (fParameters[dracorex_LFO1_OSC2_WAVE_AMOUNT] * lfo1_out[x]);
+
 		osc1.wave_mix = wave_env.level;
 		osc2.wave_mix = wave2_env.level;
 				
@@ -474,6 +520,7 @@ float voice::play(float* left_buffer, float* right_buffer,  uint32_t frames)
 
 		float in_left;
 		float in_right;
+		
 
 		// DO FILTER
 		
@@ -486,8 +533,8 @@ float voice::play(float* left_buffer, float* right_buffer,  uint32_t frames)
 			
 			if (frequency > 1) frequency = 1;
 		
-			in_left = osc1_out * (amp_env.level * fParameters[dracorex_VOLUME] )
-				+ osc2_out * (amp2_env.level * fParameters[dracorex_VOLUME] );
+			in_left = osc1_out * (amp_env.level * fParameters[dracorex_VOLUME] * osc1_pan_left );
+			in_left += osc2_out * (amp2_env.level * fParameters[dracorex_VOLUME] * osc1_pan_right );
 
 			q_left = 1.0f - frequency;
 			pc_left = frequency + 0.8f * frequency * q_left;
@@ -507,8 +554,8 @@ float voice::play(float* left_buffer, float* right_buffer,  uint32_t frames)
 			
 			// DO FILTER RIGHT
 
-			in_right = osc1_out * (amp_env.level * fParameters[dracorex_VOLUME] )
-				+ osc2_out * (amp2_env.level * fParameters[dracorex_VOLUME] );
+			in_right = osc1_out * (amp_env.level * fParameters[dracorex_VOLUME] * osc2_pan_left);
+			in_right += osc2_out * (amp2_env.level * fParameters[dracorex_VOLUME] * osc2_pan_right);
 
 			q_right = 1.0f - frequency;
 			pc_right = frequency + 0.4f * frequency * q_right;
@@ -529,14 +576,14 @@ float voice::play(float* left_buffer, float* right_buffer,  uint32_t frames)
 		} 
 		else
 		{
-			in_left = osc1_out * (amp_env.level * fParameters[dracorex_VOLUME] )
-				+ osc2_out * (amp2_env.level * fParameters[dracorex_VOLUME] );
+			in_left = osc1_out * (amp_env.level * fParameters[dracorex_VOLUME]) * osc1_pan_left;
+			in_left += osc2_out * (amp2_env.level * fParameters[dracorex_VOLUME]) * osc2_pan_left;
 				
-			in_right = osc1_out * (amp_env.level * fParameters[dracorex_VOLUME] )
-				+ osc2_out * (amp2_env.level * fParameters[dracorex_VOLUME] );	
+			
+				
+			in_right = osc1_out * (amp_env.level * fParameters[dracorex_VOLUME] ) * osc1_pan_right;
+			in_right += osc2_out * (amp2_env.level * fParameters[dracorex_VOLUME]) * osc2_pan_right;	
 		}
-		
-		// cout <<  lfo1_out[x] << endl;
 		
 		if (osc1.start_phase)
 		{

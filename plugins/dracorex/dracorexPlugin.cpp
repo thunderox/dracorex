@@ -139,7 +139,7 @@ class dracorexPlugin : public Plugin
 					parameter.symbol = "osc1_wave_a";
 					parameter.hints = kParameterIsAutomatable;
 					parameter.ranges.min = 0.0f;
-					parameter.ranges.max = 12.0f;
+					parameter.ranges.max = 1.0f;
 					parameter.ranges.def = 0.0f;
 					fParameters[dracorex_OSC1_WAVE_A] = parameter.ranges.def;
 					break;
@@ -149,7 +149,7 @@ class dracorexPlugin : public Plugin
 					parameter.symbol = "osc1_wave_b";
 					parameter.hints = kParameterIsAutomatable;
 					parameter.ranges.min = 0.0f;
-					parameter.ranges.max = 12.0f;
+					parameter.ranges.max = 1.0f;
 					parameter.ranges.def = 0.0f;
 					fParameters[dracorex_OSC1_WAVE_A] = parameter.ranges.def;
 					break;
@@ -182,6 +182,16 @@ class dracorexPlugin : public Plugin
 					parameter.ranges.max = 1.0f;
 					parameter.ranges.def = 0.5f;
 					fParameters[dracorex_OSC1_VOLUME] = parameter.ranges.def;
+					break;
+					
+				case dracorex_OSC1_PAN:
+					parameter.name   = "osc1_pan";
+					parameter.symbol = "osc1_pan";
+					parameter.hints = kParameterIsAutomatable;
+					parameter.ranges.min = -1.0f;
+					parameter.ranges.max = 1.0f;
+					parameter.ranges.def = 0.0f;
+					fParameters[dracorex_OSC1_PAN] = parameter.ranges.def;
 					break;
 				
 				case dracorex_AMP_ATTACK:
@@ -327,6 +337,16 @@ class dracorexPlugin : public Plugin
 					parameter.ranges.max = 1.0f;
 					parameter.ranges.def = 0.5f;
 					fParameters[dracorex_OSC2_VOLUME] = parameter.ranges.def;
+					break;
+					
+				case dracorex_OSC2_PAN:
+					parameter.name   = "osc2_pan";
+					parameter.symbol = "osc2_pan";
+					parameter.hints = kParameterIsAutomatable;
+					parameter.ranges.min = -1.0f;
+					parameter.ranges.max = 1.0f;
+					parameter.ranges.def = 0.0f;
+					fParameters[dracorex_OSC2_PAN] = parameter.ranges.def;
 					break;
 									
 					
@@ -918,14 +938,15 @@ class dracorexPlugin : public Plugin
 			
 			lfo1.frequency = fParameters[dracorex_LFO1_SPEED] / 300.0;
 			lfo2.frequency = fParameters[dracorex_LFO2_SPEED] / 300.0;
+						
+			lfo1.wave_a = fParameters[dracorex_LFO1_WAVE];
+			lfo1.wave_b = fParameters[dracorex_LFO1_WAVE];
 			
-			lfo1.wave_a = wavetables[ fParameters[dracorex_LFO1_WAVE] ].buffer;
-			lfo1.wave_b = wavetables[ fParameters[dracorex_LFO1_WAVE] ].buffer;
 			lfo1.wave_mix = 0;
 			lfo1.note = 0;
 
-			lfo2.wave_a = wavetables[ fParameters[dracorex_LFO2_WAVE] ].buffer;
-			lfo2.wave_b = wavetables[ fParameters[dracorex_LFO2_WAVE] ].buffer;
+			lfo2.wave_a = fParameters[dracorex_LFO2_WAVE];
+			lfo2.wave_b = fParameters[dracorex_LFO2_WAVE];
 			lfo2.wave_mix = 0;
 			lfo2.note = 0;
 
@@ -937,22 +958,15 @@ class dracorexPlugin : public Plugin
 					lfo1_out[x] = lfo1.tick();
 					lfo2_out[x] = lfo2.tick();
 			}
-					
-			int wn1_a = fParameters[dracorex_OSC1_WAVE_A];
-			int wn1_b = fParameters[dracorex_OSC1_WAVE_B];
-			
-			int wn2_a = fParameters[dracorex_OSC2_WAVE_A];
-			int wn2_b = fParameters[dracorex_OSC2_WAVE_B];
+
+			float lfo1_osc1_wave_mod = fParameters[dracorex_LFO1_OSC1_WAVE_AMOUNT];
+			float lfo2_osc2_wave_mod = fParameters[dracorex_LFO2_OSC2_WAVE_AMOUNT];
+											
+
 			
 			for (int v=0; v<max_notes; v++)
 			{		
-				voices[v].osc1.wave_a = wavetables[wn1_a].buffer;
-				voices[v].osc1.wave_b = wavetables[wn1_b].buffer;
-				voices[v].osc1.wave_mix = 0;
-				
-				voices[v].osc2.wave_a = wavetables[wn2_a].buffer;
-				voices[v].osc2.wave_b = wavetables[wn2_b].buffer;
-				voices[v].osc2.wave_mix = 0;
+
 				
 				voices[v].lfo1_out = &lfo1_out[0];
 				voices[v].lfo2_out = &lfo2_out[0];
@@ -1095,17 +1109,17 @@ Plugin* createPlugin()
 					}
 
 					frequency /= 2.4;	
-			}
+				}
 				
-			for (int x=0; x<length; x++)
-			{
-				new_waveform.buffer[x] = source_waveform_buffer[x] * 0.8;
-			}		
-			
-			new_waveform.length = length;
-			new_waveform.name = d->d_name;
-			dracorex->wavetables.push_back(new_waveform);
-			free(source_waveform_buffer);
+				for (int x=0; x<length; x++)
+				{
+					new_waveform.buffer[x] = source_waveform_buffer[x] * 0.8;
+				}	
+							
+				new_waveform.length = length;
+				new_waveform.name = d->d_name;
+				dracorex->wavetables.push_back(new_waveform);
+				free(source_waveform_buffer);
 			}
 		}	
 	}	
@@ -1132,6 +1146,17 @@ Plugin* createPlugin()
 	};
 	
 	sort(dracorex->wavetables.begin(),dracorex->wavetables.end(),alphasort_wavetables() );	
+	
+	for (int v=0; v<max_notes; v++)
+	{
+		for (unsigned int w=0; w<dracorex->wavetables.size(); w++)
+		{
+			dracorex->voices[v].osc1.wavetable.push_back(dracorex->wavetables[w].buffer);
+			dracorex->voices[v].osc2.wavetable.push_back(dracorex->wavetables[w].buffer);
+			dracorex->lfo1.wavetable.push_back(dracorex->wavetables[w].buffer);
+			dracorex->lfo2.wavetable.push_back(dracorex->wavetables[w].buffer);
+		}
+	}
 	
 	return dracorex;
 }      

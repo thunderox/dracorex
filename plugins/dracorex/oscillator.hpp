@@ -28,8 +28,11 @@ class oscillator
 	float index;
 	float increment;
 	bool start_phase;
-	float* wave_a;
-	float* wave_b;
+
+	float wave_a;
+	float wave_b;
+	vector <float*> wavetable;
+	
 	float wave_mix;
 	unsigned int bandlimit_offset;
 	
