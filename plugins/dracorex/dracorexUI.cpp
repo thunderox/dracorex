@@ -257,6 +257,7 @@ class dracorexUI : public UI
 			(void) matrix_group;
 			Delirium_UI_Group_Add_Member(GUI, "matrix", "lfo1");
 			Delirium_UI_Group_Add_Member(GUI, "matrix", "lfo2");
+			Delirium_UI_Group_Add_Member(GUI, "matrix", "lfo3");
 			Delirium_UI_Group_Add_Member(GUI, "matrix", "filter");
 			Delirium_UI_Group_Add_Member(GUI, "matrix", "fx");
 			
@@ -265,6 +266,7 @@ class dracorexUI : public UI
 						
 			Delirium_UI_Group_Add_Navigator_Tab(GUI, nav_matrix, "LFO1", "matrix", "lfo1");
 			Delirium_UI_Group_Add_Navigator_Tab(GUI, nav_matrix, "LFO2", "matrix", "lfo2");
+			Delirium_UI_Group_Add_Navigator_Tab(GUI, nav_matrix, "LFO3", "matrix", "lfo3");
 			Delirium_UI_Group_Add_Navigator_Tab(GUI, nav_matrix, "FILTER", "matrix", "filter");	
 			Delirium_UI_Group_Add_Navigator_Tab(GUI, nav_matrix, "FX", "matrix", "fx");	
 			
@@ -278,12 +280,12 @@ class dracorexUI : public UI
 			Delirium_UI_Widget_Set_Min_Max(GUI, widget_lfo1_retrig, 0,1);
 			Delirium_UI_Widget_Set_Value(GUI, widget_lfo1_retrig, 0);
 			Delirium_UI_Widget_Set_Group_And_Member(GUI, widget_lfo1_retrig, "matrix", "lfo1");
-			fParameters_widget_number[0] = widget_lfo1_retrig; 
+			fParameters_widget_number[dracorex_LFO1_RETRIG] = widget_lfo1_retrig; 
 			
 			//--------- LFO ONE SPEED -----------------------------------------------------------------------------------
 			
 			int widget_lfo1_speed = Delirium_UI_Create_Widget(GUI, deliriumUI_Knob, 0, panelX + 13.5, panelY + 4.5, 2, 2.5, "BPM", dracorex_LFO1_SPEED);
-			Delirium_UI_Widget_Set_Min_Max(GUI, widget_lfo1_speed, 1,8192);
+			Delirium_UI_Widget_Set_Min_Max(GUI, widget_lfo1_speed, 1,640);
 			Delirium_UI_Widget_Set_Value(GUI, widget_lfo1_speed, 120);
 			Delirium_UI_Widget_Set_Default_Value(GUI, widget_lfo1_speed, 120);
 			Delirium_UI_Widget_Set_Increment(GUI, widget_lfo1_speed, 1);
@@ -330,7 +332,7 @@ class dracorexUI : public UI
 			Delirium_UI_Widget_Set_Group_And_Member(GUI, widget_lfo1_osc2_wave_amount, "matrix", "lfo1");
 			fParameters_widget_number[dracorex_LFO1_OSC2_WAVE_AMOUNT] = widget_lfo1_osc2_wave_amount; 
 			
-			//--------- LFO 1 OSC1 ADSR3 SWITCH --------------------------------------------------------------------------------------
+			//--------- LFO 1 ADSR3 SWITCH --------------------------------------------------------------------------------------
 			
 			int widget_lfo1_adsr4_switch = Delirium_UI_Create_Widget(GUI, deliriumUI_Switch, 0, panelX + 16, panelY + 4.5, 2, 2, "ADSR4", dracorex_LFO1_ADSR4_SWITCH);
 			Delirium_UI_Widget_Set_Min_Max(GUI, widget_lfo1_adsr4_switch, 0,1);
@@ -346,7 +348,7 @@ class dracorexUI : public UI
 			Delirium_UI_Widget_Set_Min_Max(GUI, widget_lfo2_retrig, 0,1);
 			Delirium_UI_Widget_Set_Value(GUI, widget_lfo2_retrig, 0);
 			Delirium_UI_Widget_Set_Group_And_Member(GUI, widget_lfo2_retrig, "matrix", "lfo2");
-			fParameters_widget_number[0] = widget_lfo2_retrig; 
+			fParameters_widget_number[dracorex_LFO2_RETRIG] = widget_lfo2_retrig; 
 			
 			//--------- LFO ONE SPEED -----------------------------------------------------------------------------------
 			
@@ -368,7 +370,7 @@ class dracorexUI : public UI
 			
 			//------- LFO ONE OSC2 PITCH -----------------------------------------------------------------------------
 			
-			int widget_lfo2_osc1_pitch_amount = Delirium_UI_Create_Widget(GUI, deliriumUI_Fader, 0, panelX + 21, panelY + 1.25, 1, 5.25, "OSC2-P", dracorex_LFO2_OSC1_PITCH_AMOUNT);
+			int widget_lfo2_osc1_pitch_amount = Delirium_UI_Create_Widget(GUI, deliriumUI_Fader, 0, panelX + 21, panelY + 1.25, 1, 5.25, "OSC1-P", dracorex_LFO2_OSC1_PITCH_AMOUNT);
 			Delirium_UI_Widget_Set_Min_Max(GUI, widget_lfo2_osc1_pitch_amount, 1,0);
 			Delirium_UI_Widget_Set_Value(GUI, widget_lfo2_osc1_pitch_amount, 0);
 			Delirium_UI_Widget_Set_Group_And_Member(GUI, widget_lfo2_osc1_pitch_amount, "matrix", "lfo2");
@@ -391,13 +393,79 @@ class dracorexUI : public UI
 			fParameters_widget_number[dracorex_LFO2_OSC2_WAVE_AMOUNT] = widget_lfo2_osc2_wave_amount; 
 			
 			
-			//--------- LFO 1 OSC1 ADSR3 SWITCH --------------------------------------------------------------------------------------
+			//--------- LFO 1 ADSR3 SWITCH --------------------------------------------------------------------------------------
 			
 			int widget_lfo2_adsr4_switch = Delirium_UI_Create_Widget(GUI, deliriumUI_Switch, 0, panelX + 16, panelY + 4.5, 2, 2, "ADSR4", dracorex_LFO2_ADSR4_SWITCH);
 			Delirium_UI_Widget_Set_Min_Max(GUI, widget_lfo2_adsr4_switch, 0,1);
 			Delirium_UI_Widget_Set_Value(GUI, widget_lfo2_adsr4_switch, 0);
 			Delirium_UI_Widget_Set_Group_And_Member(GUI, widget_lfo2_adsr4_switch, "matrix", "lfo2");
-			fParameters_widget_number[0] = widget_lfo2_adsr4_switch; 
+			fParameters_widget_number[dracorex_LFO2_ADSR4_SWITCH] = widget_lfo2_adsr4_switch; 
+			
+			
+			
+			
+			
+			
+			
+			//--------- LFO 3 --------------------------------------------------------------------------------------
+			
+			int widget_lfo3_retrig = Delirium_UI_Create_Widget(GUI, deliriumUI_Switch, 0, panelX + 13.5, panelY + 1.25, 2, 2, "RETRIG", dracorex_LFO3_RETRIG);
+			Delirium_UI_Widget_Set_Min_Max(GUI, widget_lfo3_retrig, 0,1);
+			Delirium_UI_Widget_Set_Value(GUI, widget_lfo3_retrig, 0);
+			Delirium_UI_Widget_Set_Group_And_Member(GUI, widget_lfo3_retrig, "matrix", "lfo3");
+			fParameters_widget_number[dracorex_LFO3_RETRIG] = widget_lfo3_retrig; 
+			
+			//--------- LFO THREE SPEED -----------------------------------------------------------------------------------
+			
+			int widget_lfo3_speed = Delirium_UI_Create_Widget(GUI, deliriumUI_Knob, 0, panelX + 13.5, panelY + 4.5, 2, 2.5, "BPM", dracorex_LFO3_SPEED);
+			Delirium_UI_Widget_Set_Min_Max(GUI, widget_lfo3_speed, 1,8192);
+			Delirium_UI_Widget_Set_Value(GUI, widget_lfo3_speed, 120);
+			Delirium_UI_Widget_Set_Default_Value(GUI, widget_lfo3_speed, 120);
+			Delirium_UI_Widget_Set_Increment(GUI, widget_lfo3_speed, 1);
+			Delirium_UI_Widget_Set_Integer(GUI, widget_lfo3_speed, true);
+			Delirium_UI_Widget_Set_Group_And_Member(GUI, widget_lfo3_speed, "matrix", "lfo3");
+			fParameters_widget_number[dracorex_LFO3_SPEED] = widget_lfo3_speed; 
+			
+			//------- LFO THREE OSC1 PITCH -----------------------------------------------------------------------------
+			
+			int widget_lfo3_osc1_pitch_amount = Delirium_UI_Create_Widget(GUI, deliriumUI_Fader, 0, panelX + 21, panelY + 1.25, 1, 5.25, "OSC1-P", dracorex_LFO3_OSC1_PITCH_AMOUNT);
+			Delirium_UI_Widget_Set_Min_Max(GUI, widget_lfo3_osc1_pitch_amount, 1,0);
+			Delirium_UI_Widget_Set_Value(GUI, widget_lfo3_osc1_pitch_amount, 0);
+			Delirium_UI_Widget_Set_Group_And_Member(GUI, widget_lfo3_osc1_pitch_amount, "matrix", "lfo3");
+			fParameters_widget_number[dracorex_LFO3_OSC1_PITCH_AMOUNT] = widget_lfo3_osc1_pitch_amount; 
+			
+			//------- LFO THREE OSC3 PITCH -----------------------------------------------------------------------------
+			
+			int widget_lfo3_osc2_pitch_amount = Delirium_UI_Create_Widget(GUI, deliriumUI_Fader, 0, panelX + 23.5, panelY + 1.25, 1, 5.25, "OSC2-P", dracorex_LFO3_OSC2_PITCH_AMOUNT);
+			Delirium_UI_Widget_Set_Min_Max(GUI, widget_lfo3_osc2_pitch_amount, 1,0);
+			Delirium_UI_Widget_Set_Value(GUI, widget_lfo3_osc2_pitch_amount, 0);
+			Delirium_UI_Widget_Set_Group_And_Member(GUI, widget_lfo3_osc2_pitch_amount, "matrix", "lfo3");
+			fParameters_widget_number[dracorex_LFO3_OSC2_PITCH_AMOUNT] = widget_lfo3_osc2_pitch_amount; 
+			
+			//------- LFO THREE OSC2 WAVE -----------------------------------------------------------------------------
+			
+			int widget_lfo3_osc1_wave_amount = Delirium_UI_Create_Widget(GUI, deliriumUI_Fader, 0, panelX + 26, panelY + 1.25, 1, 5.25, "OSC1-W", dracorex_LFO3_OSC1_WAVE_AMOUNT);
+			Delirium_UI_Widget_Set_Min_Max(GUI, widget_lfo3_osc1_wave_amount, 1,0);
+			Delirium_UI_Widget_Set_Value(GUI, widget_lfo3_osc1_wave_amount, 0);
+			Delirium_UI_Widget_Set_Group_And_Member(GUI, widget_lfo3_osc1_wave_amount, "matrix", "lfo3");
+			fParameters_widget_number[dracorex_LFO3_OSC1_WAVE_AMOUNT] = widget_lfo3_osc1_wave_amount; 
+			
+			//------- LFO THREE FILTER CUTOFF AMOUNT ----------------------------------------------------------------
+			
+			int widget_lfo1_filter_cutoff_amount = Delirium_UI_Create_Widget(GUI, deliriumUI_Fader, 0, panelX + 28.5, panelY + 1.25, 1, 5.25, "CUTOFF", dracorex_LFO1_FILTER_CUTOFF_AMOUNT);
+			Delirium_UI_Widget_Set_Min_Max(GUI, widget_lfo1_filter_cutoff_amount, 1,0);
+			Delirium_UI_Widget_Set_Value(GUI, widget_lfo1_filter_cutoff_amount, 0);
+			Delirium_UI_Widget_Set_Group_And_Member(GUI, widget_lfo1_filter_cutoff_amount, "matrix", "lfo3");
+			fParameters_widget_number[dracorex_LFO1_FILTER_CUTOFF_AMOUNT] = widget_lfo1_filter_cutoff_amount; 
+			
+			//--------- LFO THREE ADSR3 SWITCH --------------------------------------------------------------------------------------
+			
+			int widget_lfo3_adsr4_switch = Delirium_UI_Create_Widget(GUI, deliriumUI_Switch, 0, panelX + 16, panelY + 4.5, 2, 2, "ADSR4", dracorex_LFO3_ADSR4_SWITCH);
+			Delirium_UI_Widget_Set_Min_Max(GUI, widget_lfo3_adsr4_switch, 0,1);
+			Delirium_UI_Widget_Set_Value(GUI, widget_lfo3_adsr4_switch, 0);
+			Delirium_UI_Widget_Set_Group_And_Member(GUI, widget_lfo3_adsr4_switch, "matrix", "lfo3");
+			fParameters_widget_number[dracorex_LFO3_ADSR4_SWITCH] = widget_lfo3_adsr4_switch; 
+			
 			
 			
 			//--------------------------------------------------------------------------------------------------------------------------------

@@ -70,6 +70,7 @@ enum Parameters {
 	dracorex_LFO1_OSC1_WAVE_AMOUNT,
 	dracorex_LFO1_OSC2_WAVE_AMOUNT,
 	dracorex_LFO1_FILTER_CUTOFF_AMOUNT,
+	dracorex_LFO1_ADSR4_SWITCH,
 
 	dracorex_LFO2_RETRIG,
 	dracorex_LFO2_WAVE,
@@ -79,6 +80,16 @@ enum Parameters {
 	dracorex_LFO2_OSC1_WAVE_AMOUNT,
 	dracorex_LFO2_OSC2_WAVE_AMOUNT,
 	dracorex_LFO2_FILTER_CUTOFF_AMOUNT,
+	dracorex_LFO2_ADSR4_SWITCH,
+	
+	dracorex_LFO3_RETRIG,
+	dracorex_LFO3_SPEED,
+	dracorex_LFO3_OSC1_PITCH_AMOUNT,
+	dracorex_LFO3_OSC2_PITCH_AMOUNT,
+	dracorex_LFO3_OSC1_WAVE_AMOUNT,
+	dracorex_LFO3_OSC2_WAVE_AMOUNT,
+	dracorex_LFO3_FILTER_CUTOFF_AMOUNT,
+	dracorex_LFO3_ADSR4_SWITCH,
 	
 	dracorex_CHORUS_ACTIVE,
 		
@@ -95,9 +106,6 @@ enum Parameters {
 	dracorex_ADSR4_RELEASE,
 
 	dracorex_PRESET_CATEGORY,
-
-	dracorex_LFO1_ADSR4_SWITCH,
-	dracorex_LFO2_ADSR4_SWITCH,
 
 	kParameterBufferSize,
 	kParametertriceratopsTime,        

@@ -12,6 +12,7 @@ FILES_DSP = \
 	oscillator.cpp \
 	voice.cpp \
 	chorus.cpp \
+	sine_osc.cpp
 
 FILES_UI  = \
 	../../delirium_ui/delirium_ui.cpp \

@@ -1,6 +1,7 @@
 
 
 #include "oscillator.hpp"
+#include "sine_osc.hpp"
 #include "chorus.hpp"
 #include "DistrhoPlugin.hpp"
 #include <string>
@@ -48,6 +49,9 @@ class voice
 	float volume;
 	oscillator osc1;
 	oscillator osc2;
+	
+	sine_osc sine_lfo;
+	
 	float* lfo1_out;
 	float* lfo2_out;
 	chorus _chorus;

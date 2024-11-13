@@ -20,6 +20,9 @@ voice::voice()
 	adsr4_env.level = 0;
 	
 	active = false;
+	
+	sine_lfo.sg.reset_phase(0);
+	sine_lfo.sg.set_frequency(440);
 
 };
 
@@ -534,7 +537,7 @@ float voice::play(float* left_buffer, float* right_buffer,  uint32_t frames)
 			if (frequency > 1) frequency = 1;
 		
 			in_left = osc1_out * (amp_env.level * fParameters[dracorex_VOLUME] * osc1_pan_left );
-			in_left += osc2_out * (amp2_env.level * fParameters[dracorex_VOLUME] * osc1_pan_right );
+			in_left += osc2_out * (amp2_env.level * fParameters[dracorex_VOLUME] * osc2_pan_left );
 
 			q_left = 1.0f - frequency;
 			pc_left = frequency + 0.8f * frequency * q_left;
@@ -554,7 +557,7 @@ float voice::play(float* left_buffer, float* right_buffer,  uint32_t frames)
 			
 			// DO FILTER RIGHT
 
-			in_right = osc1_out * (amp_env.level * fParameters[dracorex_VOLUME] * osc2_pan_left);
+			in_right = osc1_out * (amp_env.level * fParameters[dracorex_VOLUME] * osc1_pan_right);
 			in_right += osc2_out * (amp2_env.level * fParameters[dracorex_VOLUME] * osc2_pan_right);
 
 			q_right = 1.0f - frequency;
@@ -589,18 +592,24 @@ float voice::play(float* left_buffer, float* right_buffer,  uint32_t frames)
 		{
 			float osc1_lfo1 = 12 * lfo1_out[x] * fParameters[dracorex_LFO1_OSC1_PITCH_AMOUNT];
 			float osc1_lfo2 = 12 * lfo2_out[x] * fParameters[dracorex_LFO2_OSC1_PITCH_AMOUNT];
+			float osc1_lfo3 = 12 * ( sine_lfo.tick() * fParameters[dracorex_LFO3_OSC1_PITCH_AMOUNT] );
+			sine_lfo.frequency = fParameters[dracorex_LFO3_SPEED];
 			
 			if (fParameters[dracorex_LFO1_ADSR4_SWITCH] )
 				osc1_lfo1 *= adsr4_env.level;
 				
 			if (fParameters[dracorex_LFO2_ADSR4_SWITCH] )
 				osc1_lfo2 *= adsr4_env.level;
+				
+			if (fParameters[dracorex_LFO3_ADSR4_SWITCH] )
+				osc1_lfo3 *= adsr4_env.level;
 			
 			osc1.frequency = fastishP2F(osc1.note + fParameters[dracorex_OSC1_TUNING]
 				+ (fParameters[dracorex_OSC1_PITCH_ADSR3] * adsr3_env.level * 12)
 				+ (fParameters[dracorex_OSC1_PITCH_ADSR4] * adsr4_env.level * 12)
 				+ (osc1_lfo1)
-				+ (osc1_lfo2)) * 0.8175;
+				+ (osc1_lfo2)
+				+ (osc1_lfo3)) * 0.8175;
 			osc1.start_phase = false;
 		}
 		
