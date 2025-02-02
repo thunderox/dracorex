@@ -23,6 +23,22 @@ voice::voice()
 	
 	sine_lfo.sg.reset_phase(0);
 	sine_lfo.sg.set_frequency(440);
+	
+	buf0_left=0; buf1_left=0;
+	f_left=0; pc_left=0; q_left=0;             //filter coefficients
+	bf0_left=0; bf1_left=0; bf2_left=0; bf3_left=0; bf4_left=0;  //filter buffers (beware denormals!)
+	t1_left=0; t2_left=0;              //temporary buffers
+	selectivity_left=90; gain1_left=0; gain2_left=0.25; ratio_left=7; cap_left=0; 
+	
+	buf0_right=0; buf1_right=0;
+	f_right=0; pc_right=0; q_right=0;             //filter coefficients
+	bf0_right=0; bf1_right=0; bf2_right=0; bf3_right=0; bf4_right=0;  //filter buffers (beware denormals!)
+	t1_right=0; t2_right=0;              //temporary buffers
+	selectivity_right=90; gain1_right=0; gain2_right=0.25; ratio_right=7; cap_right=0; 
+	
+	cout << "initialising voice.." << endl;
+	
+
 
 };
 
@@ -76,6 +92,9 @@ float fastishP2F (float pitch)
 float voice::play(float* left_buffer, float* right_buffer,  uint32_t frames)
 {
 
+	float lfo3_out = sine_lfo.tick();
+	sine_lfo.frequency = fParameters[dracorex_LFO3_SPEED] / 8;
+
 	if (!active) return 0;
 
 	float amp_attack = fast_pow(fParameters[dracorex_AMP_ATTACK],10); 
@@ -107,6 +126,8 @@ float voice::play(float* left_buffer, float* right_buffer,  uint32_t frames)
 	float adsr4_decay = fast_pow(fParameters[dracorex_ADSR4_DECAY],10);
 	float adsr4_sustain = 1-fParameters[dracorex_ADSR4_SUSTAIN];
 	float adsr4_release = fast_pow(fParameters[dracorex_ADSR4_RELEASE],10);
+	
+
 	
 	// OSC1 PAN
 	
@@ -540,6 +561,7 @@ float voice::play(float* left_buffer, float* right_buffer,  uint32_t frames)
 			in_left += osc2_out * (amp2_env.level * fParameters[dracorex_VOLUME] * osc2_pan_left );
 
 			q_left = 1.0f - frequency;
+			
 			pc_left = frequency + 0.8f * frequency * q_left;
 			f_left= pc_left + pc_left - 1.0f;
 			q_left = resonance * (1.0f + 0.5f * q_left * (1.0f - q_left + 5.6f * q_left * q_left));
@@ -592,8 +614,8 @@ float voice::play(float* left_buffer, float* right_buffer,  uint32_t frames)
 		{
 			float osc1_lfo1 = 12 * lfo1_out[x] * fParameters[dracorex_LFO1_OSC1_PITCH_AMOUNT];
 			float osc1_lfo2 = 12 * lfo2_out[x] * fParameters[dracorex_LFO2_OSC1_PITCH_AMOUNT];
-			float osc1_lfo3 = 12 * ( sine_lfo.tick() * fParameters[dracorex_LFO3_OSC1_PITCH_AMOUNT] );
-			sine_lfo.frequency = fParameters[dracorex_LFO3_SPEED];
+			float osc1_lfo3 = 12 * ( lfo3_out * fParameters[dracorex_LFO3_OSC1_PITCH_AMOUNT] );
+
 			
 			if (fParameters[dracorex_LFO1_ADSR4_SWITCH] )
 				osc1_lfo1 *= adsr4_env.level;
@@ -617,6 +639,7 @@ float voice::play(float* left_buffer, float* right_buffer,  uint32_t frames)
 		{
 			float osc2_lfo1 = 12 * lfo1_out[x] * fParameters[dracorex_LFO1_OSC2_PITCH_AMOUNT];
 			float osc2_lfo2 = 12 * lfo2_out[x] * fParameters[dracorex_LFO2_OSC2_PITCH_AMOUNT];
+			float osc2_lfo3 = 12 * ( lfo3_out * fParameters[dracorex_LFO3_OSC2_PITCH_AMOUNT] );
 			
 			if (fParameters[dracorex_LFO1_ADSR4_SWITCH] )
 				osc2_lfo1 *= adsr4_env.level;
@@ -624,13 +647,15 @@ float voice::play(float* left_buffer, float* right_buffer,  uint32_t frames)
 			if (fParameters[dracorex_LFO2_ADSR4_SWITCH] )
 				osc2_lfo2 *= adsr4_env.level;
 				
+			if (fParameters[dracorex_LFO3_ADSR4_SWITCH] )
+				osc2_lfo3 *= adsr4_env.level;
+				
 			osc2.frequency = fastishP2F(osc2.note + fParameters[dracorex_OSC2_TUNING]
 				+ (fParameters[dracorex_OSC2_PITCH_ADSR3] * adsr3_env.level * 12)
 				+ (fParameters[dracorex_OSC2_PITCH_ADSR4] * adsr4_env.level * 12)
-				+ (12 * lfo1_out[x] * fParameters[dracorex_LFO1_OSC2_PITCH_AMOUNT])
-				+ (12 * lfo2_out[x] * fParameters[dracorex_LFO2_OSC2_PITCH_AMOUNT])
 				+ (osc2_lfo1)
-				+ (osc2_lfo2)) * 0.8175;
+				+ (osc2_lfo2)
+				+ (osc2_lfo3)) * 0.8175;
 			osc2.start_phase = false;
 		}
 		

@@ -145,10 +145,10 @@ class dracorexPlugin : public Plugin
 					set_param (parameter, "osc1_active", index, 0.0f, 1.0f, 1.0f);
 					break;
 				case dracorex_OSC1_WAVE_A:
-					set_param (parameter, "osc1_wave_a", index, 0.0f, 1.0f, 0.0f);
+					set_param (parameter, "osc1_wave_a", index, 0.0f, 14.0f, 0.0f);
 					break;
 				case dracorex_OSC1_WAVE_B:
-					set_param (parameter, "osc1_wave_b", index, 0.0f, 1.0f, 0.0f);
+					set_param (parameter, "osc1_wave_b", index, 0.0f, 14.0f, 0.0f);
 					break;
 				case dracorex_OSC1_TUNING:
 					set_param (parameter, "osc1_tuning", index, 7.0f, 7.0f, 0.0f);
@@ -172,10 +172,10 @@ class dracorexPlugin : public Plugin
 					set_param (parameter, "osc2_active", index, 0.0f, 1.0f, 0.0f);
 					break;
 				case dracorex_OSC2_WAVE_A:
-					set_param (parameter, "osc2_wave_a", index, 0.0f, 1.0f, 0.0f);
+					set_param (parameter, "osc2_wave_a", index, 0.0f, 14.0f, 0.0f);
 					break;
 				case dracorex_OSC2_WAVE_B:
-					set_param (parameter, "osc2_wave_b", index, 0.0f, 1.0f, 0.0f);
+					set_param (parameter, "osc2_wave_b", index, 0.0f, 14.0f, 0.0f);
 					break;
 				case dracorex_OSC2_TUNING:
 					set_param (parameter, "osc2_tuning", index, 7.0f, 7.0f, 0.0f);
